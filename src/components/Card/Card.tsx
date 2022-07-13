@@ -16,19 +16,18 @@ const Card: FC<CardProps> = ({
   username,
 }) => {
   return (
-    <StyledCardWrapper>
-      <StyledCard>
-        <div>Description</div>
-        <div>Activity</div>
-      </StyledCard>
-    </StyledCardWrapper>
+    <Root>
+      <StyledCardWrapper>
+        <StyledCard>
+          <div>Description</div>
+          <div>Activity</div>
+        </StyledCard>
+      </StyledCardWrapper>
+    </Root>
   );
 };
 
-const StyledCard = styled.div`
-  border-radius: 5px;
-  background-color: white;
-`;
+const Root = styled.div``;
 
 const StyledCardWrapper = styled.div`
   width: 80vw;
@@ -41,6 +40,11 @@ const StyledCardWrapper = styled.div`
   justify-content: center;
   align-items: center;
   /* transform: {({ isCardVisible }) => scale({isCardVisible ? 1 : 0})  }; */
+`;
+
+const StyledCard = styled.div`
+  border-radius: 5px;
+  background-color: white;
 `;
 
 export default Card;
