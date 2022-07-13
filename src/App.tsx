@@ -12,19 +12,21 @@ function App() {
 
   return (
     <Root>
-      <StyledBoard>
-        <Column username={username} columnTitle="To Do" />
-        <Column username={username} columnTitle="In Progress" />
-        <Column username={username} columnTitle="Testing" />
-        <Column username={username} columnTitle="Done" />
-      </StyledBoard>
-
-      <Modal
-        username={username}
-        setUsername={setUsername}
-        isModalVisible={isModalVisible}
-        setModalVisible={setModalVisible}
-      />
+      {/* Прокидываем в styledBoard isModalVisible */}
+      {isModalVisible ? (
+        <Modal
+          username={username}
+          setUsername={setUsername}
+          setModalVisible={setModalVisible}
+        />
+      ) : (
+        <StyledBoard>
+          <Column username={username} columnTitle="To Do" />
+          <Column username={username} columnTitle="In Progress" />
+          <Column username={username} columnTitle="Testing" />
+          <Column username={username} columnTitle="Done" />
+        </StyledBoard>
+      )}
     </Root>
   );
 }
@@ -45,6 +47,7 @@ const Root = styled.div`
   font-size: 18px;
 `;
 
+// Берём значение isModalVisible, которое прокинули в props Styled board и типизируем его
 const StyledBoard = styled.div`
   display: flex;
   justify-content: flex-start;

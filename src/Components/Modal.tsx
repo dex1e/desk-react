@@ -5,16 +5,10 @@ import styled from "styled-components";
 interface ModalProps {
   username: string;
   setUsername: (username: string) => void;
-  isModalVisible: boolean;
   setModalVisible: (isModalVisible: boolean) => void;
 }
 
-const Modal: FC<ModalProps> = ({
-  isModalVisible,
-  setModalVisible,
-  setUsername,
-  username,
-}) => {
+const Modal: FC<ModalProps> = ({ setModalVisible, setUsername, username }) => {
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let username = e.target.value;
     setUsername(username);
@@ -29,7 +23,7 @@ const Modal: FC<ModalProps> = ({
   };
 
   return (
-    <StyledModalWrapper isModalVisible={isModalVisible}>
+    <StyledModalWrapper>
       <StyledModal>
         Welcome!
         <StyledInput
@@ -43,11 +37,7 @@ const Modal: FC<ModalProps> = ({
   );
 };
 
-interface ModalWrapperProps {
-  isModalVisible: boolean;
-}
-
-const StyledModalWrapper = styled.div<ModalWrapperProps>`
+const StyledModalWrapper = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.4);
@@ -57,7 +47,6 @@ const StyledModalWrapper = styled.div<ModalWrapperProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: ${({ isModalVisible }) => `scale(${isModalVisible ? 1 : 0})`};
 `;
 
 const StyledModal = styled.div`
