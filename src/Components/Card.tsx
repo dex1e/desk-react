@@ -6,7 +6,7 @@ interface CardProps {
   username: string;
   columnTitle: string;
   isCardVisible: boolean;
-  setCardVisible: (isModalVisible: boolean) => void;
+  setCardVisible: (isCardVisible: boolean) => void;
 }
 
 const Card: FC<CardProps> = ({
@@ -40,7 +40,7 @@ const StyledCardWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: ${({ isCardVisible }) => `scale(${isCardVisible ? 1 : 0})`};
+  /* transform: {({ isCardVisible }) => scale({isCardVisible ? 1 : 0})  }; */
 `;
 
 export default Card;

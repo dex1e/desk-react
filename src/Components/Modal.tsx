@@ -82,6 +82,10 @@ const StyledInput = styled.input`
   &::placeholder {
     color: #bfbfbf;
   }
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px lightskyblue;
+  }
 `;
 
 const StyledButton = styled.button`
@@ -91,8 +95,12 @@ const StyledButton = styled.button`
   text-align: center;
   border: 1px solid gray;
   &:hover {
-    background-color: #d6f7ff;
+    background-color: lightskyblue;
     cursor: pointer;
+  }
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px lightskyblue;
   }
 `;
 
