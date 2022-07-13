@@ -2,17 +2,19 @@ import { FC, useState } from "react";
 
 import styled from "styled-components";
 
-interface BoardProps {
+interface ColumnProps {
   username: string;
   columnTitle: string;
 }
 
-const Board: FC<BoardProps> = ({ username, columnTitle }) => {
+const Column: FC<ColumnProps> = ({ username, columnTitle }) => {
   const [title, setTitle] = useState(columnTitle);
+
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const title = e.target.value;
     setTitle(title);
   };
+
   return (
     <StyledColumn>
       <StyledTitle onChange={handleTitleChange} value={title} />
@@ -23,12 +25,14 @@ const Board: FC<BoardProps> = ({ username, columnTitle }) => {
     </StyledColumn>
   );
 };
+
 const StyledTitle = styled.input`
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: 600;
 `;
+
 const StyledColumn = styled.div`
   display: flex;
   flex-direction: column;
@@ -41,6 +45,7 @@ const StyledColumn = styled.div`
   padding: 10px;
   gap: 10px;
 `;
+
 const StyledRow = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
@@ -50,12 +55,14 @@ const StyledRow = styled.div`
   padding: 5px;
   border-radius: 5px;
   line-height: 30px;
+
   &:hover {
     background-color: lightgray;
     filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.3));
     cursor: pointer;
   }
 `;
+
 const StyledButton = styled.button`
   width: 100%;
   height: 50px;
@@ -63,6 +70,7 @@ const StyledButton = styled.button`
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0);
   padding: 5px;
+
   &:hover {
     filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.3));
     cursor: pointer;
@@ -72,4 +80,4 @@ const StyledButton = styled.button`
   }
 `;
 
-export default Board;
+export default Column;

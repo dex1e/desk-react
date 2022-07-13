@@ -19,6 +19,7 @@ const Modal: FC<ModalProps> = ({
     let username = e.target.value;
     setUsername(username);
   };
+
   const handleOnClick = () => {
     if (username.length < 2) {
       alert("Введите корректное имя");
@@ -26,6 +27,7 @@ const Modal: FC<ModalProps> = ({
       setModalVisible(false);
     }
   };
+
   return (
     <StyledModalWrapper isModalVisible={isModalVisible}>
       <StyledModal>
@@ -79,9 +81,11 @@ const StyledInput = styled.input`
   background-color: white;
   border-radius: 7px;
   border: 1px solid gray;
+
   &::placeholder {
     color: #bfbfbf;
   }
+
   &:focus {
     outline: none;
     box-shadow: 0 0 0 3px lightskyblue;
@@ -94,10 +98,12 @@ const StyledButton = styled.button`
   border-radius: 7px;
   text-align: center;
   border: 1px solid gray;
+
   &:hover {
     background-color: lightskyblue;
     cursor: pointer;
   }
+
   &:focus {
     outline: none;
     box-shadow: 0 0 0 3px lightskyblue;

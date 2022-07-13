@@ -2,19 +2,21 @@ import { useState } from "react";
 
 import styled from "styled-components";
 
-import Board from "./Components/Board";
+import Column from "./Components/Column";
 import Modal from "./Components/Modal";
 
 function App() {
   const [username, setUsername] = useState("");
+
   const [isModalVisible, setModalVisible] = useState(true);
+
   return (
     <Root>
       <StyledBoard>
-        <Board username={username} columnTitle={"To Do"} />
-        <Board username={username} columnTitle={"In Progress"} />
-        <Board username={username} columnTitle={"Testing"} />
-        <Board username={username} columnTitle={"Done"} />
+        <Column username={username} columnTitle="To Do" />
+        <Column username={username} columnTitle="In Progress" />
+        <Column username={username} columnTitle="Testing" />
+        <Column username={username} columnTitle="Done" />
       </StyledBoard>
 
       <Modal
