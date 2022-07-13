@@ -2,8 +2,8 @@ import { useState } from "react";
 
 import styled from "styled-components";
 
-import Column from "./Components/Column";
-import Modal from "./Components/Modal";
+import { Column } from "./components/index";
+import Modal from "./components/ui/ModalHoc/Modal";
 
 function App() {
   const [username, setUsername] = useState("");
@@ -12,7 +12,6 @@ function App() {
 
   return (
     <Root>
-      {/* Прокидываем в styledBoard isModalVisible */}
       {isModalVisible ? (
         <Modal
           username={username}
@@ -47,7 +46,6 @@ const Root = styled.div`
   font-size: 18px;
 `;
 
-// Берём значение isModalVisible, которое прокинули в props Styled board и типизируем его
 const StyledBoard = styled.div`
   display: flex;
   justify-content: flex-start;
