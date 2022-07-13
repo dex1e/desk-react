@@ -44,7 +44,7 @@ const Modal: FC<ModalProps> = ({
 };
 
 interface ModalWrapperProps {
-  readonly isModalVisible: boolean;
+  isModalVisible: boolean;
 }
 
 const StyledModalWrapper = styled.div<ModalWrapperProps>`
