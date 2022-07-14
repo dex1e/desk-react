@@ -2,31 +2,21 @@ import { useState } from "react";
 
 import styled from "styled-components";
 
-import { Column, LoginForm } from "./components";
-import Modal from "./components/ui/ModalHoc";
+import { Column, Login } from "./components";
 
 function App() {
   const [username, setUsername] = useState("");
 
   const [isModalVisible, setModalVisible] = useState(true);
 
-  const handleOnClick = () => {
-    if (username.length < 2) {
-      alert("Введите корректное имя");
-    } else {
-      setModalVisible(false);
-    }
-  };
   return (
     <Root>
       {isModalVisible ? (
-        <Modal>
-          <LoginForm
-            username={username}
-            setUsername={setUsername}
-            onClick={handleOnClick}
-          />
-        </Modal>
+        <Login
+          username={username}
+          setUsername={setUsername}
+          setModalVisible={setModalVisible}
+        />
       ) : (
         <StyledBoard>
           <Column username={username} columnTitle="To Do" />

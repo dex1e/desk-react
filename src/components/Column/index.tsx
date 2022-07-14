@@ -16,13 +16,13 @@ const Column: FC<ColumnProps> = ({ username, columnTitle }) => {
   };
 
   return (
-    <StyledColumn>
+    <Root>
       <StyledTitle onChange={handleTitleChange} value={title} />
       <StyledRow>Карточка 1</StyledRow>
       <StyledRow>Карточка 2</StyledRow>
       <StyledRow>Карточка 3</StyledRow>
       <StyledButton> + Add a card</StyledButton>
-    </StyledColumn>
+    </Root>
   );
 };
 
@@ -33,7 +33,7 @@ const StyledTitle = styled.input`
   font-weight: 600;
 `;
 
-const StyledColumn = styled.div`
+const Root = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
