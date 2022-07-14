@@ -1,5 +1,7 @@
 import { FC } from "react";
 
+import styled from "styled-components";
+
 import LoginForm from "../LoginForm";
 import Modal from "../ui/ModalHoc";
 
@@ -10,12 +12,8 @@ interface LoginProps {
 }
 
 const Login: FC<LoginProps> = ({ username, setUsername, setModalVisible }) => {
-  const handleOnClick = () => {
-    if (username.length < 2) {
-      alert("Введите корректное имя");
-    } else {
-      setModalVisible(false);
-    }
+  const onClose = () => {
+    setModalVisible(false);
   };
 
   return (
@@ -23,9 +21,14 @@ const Login: FC<LoginProps> = ({ username, setUsername, setModalVisible }) => {
       <LoginForm
         username={username}
         setUsername={setUsername}
-        onClick={handleOnClick}
+        onClose={onClose}
       />
     </Modal>
   );
 };
+
+// const LoginFormError = styled.div`
+
+// `;
+
 export default Login;
