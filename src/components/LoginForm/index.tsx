@@ -2,54 +2,32 @@ import { FC } from "react";
 
 import styled from "styled-components";
 
-interface ModalProps {
+interface LoginFormProps {
   username: string;
   setUsername: (username: string) => void;
-  setModalVisible: (isModalVisible: boolean) => void;
+  onClick: () => void;
 }
 
-const Modal: FC<ModalProps> = ({ setModalVisible, setUsername, username }) => {
+const LoginForm: FC<LoginFormProps> = ({ onClick, setUsername, username }) => {
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let username = e.target.value;
     setUsername(username);
   };
 
-  const handleOnClick = () => {
-    if (username.length < 2) {
-      alert("Введите корректное имя");
-    } else {
-      setModalVisible(false);
-    }
-  };
-
   return (
-    <StyledModalWrapper>
-      <StyledModal>
-        Welcome!
-        <StyledInput
-          onChange={handleNameChange}
-          value={username}
-          placeholder="Username"
-        />
-        <StyledButton onClick={handleOnClick}>OK</StyledButton>
-      </StyledModal>
-    </StyledModalWrapper>
+    <Root>
+      Welcome!
+      <StyledInput
+        onChange={handleNameChange}
+        value={username}
+        placeholder="Username"
+      />
+      <StyledButton onClick={onClick}>OK</StyledButton>
+    </Root>
   );
 };
 
-const StyledModalWrapper = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.4);
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const StyledModal = styled.div`
+const Root = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -61,6 +39,9 @@ const StyledModal = styled.div`
   border: 1px solid gray;
   filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.3));
   gap: 15px;
+  @media (max-width: 425px) {
+    margin: 5%;
+  }
 `;
 
 const StyledInput = styled.input`
@@ -99,4 +80,4 @@ const StyledButton = styled.button`
   }
 `;
 
-export default Modal;
+export default LoginForm;

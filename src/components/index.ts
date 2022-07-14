@@ -1,4 +1,5 @@
-import Card from "./Card/Card";
-import Column from "./Column/Column";
+import Card from "./Card";
+import Column from "./Column";
+import LoginForm from "./LoginForm";
 
-export { Card, Column };
+export { Card, Column, LoginForm };
