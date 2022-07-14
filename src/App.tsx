@@ -3,10 +3,11 @@ import { useState } from "react";
 import styled from "styled-components";
 
 import { Column, Login } from "./components";
+import db from "./components/db";
 
 function App() {
   const [username, setUsername] = useState("");
-
+  const data = db;
   const [isModalVisible, setModalVisible] = useState(true);
 
   return (
@@ -19,10 +20,20 @@ function App() {
         />
       ) : (
         <StyledBoard>
-          <Column username={username} columnTitle="To Do" />
+          {data.columns.map((e) => {
+            return (
+              <Column
+                username={username}
+                key={e.id}
+                columnTitle={e.title}
+                cards={e.cards}
+              />
+            );
+          })}
+          {/* <Column username={username} columnTitle="To Do" />
           <Column username={username} columnTitle="In Progress" />
           <Column username={username} columnTitle="Testing" />
-          <Column username={username} columnTitle="Done" />
+          <Column username={username} columnTitle="Done" /> */}
         </StyledBoard>
       )}
     </Root>

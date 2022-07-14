@@ -5,9 +5,23 @@ import styled from "styled-components";
 interface ColumnProps {
   username: string;
   columnTitle: string;
+  cards: CardProps[];
 }
 
-const Column: FC<ColumnProps> = ({ username, columnTitle }) => {
+interface CardProps {
+  id: number;
+  title: string;
+  description: string;
+  activity: ActivityProps[];
+}
+
+interface ActivityProps {
+  id: number;
+  author: string;
+  comment: string;
+}
+
+const Column: FC<ColumnProps> = ({ username, columnTitle, cards }) => {
   const [title, setTitle] = useState(columnTitle);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,9 +32,9 @@ const Column: FC<ColumnProps> = ({ username, columnTitle }) => {
   return (
     <Root>
       <StyledTitle onChange={handleTitleChange} value={title} />
-      <StyledRow>Карточка 1</StyledRow>
-      <StyledRow>Карточка 2</StyledRow>
-      <StyledRow>Карточка 3</StyledRow>
+      {cards.map((e) => {
+        return <StyledRow key={e.id}>{e.title}</StyledRow>;
+      })}
       <StyledButton> + Add a card</StyledButton>
     </Root>
   );
