@@ -40,13 +40,6 @@ const Column: FC<ColumnProps> = ({ username, columnTitle, cards }) => {
   );
 };
 
-const StyledTitle = styled.input`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 600;
-`;
-
 const Root = styled.div`
   display: flex;
   flex-direction: column;
@@ -58,6 +51,14 @@ const Root = styled.div`
   border-radius: 5px;
   padding: 10px;
   gap: 10px;
+`;
+
+const StyledTitle = styled.input`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  cursor: pointer;
 `;
 
 const StyledRow = styled.div`

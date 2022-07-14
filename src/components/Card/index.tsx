@@ -32,7 +32,7 @@ const Root = styled.div``;
 const StyledCardWrapper = styled.div`
   width: 80vw;
   height: 80vh;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.3);
   position: fixed;
   top: 0;
   left: 0;

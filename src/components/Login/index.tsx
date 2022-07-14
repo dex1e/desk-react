@@ -27,8 +27,4 @@ const Login: FC<LoginProps> = ({ username, setUsername, setModalVisible }) => {
   );
 };
 
-// const LoginFormError = styled.div`
-
-// `;
-
 export default Login;

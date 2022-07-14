@@ -13,7 +13,7 @@ const Modal: FC<ModalProps> = ({ children }) => {
 const Root = styled.div`
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.3);
   position: fixed;
   top: 0;
   left: 0;
