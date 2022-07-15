@@ -3,12 +3,13 @@ import { useState } from "react";
 import styled from "styled-components";
 
 import { Column, Login } from "./components";
-import db from "./components/db";
+import db from "./utils/mock";
 
 function App() {
   const [username, setUsername] = useState("");
-  const data = db;
   const [isModalVisible, setModalVisible] = useState(true);
+
+  const data = db;
 
   return (
     <Root>
@@ -19,7 +20,7 @@ function App() {
           setModalVisible={setModalVisible}
         />
       ) : (
-        <StyledBoard>
+        <Board>
           {data.columns.map((e) => {
             return (
               <Column
@@ -30,11 +31,7 @@ function App() {
               />
             );
           })}
-          {/* <Column username={username} columnTitle="To Do" />
-          <Column username={username} columnTitle="In Progress" />
-          <Column username={username} columnTitle="Testing" />
-          <Column username={username} columnTitle="Done" /> */}
-        </StyledBoard>
+        </Board>
       )}
     </Root>
   );
@@ -57,7 +54,7 @@ const Root = styled.div`
   overflow-y: auto;
 `;
 
-const StyledBoard = styled.div`
+const Board = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   width: 100%;

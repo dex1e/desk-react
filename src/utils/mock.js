@@ -6,24 +6,26 @@ const data = {
       title: "To Do",
       cards: [
         {
+          columnid: "0",
           id: 0,
           title: "Title1",
           description: "",
           activity: [
             {
+              cardid: "0",
               id: 0,
               author: "Ivan",
-              comment: "hello",
+              text: "hello",
             },
             {
               id: 1,
               author: "Boris",
-              comment: "hi",
+              text: "hi",
             },
             {
               id: 2,
               author: "Evgeny",
-              comment: "I`m frontend developer",
+              text: "I`m frontend developer",
             },
           ],
         },
@@ -35,17 +37,17 @@ const data = {
             {
               id: 0,
               author: "Ivan",
-              comment: "hello",
+              text: "hello",
             },
             {
               id: 1,
               author: "Boris",
-              comment: "hi",
+              text: "hi",
             },
             {
               id: 2,
               author: "Evgeny",
-              comment: "I`m frontend developer",
+              text: "I`m frontend developer",
             },
           ],
         },
@@ -63,17 +65,17 @@ const data = {
             {
               id: 0,
               author: "Danil",
-              comment: "FR",
+              text: "FR",
             },
             {
               id: 1,
               author: "Anton",
-              comment: "BB",
+              text: "BB",
             },
             {
               id: 2,
               author: "Masha",
-              comment: "Java",
+              text: "Java",
             },
           ],
         },
@@ -85,17 +87,17 @@ const data = {
             {
               id: 0,
               author: "Ivan",
-              comment: "hello",
+              text: "hello",
             },
             {
               id: 1,
               author: "Boris",
-              comment: "hi",
+              text: "hi",
             },
             {
               id: 2,
               author: "Evgeny",
-              comment: "I`m frontend developer",
+              text: "I`m frontend developer",
             },
           ],
         },
@@ -113,17 +115,17 @@ const data = {
             {
               id: 0,
               author: "Kirill",
-              comment: "AWP",
+              text: "AWP",
             },
             {
               id: 1,
               author: "Kolya",
-              comment: "M4A1",
+              text: "M4A1",
             },
             {
               id: 2,
               author: "Olya",
-              comment: "Test",
+              text: "Test",
             },
           ],
         },
@@ -135,17 +137,17 @@ const data = {
             {
               id: 0,
               author: "Ivan",
-              comment: "hello",
+              text: "hello",
             },
             {
               id: 1,
               author: "Boris",
-              comment: "hi",
+              text: "hi",
             },
             {
               id: 2,
               author: "Evgeny",
-              comment: "I`m frontend developer",
+              text: "I`m frontend developer",
             },
           ],
         },
@@ -163,17 +165,17 @@ const data = {
             {
               id: 0,
               author: "Kostya",
-              comment: "Sea",
+              text: "Sea",
             },
             {
               id: 1,
               author: "Boris",
-              comment: "hi",
+              text: "hi",
             },
             {
               id: 2,
               author: "Evgeny",
-              comment: "I`m frontend developer",
+              text: "I`m frontend developer",
             },
           ],
         },
@@ -185,17 +187,17 @@ const data = {
             {
               id: 0,
               author: "Ivan",
-              comment: "hello",
+              text: "hello",
             },
             {
               id: 1,
               author: "Boris",
-              comment: "hi",
+              text: "hi",
             },
             {
               id: 2,
               author: "Evgeny",
-              comment: "I`m frontend developer",
+              text: "I`m frontend developer",
             },
           ],
         },

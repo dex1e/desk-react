@@ -1,24 +1,12 @@
 import { FC, useState } from "react";
 
 import styled from "styled-components";
+import { Card } from "types";
 
 interface ColumnProps {
   username: string;
   columnTitle: string;
-  cards: CardProps[];
-}
-
-interface CardProps {
-  id: number;
-  title: string;
-  description: string;
-  activity: ActivityProps[];
-}
-
-interface ActivityProps {
-  id: number;
-  author: string;
-  comment: string;
+  cards: Card[];
 }
 
 const Column: FC<ColumnProps> = ({ username, columnTitle, cards }) => {

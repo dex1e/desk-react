@@ -39,6 +39,7 @@ const LoginForm: FC<LoginFormProps> = ({ onClose, setUsername, username }) => {
   };
 
   const [error, setError] = useState("");
+
   return (
     <Root>
       Welcome!
@@ -47,7 +48,7 @@ const LoginForm: FC<LoginFormProps> = ({ onClose, setUsername, username }) => {
           onChange={handleNameChange}
           value={username}
           placeholder="Username"
-          $isError={Boolean(error)}
+          isError={Boolean(error)}
         />
         {error}
       </StyledLabel>
@@ -73,10 +74,12 @@ const Root = styled.div`
   border: 1px solid gray;
   filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.3));
   gap: 15px;
+
   @media (max-width: 425px) {
     margin: 5%;
   }
 `;
+
 const StyledLabel = styled.label`
   display: flex;
   flex-direction: column;
@@ -85,13 +88,14 @@ const StyledLabel = styled.label`
   font-size: 14px;
   color: red;
 `;
-const StyledInput = styled.input<{ $isError: boolean }>`
+
+const StyledInput = styled.input<{ isError: boolean }>`
   padding: 7px;
   width: 200px;
   height: 40px;
   background-color: white;
   border-radius: 7px;
-  border: 1px solid ${({ $isError }) => ($isError ? "red" : "gray")};
+  border: 1px solid ${({ isError }) => (isError ? "red" : "gray")};
   color: black;
 
   &::placeholder {
@@ -120,6 +124,7 @@ const StyledButton = styled.button`
     outline: none;
     box-shadow: 0 0 0 3px lightskyblue;
   }
+
   &:disabled {
     color: gray;
     cursor: not-allowed;
