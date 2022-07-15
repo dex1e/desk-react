@@ -2,8 +2,9 @@ export interface Card {
   id: number;
   title: string;
   description: string;
-  activity: Comment[];
+  comment: Comment[];
 }
+
 export interface Comment {
   id: number;
   author: string;

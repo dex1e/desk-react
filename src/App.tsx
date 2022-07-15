@@ -1,15 +1,24 @@
 import { useState } from "react";
 
+import { Header } from "components/Header/Header";
 import styled from "styled-components";
+import { Card } from "types";
 
 import { Column, Login } from "./components";
-import db from "./utils/mock";
+import data from "./utils/mock";
 
 function App() {
   const [username, setUsername] = useState("");
   const [isModalVisible, setModalVisible] = useState(true);
 
-  const data = db;
+  //Как сделать выборку из карточек? *Вынести в utils, если правильно*
+  const getCards = (keys: string[], cards: any) => {
+    let cardsArray: any = [];
+    keys.map((e) => {
+      cardsArray.push(cards[e]);
+    });
+    return cardsArray;
+  };
 
   return (
     <Root>
@@ -21,16 +30,19 @@ function App() {
         />
       ) : (
         <Board>
-          {data.columns.map((e) => {
-            return (
-              <Column
-                username={username}
-                key={e.id}
-                columnTitle={e.title}
-                cards={e.cards}
-              />
-            );
-          })}
+          <Header username={username} />
+          <Columns>
+            {Object.values(data.columns).map((e) => {
+              return (
+                <Column
+                  username={username}
+                  key={e.id}
+                  columnTitle={e.title}
+                  cards={getCards(e.cards, data.cards)}
+                />
+              );
+            })}
+          </Columns>
         </Board>
       )}
     </Root>
@@ -39,7 +51,7 @@ function App() {
 
 const Root = styled.div`
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: flex-start;
   width: 100%;
   height: 100%;
@@ -55,6 +67,14 @@ const Root = styled.div`
 `;
 
 const Board = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 20px;
+`;
+
+const Columns = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   width: 100%;
