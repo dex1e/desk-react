@@ -1,7 +1,5 @@
 import { FC } from "react";
 
-import styled from "styled-components";
-
 import LoginForm from "../LoginForm";
 import Modal from "../ui/ModalHoc";
 

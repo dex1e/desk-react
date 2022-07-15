@@ -35,7 +35,7 @@ const Root = styled.div`
   align-items: flex-start;
   width: 100%;
   height: 100%;
-  background-color: lightgray;
+  background-color: var(--lightgray);
   border-radius: 5px;
   padding: 10px;
   gap: 10px;
@@ -46,13 +46,13 @@ const StyledTitle = styled.input`
   justify-content: center;
   align-items: center;
   font-weight: 600;
-  cursor: pointer;
+  cursor: text;
 `;
 
 const StyledRow = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
-  background-color: #fff;
+  background-color: var(--white);
   width: 100%;
   height: 35px;
   padding: 5px;
@@ -60,8 +60,8 @@ const StyledRow = styled.div`
   line-height: 30px;
 
   &:hover {
-    background-color: lightgray;
-    filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.3));
+    background-color: var(--lightgray);
+    filter: drop-shadow(0px 0px 2px var(--shadow));
     cursor: pointer;
   }
 `;
@@ -71,15 +71,15 @@ const StyledButton = styled.button`
   height: 50px;
   transition: ease-in 0.3s;
   border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0);
+  border: 1px solid var(--transparent);
   padding: 5px;
 
   &:hover {
-    filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.3));
+    filter: drop-shadow(0px 0px 2px var(--shadow));
     cursor: pointer;
-    background-color: #bdbaba;
+    background-color: var(--darkgray);
     border-radius: 5px;
-    border: 1px solid rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--shadow);
   }
 `;
 
