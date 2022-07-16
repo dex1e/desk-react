@@ -1,15 +1,21 @@
 import { FC, useState } from "react";
 
 import styled from "styled-components";
-import { Card } from "types";
+import { ICard } from "types";
 
 interface ColumnProps {
   username: string;
   columnTitle: string;
-  cards: Card[];
+  cards: ICard[];
+  children: React.ReactNode;
 }
 
-const Column: FC<ColumnProps> = ({ username, columnTitle, cards }) => {
+const Column: FC<ColumnProps> = ({
+  username,
+  columnTitle,
+  cards,
+  children,
+}) => {
   const [title, setTitle] = useState(columnTitle);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

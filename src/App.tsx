@@ -2,9 +2,8 @@ import { useState } from "react";
 
 import { Header } from "components/Header/Header";
 import styled from "styled-components";
-import { Card } from "types";
 
-import { Column, Login } from "./components";
+import { Card, Column, Login } from "./components";
 import data from "./utils/mock";
 
 function App() {
@@ -19,6 +18,7 @@ function App() {
     });
     return cardsArray;
   };
+  // const [isCardVisible, setCardVisible] = useState(true);
 
   return (
     <Root>
@@ -39,7 +39,14 @@ function App() {
                   key={e.id}
                   columnTitle={e.title}
                   cards={getCards(e.cards, data.cards)}
-                />
+                >
+                  <Card
+                    username={username}
+                    columnTitle={}
+                    setCardVisible={}
+                    isCardVisible={}
+                  />
+                </Column>
               );
             })}
           </Columns>
@@ -81,9 +88,11 @@ const Columns = styled.div`
   height: fit-content;
   gap: 20px;
   padding: 20px 20px;
+
   @media (max-width: 1050px) {
     grid-template-columns: 1fr 1fr;
   }
+
   @media (max-width: 530px) {
     grid-template-columns: 1fr;
   }
