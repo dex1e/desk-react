@@ -6,7 +6,7 @@ export interface IColumns {
 export interface ICard {
   columnId: string;
   id: string;
-  title: string;
+  title?: string;
   description: string;
 }
 

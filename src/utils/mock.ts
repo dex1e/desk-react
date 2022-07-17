@@ -245,11 +245,11 @@ export const columns: Record<string, IColumns> = {
   },
   a3: {
     id: "a3",
-    title: "Done",
+    title: "Doing",
   },
   a4: {
     id: "a4",
-    title: "Doing",
+    title: "Done",
   },
 };
 
@@ -281,7 +281,7 @@ export const cards: Record<string, ICard> = {
   4: {
     columnId: "a3",
     id: "912",
-    title: "TitleDone",
+    title: "TitleDoing",
     description: "",
   },
   5: {
@@ -293,7 +293,7 @@ export const cards: Record<string, ICard> = {
   6: {
     columnId: "a4",
     id: "456",
-    title: "TitleDoing",
+    title: "TitleDone",
     description: "",
   },
   7: {
