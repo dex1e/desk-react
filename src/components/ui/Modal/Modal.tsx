@@ -6,7 +6,7 @@ interface ModalProps {
   children: React.ReactNode;
 }
 
-const Modal: FC<ModalProps> = ({ children }) => {
+export const Modal: FC<ModalProps> = ({ children }) => {
   return <Root>{children}</Root>;
 };
 
@@ -21,5 +21,3 @@ const Root = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
-export default Modal;

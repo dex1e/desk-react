@@ -1,11 +1,16 @@
-export interface ICard {
-  id: number;
+export interface IColumns {
+  id: string;
   title: string;
-  description: string;
-  comment: Comment[];
 }
 
-export interface Comment {
+export interface ICard {
+  columnId: string;
+  id: string;
+  title: string;
+  description: string;
+}
+
+export interface IComment {
   id: number;
   author: string;
   text: string;

@@ -7,16 +7,13 @@ interface HeaderProps {
 }
 
 export const Header: FC<HeaderProps> = ({ username }) => {
-  return (
-    <div>
-      <StyledHeader>{username}</StyledHeader>
-    </div>
-  );
+  return <Root>{username}</Root>;
 };
 
-const StyledHeader = styled.div`
+const Root = styled.div`
   display: inline-block;
-  background-color: var(--lightgray);
+  background-color: var(--white);
   border-radius: 5px;
   padding: 10px;
+  cursor: default;
 `;

@@ -8,8 +8,7 @@ interface CardProps {
   isCardVisible: boolean;
   setCardVisible: (isCardVisible: boolean) => void;
 }
-
-const Card: FC<CardProps> = ({
+export const Card: FC<CardProps> = ({
   isCardVisible,
   setCardVisible,
   columnTitle,
@@ -17,10 +16,10 @@ const Card: FC<CardProps> = ({
 }) => {
   return (
     <Root isCardVisible={isCardVisible}>
-      <StyledCard>
+      <ModalCard>
         <div>Description</div>
         <div>Activity</div>
-      </StyledCard>
+      </ModalCard>
     </Root>
   );
 };
@@ -38,9 +37,7 @@ const Root = styled.div<{ isCardVisible: boolean }>`
   transform: ${({ isCardVisible }) => `scale(${isCardVisible ? 1 : 0})`};
 `;
 
-const StyledCard = styled.div`
+const ModalCard = styled.div`
   border-radius: 5px;
   background-color: var(--white);
 `;
-
-export default Card;

@@ -1,28 +1,29 @@
 import { FC, useState } from "react";
 
 import styled from "styled-components";
-import { loginValidate } from "utils/validators/loginValidate";
 
 interface LoginFormProps {
-  username: string;
-  setUsername: (username: string) => void;
-  onClose: () => void;
+  onSubmit: (name: string) => void;
 }
 
-const LoginForm: FC<LoginFormProps> = ({ onClose, setUsername, username }) => {
+export const LoginForm: FC<LoginFormProps> = ({ onSubmit }) => {
+  const [name, setName] = useState("");
+  const [isError, setIsError] = useState(false);
+
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputName = e.target.value;
-    setUsername(inputName.trim());
-    setError(loginValidate(inputName.trim()));
+    setName(inputName);
+    setIsError(false);
   };
 
   const handleOnClick = () => {
-    if (Boolean(error)) {
+    const trimmedName = name.trim();
+    if (trimmedName) {
+      onSubmit(trimmedName);
     } else {
-      onClose();
+      setIsError(true);
     }
   };
-  const [error, setError] = useState("");
 
   return (
     <Root>
@@ -30,20 +31,17 @@ const LoginForm: FC<LoginFormProps> = ({ onClose, setUsername, username }) => {
       <Label>
         <Input
           onChange={handleNameChange}
-          value={username}
+          value={name}
           placeholder="Username"
-          isError={Boolean(error)}
+          isError={isError}
           minLength={2}
           maxLength={20}
         />
-        {error}
+        {isError && <p>Please enter correct name</p>}
       </Label>
-      <Button
-        disabled={username.length <= 1 || Boolean(error)}
-        onClick={handleOnClick}
-      >
+      <LoginButton disabled={isError} onClick={handleOnClick}>
         OK
-      </Button>
+      </LoginButton>
     </Root>
   );
 };
@@ -94,7 +92,7 @@ const Input = styled.input<{ isError: boolean }>`
   }
 `;
 
-const Button = styled.button`
+const LoginButton = styled.button`
   width: 80px;
   height: 40px;
   border-radius: 7px;
@@ -110,5 +108,3 @@ const Button = styled.button`
     box-shadow: 0 0 0 3px var(--lightskyblue);
   }
 `;
-
-export default LoginForm;

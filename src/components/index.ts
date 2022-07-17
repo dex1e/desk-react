@@ -1,6 +1,6 @@
-import Card from "./Card";
-import Column from "./Column";
-import Login from "./Login";
-import LoginForm from "./LoginForm";
-
-export { Card, Column, LoginForm, Login };
+export { Card } from "./Card";
+export { Column } from "./Column";
+export { Columns } from "./Columns";
+export { Header } from "./Header";
+export { LoginForm } from "./LoginForm";
+export { LoginModal } from "./LoginModal";
