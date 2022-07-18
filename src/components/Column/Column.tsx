@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useRef, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import styled from "styled-components";
@@ -7,22 +7,26 @@ import { ICard } from "types";
 interface ColumnProps {
   username: string;
   columnTitle: string;
-  cards: ICard[];
+  cards: Record<string, ICard>;
   onAddCard: (cardName: string, columnId: string) => void;
-  id: string;
+  idColumn: string;
 }
 
 export const Column: FC<ColumnProps> = ({
   username,
-  columnTitle,
   cards,
+  columnTitle,
   onAddCard,
-  id,
+  idColumn,
 }) => {
   const [title, setTitle] = useState(columnTitle);
   const [isTextAreaVisible, setTextAreaVisible] = useState(false);
   const [textArea, setTextArea] = useState("");
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+  const cardsArray = Object.values(cards);
+
+  const filtredCards = cardsArray.filter((card) => card.columnId === idColumn);
 
   const textAreaValue = textAreaRef.current?.value || "";
 
@@ -75,7 +79,7 @@ export const Column: FC<ColumnProps> = ({
         onChange={handleTitleChange}
       />
 
-      {cards.map((card) => {
+      {filtredCards.map((card) => {
         return <AdedCards key={card.id}>{card.title}</AdedCards>;
       })}
       {isTextAreaVisible ? (
@@ -89,7 +93,7 @@ export const Column: FC<ColumnProps> = ({
           />
           <StyledButtonAddCard
             text="+"
-            onClick={() => onAddCard(textAreaValue, id)}
+            onClick={() => onAddCard(textAreaValue, idColumn)}
           />
         </TextAreaWrapper>
       ) : (

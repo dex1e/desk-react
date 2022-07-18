@@ -14,21 +14,17 @@ interface ColumnsProps {
 
 export const Columns: FC<ColumnsProps> = ({ username, cards, onAddCard }) => {
   const columnsArray = Object.values(columns);
-  const cardsArray = Object.values(cards);
 
   return (
     <Root>
       {columnsArray.map((column) => {
-        const filtredCards = cardsArray.filter(
-          (card) => card.columnId === column.id
-        );
         return (
           <Column
             username={username}
             key={column.id}
-            id={column.id}
+            idColumn={column.id}
             columnTitle={column.title}
-            cards={filtredCards}
+            cards={cards}
             onAddCard={onAddCard}
           />
         );
