@@ -16,4 +16,5 @@ const Root = styled.div`
   border-radius: 5px;
   padding: 10px;
   cursor: default;
+  filter: drop-shadow(0px 0px 10px var(--shadow));
 `;

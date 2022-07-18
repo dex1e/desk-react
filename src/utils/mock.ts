@@ -253,50 +253,50 @@ export const columns: Record<string, IColumns> = {
   },
 };
 
-export const cards: Record<string, ICard> = {
-  0: {
+export const defaultCards: Record<string, ICard> = {
+  123: {
     columnId: "a1",
     id: "123",
     title: "TitleTODO",
     description: "",
   },
-  1: {
+  345: {
     columnId: "a1",
     id: "345",
     title: "Title2",
     description: "Detailed description",
   },
-  2: {
+  567: {
     columnId: "a2",
     id: "567",
     title: "Title inProgress",
     description: "",
   },
-  3: {
+  789: {
     columnId: "a2",
     id: "789",
     title: "Title2",
     description: "Detailed description",
   },
-  4: {
+  912: {
     columnId: "a3",
     id: "912",
     title: "TitleDoing",
     description: "",
   },
-  5: {
+  914: {
     columnId: "a3",
-    id: "234",
+    id: "914",
     title: "Title2",
     description: "Detailed description",
   },
-  6: {
+  456: {
     columnId: "a4",
     id: "456",
     title: "TitleDone",
     description: "",
   },
-  7: {
+  678: {
     columnId: "a4",
     id: "678",
     title: "Title2",
@@ -306,67 +306,67 @@ export const cards: Record<string, ICard> = {
 
 export const comments = {
   0: {
-    cardId: "0",
+    cardId: "123",
     id: 0,
     author: "Ivan",
     text: "hello",
   },
   1: {
-    cardId: "0",
+    cardId: "345",
     id: 1,
     author: "Boris",
     text: "hi",
   },
   2: {
-    cardId: "1",
+    cardId: "567",
     id: 2,
     author: "Evgeny",
     text: "I`m frontend developer",
   },
   3: {
-    cardId: "1",
+    cardId: "789",
     id: 3,
     author: "Ivan",
     text: "hello",
   },
   4: {
-    cardId: "2",
+    cardId: "789",
     id: 4,
     author: "Boris",
     text: "hi",
   },
   5: {
-    cardId: "2",
+    cardId: "912",
     id: 5,
     author: "Evgeny",
     text: "I`m frontend developer",
   },
   6: {
-    cardId: "3",
+    cardId: "912",
     id: 6,
     author: "Danil",
     text: "FR",
   },
   7: {
-    cardId: "3",
+    cardId: "914",
     id: 7,
     author: "Anton",
     text: "BB",
   },
   8: {
-    cardId: "4",
+    cardId: "914",
     id: 8,
     author: "Masha",
     text: "Java",
   },
   9: {
-    cardId: "4",
+    cardId: "456",
     id: 9,
     author: "Ivan",
     text: "hello",
   },
   10: {
-    cardId: "5",
+    cardId: "678",
     id: 10,
     author: "Boris",
     text: "hi",

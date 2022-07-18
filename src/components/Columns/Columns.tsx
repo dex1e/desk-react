@@ -1,28 +1,35 @@
 import { FC } from "react";
 
 import styled from "styled-components";
-import { cards, columns } from "utils/mock";
+import { ICard } from "types";
+import { columns } from "utils/mock";
 
 import { Column } from "..";
 
 interface ColumnsProps {
   username: string;
+  cards: Record<string, ICard>;
+  onAddCard: (cardName: string, columnId: string) => void;
 }
 
-export const Columns: FC<ColumnsProps> = ({ username }) => {
+export const Columns: FC<ColumnsProps> = ({ username, cards, onAddCard }) => {
   const columnsArray = Object.values(columns);
   const cardsArray = Object.values(cards);
 
   return (
     <Root>
-      {columnsArray.map((e) => {
-        const cardsFiltred = cardsArray.filter((i) => i.columnId === e.id);
+      {columnsArray.map((column) => {
+        const cardsFiltred = cardsArray.filter(
+          (card) => card.columnId === column.id
+        );
         return (
           <Column
             username={username}
-            key={e.id}
-            columnTitle={e.title}
+            key={column.id}
+            id={column.id}
+            columnTitle={column.title}
             cards={cardsFiltred}
+            onAddCard={onAddCard}
           />
         );
       })}

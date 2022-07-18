@@ -7,6 +7,7 @@ interface ButtonProps {
   onClick?: () => void;
   text: string;
   isBig?: boolean;
+  disabled?: boolean;
 }
 
 export const Button: FC<ButtonProps> = ({
@@ -25,9 +26,20 @@ export const Button: FC<ButtonProps> = ({
 const Text = styled.p``;
 
 const Root = styled.button<{ $isBig?: boolean }>`
-  padding: 10px 20px;
+  width: 80px;
+  height: 50px;
+  border-radius: 7px;
+  text-align: center;
+  border: 1px solid var(--gray);
+
   &:hover {
     cursor: pointer;
+    background-color: var(--lightskyblue);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--lightskyblue);
   }
 
   &:disabled {
@@ -37,6 +49,7 @@ const Root = styled.button<{ $isBig?: boolean }>`
 
   ${Text} {
   }
+
   ${({ $isBig }) =>
     $isBig &&
     css`

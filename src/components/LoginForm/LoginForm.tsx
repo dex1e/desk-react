@@ -1,5 +1,6 @@
 import { FC, useState } from "react";
 
+import { Button } from "components/ui/Button";
 import styled from "styled-components";
 
 interface LoginFormProps {
@@ -39,9 +40,11 @@ export const LoginForm: FC<LoginFormProps> = ({ onSubmit }) => {
         />
         {isError && <p>Please enter correct name</p>}
       </Label>
-      <LoginButton disabled={isError} onClick={handleOnClick}>
-        OK
-      </LoginButton>
+      <StyledLoginButton
+        text={"OK"}
+        disabled={isError}
+        onClick={handleOnClick}
+      />
     </Root>
   );
 };
@@ -76,35 +79,41 @@ const Label = styled.label`
 const Input = styled.input<{ isError: boolean }>`
   padding: 7px;
   width: 200px;
-  height: 40px;
+  height: 50px;
   background-color: var(--white);
   border-radius: 7px;
-  border: 1px solid ${({ isError }) => (isError ? "var(--red)" : "var(--gray)")};
   color: var(--black);
+  border: 1px solid ${({ isError }) => (isError ? "var(--red)" : "var(--gray)")};
+
+  &:hover {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--lightskyblue);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--lightskyblue);
+  }
 
   &::placeholder {
     color: var(--secondarygray);
   }
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--lightskyblue);
-  }
 `;
 
-const LoginButton = styled.button`
-  width: 80px;
-  height: 40px;
-  border-radius: 7px;
-  text-align: center;
-  border: 1px solid var(--gray);
+const StyledLoginButton = styled(Button)``;
+// const LoginButton = styled.button`
+//   width: 80px;
+//   height: 40px;
+//   border-radius: 7px;
+//   text-align: center;
+//   border: 1px solid var(--gray);
 
-  &:hover {
-    background-color: var(--lightskyblue);
-  }
+//   &:hover {
+//     background-color: var(--lightskyblue);
+//   }
 
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--lightskyblue);
-  }
-`;
+//   &:focus {
+//     outline: none;
+//     box-shadow: 0 0 0 3px var(--lightskyblue);
+//   }
+// `;
