@@ -40,11 +40,7 @@ export const LoginForm: FC<LoginFormProps> = ({ onSubmit }) => {
         />
         {isError && <p>Please enter correct name</p>}
       </Label>
-      <StyledLoginButton
-        text={"OK"}
-        disabled={isError}
-        onClick={handleOnClick}
-      />
+      <Button text="OK" disabled={isError} onClick={handleOnClick} />
     </Root>
   );
 };
@@ -99,21 +95,3 @@ const Input = styled.input<{ isError: boolean }>`
     color: var(--secondarygray);
   }
 `;
-
-const StyledLoginButton = styled(Button)``;
-// const LoginButton = styled.button`
-//   width: 80px;
-//   height: 40px;
-//   border-radius: 7px;
-//   text-align: center;
-//   border: 1px solid var(--gray);
-
-//   &:hover {
-//     background-color: var(--lightskyblue);
-//   }
-
-//   &:focus {
-//     outline: none;
-//     box-shadow: 0 0 0 3px var(--lightskyblue);
-//   }
-// `;

@@ -1,6 +1,5 @@
 import React, { FC, useRef, useState } from "react";
 
-import { Card } from "components";
 import { Button } from "components/ui/Button";
 import styled from "styled-components";
 import { ICard } from "types";
@@ -48,14 +47,6 @@ export const Column: FC<ColumnProps> = ({
       {cards.map((card) => {
         return <AdedCards key={card.id}>{card.title}</AdedCards>;
       })}
-      {/* <Card
-        username={username}
-        columnTitle={columnTitle}
-        setCardVisible={setTextAreaVisible}
-        isCardVisible={isTextAreaVisible}
-        textAr={textAr}
-      /> */}
-
       {isTextAreaVisible ? (
         <TextAreaWrapper>
           <TextArea

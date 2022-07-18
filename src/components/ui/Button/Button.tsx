@@ -23,8 +23,6 @@ export const Button: FC<ButtonProps> = ({
   );
 };
 
-const Text = styled.p``;
-
 const Root = styled.button<{ $isBig?: boolean }>`
   width: 80px;
   height: 50px;
@@ -46,13 +44,4 @@ const Root = styled.button<{ $isBig?: boolean }>`
     color: var(--gray);
     cursor: not-allowed;
   }
-
-  ${Text} {
-  }
-
-  ${({ $isBig }) =>
-    $isBig &&
-    css`
-      padding: 40px 50px;
-    `}
 `;
