@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import styled from "styled-components";
@@ -21,38 +21,70 @@ export const Column: FC<ColumnProps> = ({
 }) => {
   const [title, setTitle] = useState(columnTitle);
   const [isTextAreaVisible, setTextAreaVisible] = useState(false);
-  const [textAr, setTextAr] = useState("");
-
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const title = e.target.value;
-    setTitle(title);
-  };
-
-  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    let textAr = e.target.value;
-    setTextAr(textAr);
-  };
-
-  const handleTextAreaAdd = () => {
-    setTextAreaVisible(true);
-  };
-
+  const [textArea, setTextArea] = useState("");
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const textAreaValue = textAreaRef.current?.value || "";
 
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputTitle = e.target.value;
+    setTitle(inputTitle);
+  };
+
+  const handleOnBLurTitle = (titleName: string) => {
+    setTitle(titleName);
+  };
+
+  const handleTitleBlur = () => {
+    const trimmedTitle = title.trim();
+    if (trimmedTitle) {
+      handleOnBLurTitle(trimmedTitle);
+    } else {
+      setTitle(columnTitle);
+    }
+  };
+
+  const handleOnBlurArea = (AreaText: string) => {
+    setTextArea(AreaText);
+  };
+
+  const handleTextAreaBlur = () => {
+    const trimmedTextArea = textArea.trim();
+    if (trimmedTextArea) {
+      handleOnBlurArea(trimmedTextArea);
+    } else {
+      setTextArea("");
+    }
+  };
+
+  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    let textArea = e.target.value;
+    setTextArea(textArea);
+  };
+
+  const handleTextAreaVisible = () => {
+    setTextAreaVisible(true);
+  };
+
   return (
     <Root>
-      <Title maxLength={20} onChange={handleTitleChange} value={title} />
+      <Title
+        onBlur={handleTitleBlur}
+        value={title}
+        maxLength={20}
+        onChange={handleTitleChange}
+      />
+
       {cards.map((card) => {
         return <AdedCards key={card.id}>{card.title}</AdedCards>;
       })}
       {isTextAreaVisible ? (
         <TextAreaWrapper>
           <TextArea
+            onBlur={handleTextAreaBlur}
             ref={textAreaRef}
             placeholder="Add card"
-            value={textAr}
+            value={textArea}
             onChange={handleTextAreaChange}
           />
           <StyledButtonAddCard
@@ -61,7 +93,10 @@ export const Column: FC<ColumnProps> = ({
           />
         </TextAreaWrapper>
       ) : (
-        <StyledTextAreaButton text="+ Add a card" onClick={handleTextAreaAdd} />
+        <StyledTextAreaButton
+          text="+ Add a card"
+          onClick={handleTextAreaVisible}
+        />
       )}
     </Root>
   );

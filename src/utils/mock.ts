@@ -1,7 +1,7 @@
 import { ICard, IColumns } from "types";
 
-export const name = {
-  username: "Ivan",
+export const defaultUsername = {
+  username: "",
 };
 
 export const columns: Record<string, IColumns> = {

@@ -16,21 +16,14 @@ export const Card: FC<CardProps> = ({
   username,
   textAr,
 }) => {
-  return <Root isCardVisible={isCardVisible}></Root>;
+  return (
+    <Root isCardVisible={isCardVisible}>
+      <ModalCard />
+    </Root>
+  );
 };
 
 const Root = styled.div<{ isCardVisible: boolean }>`
-  /* width: 100px;
-  height: 100px;
-  background-color: var(--white);
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  display: flex;
-  justify-content: center;
-  align-items: center; */
-  /* transform: ${({ isCardVisible }) => `scale(${isCardVisible ? 1 : 0})`}; */
   display: ${({ isCardVisible }) => `${isCardVisible ? "block" : "none"}`};
   overflow: hidden;
   text-overflow: ellipsis;

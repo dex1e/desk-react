@@ -19,7 +19,7 @@ export const Columns: FC<ColumnsProps> = ({ username, cards, onAddCard }) => {
   return (
     <Root>
       {columnsArray.map((column) => {
-        const cardsFiltred = cardsArray.filter(
+        const filtredCards = cardsArray.filter(
           (card) => card.columnId === column.id
         );
         return (
@@ -28,7 +28,7 @@ export const Columns: FC<ColumnsProps> = ({ username, cards, onAddCard }) => {
             key={column.id}
             id={column.id}
             columnTitle={column.title}
-            cards={cardsFiltred}
+            cards={filtredCards}
             onAddCard={onAddCard}
           />
         );

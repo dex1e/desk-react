@@ -1,13 +1,14 @@
 import { FC, useState } from "react";
 
 import { Button } from "components/ui/Button";
+import { Modal } from "components/ui/Modal";
 import styled from "styled-components";
 
-interface LoginFormProps {
+interface LoginModalProps {
   onSubmit: (name: string) => void;
 }
 
-export const LoginForm: FC<LoginFormProps> = ({ onSubmit }) => {
+export const ModalLogin: FC<LoginModalProps> = ({ onSubmit }) => {
   const [name, setName] = useState("");
   const [isError, setIsError] = useState(false);
 
@@ -27,25 +28,27 @@ export const LoginForm: FC<LoginFormProps> = ({ onSubmit }) => {
   };
 
   return (
-    <Root>
-      Welcome!
-      <Label>
-        <Input
-          onChange={handleNameChange}
-          value={name}
-          placeholder="Username"
-          isError={isError}
-          minLength={2}
-          maxLength={20}
-        />
-        {isError && <p>Please enter correct name</p>}
-      </Label>
-      <Button text="OK" disabled={isError} onClick={handleOnClick} />
-    </Root>
+    <Modal>
+      <ModalWindow>
+        Welcome!
+        <Label>
+          <Input
+            onChange={handleNameChange}
+            value={name}
+            placeholder="Username"
+            isError={isError}
+            minLength={2}
+            maxLength={20}
+          />
+          {isError && <p>Please enter correct name</p>}
+        </Label>
+        <Button text="OK" disabled={isError} onClick={handleOnClick} />
+      </ModalWindow>
+    </Modal>
   );
 };
 
-const Root = styled.div`
+const ModalWindow = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
