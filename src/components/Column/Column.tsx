@@ -1,7 +1,6 @@
 import React, { FC, useState } from "react";
 
 import { NewCardForm } from "components";
-import { Button } from "components/ui/Button";
 import styled from "styled-components";
 import { ICard } from "types";
 
@@ -21,7 +20,6 @@ export const Column: FC<ColumnProps> = ({
   idColumn,
 }) => {
   const [title, setTitle] = useState(columnTitle);
-  const [isCardVisible, setCardVisible] = useState(true);
 
   const cardsArray = Object.values(cards);
 
