@@ -23,9 +23,15 @@ export const Column: FC<ColumnProps> = ({
   idColumn,
 }) => {
   const [title, setTitle] = useState(columnTitle);
-  const [cardTitle, setCardTitle] = useState("");
+  // const [cardTitle, setCardTitle] = useState("");
 
-  const handleCardTitleChange = () => {};
+  // const handleCardTitleChange = () => {};
+
+  const handleEnterRenameTitle = (event: React.KeyboardEvent) => {
+    if (event.code === "Enter") {
+      setTitle(columnTitle);
+    }
+  };
 
   const cardsArray = Object.values(cards);
 
@@ -56,6 +62,7 @@ export const Column: FC<ColumnProps> = ({
         value={title}
         maxLength={20}
         onChange={handleTitleChange}
+        onKeyDown={handleEnterRenameTitle}
       />
 
       {filtredCards.map((card) => {
@@ -63,7 +70,7 @@ export const Column: FC<ColumnProps> = ({
           <AddedCards>
             <CardTitle key={card.id}>{card.title}</CardTitle>
             <Buttons>
-              <ButtonRenameCardTitle cardTitle={cardTitle} />
+              <ButtonRenameCardTitle />
               <TrashCan />
             </Buttons>
           </AddedCards>
