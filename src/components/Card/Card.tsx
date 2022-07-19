@@ -7,14 +7,14 @@ interface CardProps {
   columnTitle: string;
   isCardVisible: boolean;
   setCardVisible: (isCardVisible: boolean) => void;
-  textAr: string;
+  textArea: string;
 }
 export const Card: FC<CardProps> = ({
   isCardVisible,
   setCardVisible,
   columnTitle,
   username,
-  textAr,
+  textArea,
 }) => {
   return (
     <Root isCardVisible={isCardVisible}>

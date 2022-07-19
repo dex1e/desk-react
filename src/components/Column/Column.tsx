@@ -1,5 +1,6 @@
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useState } from "react";
 
+import { TextArea } from "components";
 import { Button } from "components/ui/Button";
 import styled from "styled-components";
 import { ICard } from "types";
@@ -21,49 +22,51 @@ export const Column: FC<ColumnProps> = ({
 }) => {
   const [title, setTitle] = useState(columnTitle);
   const [isTextAreaVisible, setTextAreaVisible] = useState(false);
-  const [textArea, setTextArea] = useState("");
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const [cardTitleTextArea, setcardTitleTextArea] = useState("");
 
   const cardsArray = Object.values(cards);
 
   const filtredCards = cardsArray.filter((card) => card.columnId === idColumn);
-
-  const textAreaValue = textAreaRef.current?.value || "";
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputTitle = e.target.value;
     setTitle(inputTitle);
   };
 
-  const handleOnBLurTitle = (titleName: string) => {
-    setTitle(titleName);
+  const handleOnBLurColumnTitle = (columnTitleName: string) => {
+    setTitle(columnTitleName);
   };
 
   const handleTitleBlur = () => {
     const trimmedTitle = title.trim();
     if (trimmedTitle) {
-      handleOnBLurTitle(trimmedTitle);
+      handleOnBLurColumnTitle(trimmedTitle);
     } else {
       setTitle(columnTitle);
     }
   };
 
-  const handleOnBlurArea = (AreaText: string) => {
-    setTextArea(AreaText);
+  const handleOnBlurArea = (cardTitle: string) => {
+    setcardTitleTextArea(cardTitle);
   };
 
   const handleTextAreaBlur = () => {
-    const trimmedTextArea = textArea.trim();
+    const trimmedTextArea = cardTitleTextArea.trim();
     if (trimmedTextArea) {
       handleOnBlurArea(trimmedTextArea);
     } else {
-      setTextArea("");
+      setcardTitleTextArea("");
     }
   };
 
   const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     let textArea = e.target.value;
-    setTextArea(textArea);
+    setcardTitleTextArea(textArea);
+  };
+
+  const handleAddCard = () => {
+    onAddCard(cardTitleTextArea, idColumn);
+    setcardTitleTextArea("");
   };
 
   const handleTextAreaVisible = () => {
@@ -80,22 +83,15 @@ export const Column: FC<ColumnProps> = ({
       />
 
       {filtredCards.map((card) => {
-        return <AdedCards key={card.id}>{card.title}</AdedCards>;
+        return <AddedCards key={card.id}>{card.title}</AddedCards>;
       })}
       {isTextAreaVisible ? (
-        <TextAreaWrapper>
-          <TextArea
-            onBlur={handleTextAreaBlur}
-            ref={textAreaRef}
-            placeholder="Add card"
-            value={textArea}
-            onChange={handleTextAreaChange}
-          />
-          <StyledButtonAddCard
-            text="+"
-            onClick={() => onAddCard(textAreaValue, idColumn)}
-          />
-        </TextAreaWrapper>
+        <TextArea
+          cardTitleTextArea={cardTitleTextArea}
+          handleTextAreaBlur={handleTextAreaBlur}
+          handleTextAreaChange={handleTextAreaChange}
+          handleAddCard={handleAddCard}
+        />
       ) : (
         <StyledTextAreaButton
           text="+ Add a card"
@@ -143,7 +139,7 @@ const Title = styled.input`
   }
 `;
 
-const AdedCards = styled.div`
+const AddedCards = styled.div`
   background-color: var(--white);
   min-width: 100%;
   max-width: 200px;
@@ -160,16 +156,6 @@ const AdedCards = styled.div`
   }
 `;
 
-const TextAreaWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  font-size: 16px;
-`;
-
 const StyledTextAreaButton = styled(Button)`
   padding: 5px;
   width: 100%;
@@ -180,33 +166,4 @@ const StyledTextAreaButton = styled(Button)`
     filter: drop-shadow(0px 0px 2px var(--shadow));
     border: 1px solid var(--shadow);
   }
-`;
-
-const TextArea = styled.textarea`
-  width: 100%;
-  min-height: 50px;
-  background-color: var(--white);
-  border: 1px solid var(--black);
-  border-radius: 7px;
-  padding: 10px;
-  resize: vertical;
-  overflow: hidden;
-  word-wrap: break-word;
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--lightskyblue);
-  }
-
-  &::placeholder {
-    color: var(--secondarygray);
-  }
-`;
-
-const StyledButtonAddCard = styled(Button)`
-  width: fit-content;
-  height: fit-content;
-  border: 0;
-  font-size: 25px;
-  padding: 5px;
 `;

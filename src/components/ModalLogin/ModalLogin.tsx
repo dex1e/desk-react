@@ -4,11 +4,11 @@ import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
 import styled from "styled-components";
 
-interface LoginModalProps {
+interface ModalLoginProps {
   onSubmit: (name: string) => void;
 }
 
-export const ModalLogin: FC<LoginModalProps> = ({ onSubmit }) => {
+export const ModalLogin: FC<ModalLoginProps> = ({ onSubmit }) => {
   const [name, setName] = useState("");
   const [isError, setIsError] = useState(false);
 
