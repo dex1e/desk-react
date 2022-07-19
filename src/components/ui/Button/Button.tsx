@@ -5,7 +5,7 @@ import styled from "styled-components";
 interface ButtonProps {
   className?: string;
   onClick?: () => void;
-  text: string;
+  text?: string;
   isBig?: boolean;
   disabled?: boolean;
 }

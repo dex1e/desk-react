@@ -1,6 +1,9 @@
 import React, { FC, useState } from "react";
 
 import { NewCardForm } from "components";
+import { Button } from "components/ui/Button";
+import { ButtonRenameCardTitle } from "components/ui/imageComponents/Pencil";
+import { TrashCan } from "components/ui/imageComponents/TrashCan";
 import styled from "styled-components";
 import { ICard } from "types";
 
@@ -20,6 +23,9 @@ export const Column: FC<ColumnProps> = ({
   idColumn,
 }) => {
   const [title, setTitle] = useState(columnTitle);
+  const [cardTitle, setCardTitle] = useState("");
+
+  const handleCardTitleChange = () => {};
 
   const cardsArray = Object.values(cards);
 
@@ -53,7 +59,15 @@ export const Column: FC<ColumnProps> = ({
       />
 
       {filtredCards.map((card) => {
-        return <AddedCards key={card.id}>{card.title}</AddedCards>;
+        return (
+          <AddedCards>
+            <CardTitle key={card.id}>{card.title}</CardTitle>
+            <Buttons>
+              <ButtonRenameCardTitle cardTitle={cardTitle} />
+              <TrashCan />
+            </Buttons>
+          </AddedCards>
+        );
       })}
 
       <NewCardForm idColumn={idColumn} onAddCard={onAddCard} />
@@ -100,6 +114,8 @@ const Title = styled.input`
 `;
 
 const AddedCards = styled.div`
+  display: flex;
+  align-items: center;
   background-color: var(--white);
   min-width: 100%;
   max-width: 200px;
@@ -109,9 +125,35 @@ const AddedCards = styled.div`
   line-height: 30px;
   word-wrap: break-word;
 
+  /* &:hover {
+    background-color: var(--lightgray);
+    filter: drop-shadow(0px 0px 2px var(--shadow));
+    cursor: pointer;
+  } */
+`;
+
+const CardTitle = styled.div`
+  width: 80%;
   &:hover {
     background-color: var(--lightgray);
     filter: drop-shadow(0px 0px 2px var(--shadow));
     cursor: pointer;
   }
+`;
+const Buttons = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+`;
+
+// const ButtonRenameCardTitle = styled(Button)`
+//   /* width: 20px;
+//   height: 20px;
+//   margin-left: 7px; */
+// `;
+const ButtonDeleteCardTitle = styled(Button)`
+  width: 20px;
+  height: 20px;
+  /* padding: 5px; */
 `;
