@@ -21,6 +21,7 @@ export const Column: FC<ColumnProps> = ({
   idColumn,
 }) => {
   const [title, setTitle] = useState(columnTitle);
+  const [isCardVisible, setCardVisible] = useState(true);
 
   const cardsArray = Object.values(cards);
 
@@ -63,7 +64,7 @@ export const Column: FC<ColumnProps> = ({
 };
 
 const Root = styled.div`
-  max-width: 100%;
+  width: 100%;
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -77,6 +78,7 @@ const Root = styled.div`
 `;
 
 const Title = styled.input`
+  max-width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -113,17 +115,5 @@ const AddedCards = styled.div`
     background-color: var(--lightgray);
     filter: drop-shadow(0px 0px 2px var(--shadow));
     cursor: pointer;
-  }
-`;
-
-const StyledTextAreaButton = styled(Button)`
-  padding: 5px;
-  width: 100%;
-  transition: ease-in 0.3s;
-  border: 1px solid var(--transparent);
-  text-align: start;
-  &:hover {
-    filter: drop-shadow(0px 0px 2px var(--shadow));
-    border: 1px solid var(--shadow);
   }
 `;

@@ -53,27 +53,27 @@ function App() {
 
 const Root = styled.div`
   display: flex;
-  justify-content: center;
   align-items: flex-start;
-  width: 100%;
+  justify-content: center;
+  width: 100vw;
   height: 100%;
   background: linear-gradient(
     45deg,
     rgba(133, 55, 203, 1) 20%,
     rgba(0, 212, 255, 1) 100%
   );
-  font-size: 18px;
   position: fixed;
-  overflow-y: auto;
-  z-index: -1;
+  overflow-y: hidden;
+  overflow-x: auto;
 `;
 
 const Board = styled.div`
+  margin-top: 50px;
+  min-width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 20px;
 `;
 
 export default App;
