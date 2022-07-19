@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 
-import { TextArea } from "components";
+import { NewCardCreator } from "components";
 import { Button } from "components/ui/Button";
 import styled from "styled-components";
 import { ICard } from "types";
@@ -22,7 +22,6 @@ export const Column: FC<ColumnProps> = ({
 }) => {
   const [title, setTitle] = useState(columnTitle);
   const [isTextAreaVisible, setTextAreaVisible] = useState(false);
-  const [cardTitleTextArea, setcardTitleTextArea] = useState("");
 
   const cardsArray = Object.values(cards);
 
@@ -33,40 +32,17 @@ export const Column: FC<ColumnProps> = ({
     setTitle(inputTitle);
   };
 
-  const handleOnBLurColumnTitle = (columnTitleName: string) => {
+  const handleOnBlurColumnTitle = (columnTitleName: string) => {
     setTitle(columnTitleName);
   };
 
   const handleTitleBlur = () => {
     const trimmedTitle = title.trim();
     if (trimmedTitle) {
-      handleOnBLurColumnTitle(trimmedTitle);
+      handleOnBlurColumnTitle(trimmedTitle);
     } else {
       setTitle(columnTitle);
     }
-  };
-
-  const handleOnBlurArea = (cardTitle: string) => {
-    setcardTitleTextArea(cardTitle);
-  };
-
-  const handleTextAreaBlur = () => {
-    const trimmedTextArea = cardTitleTextArea.trim();
-    if (trimmedTextArea) {
-      handleOnBlurArea(trimmedTextArea);
-    } else {
-      setcardTitleTextArea("");
-    }
-  };
-
-  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    let textArea = e.target.value;
-    setcardTitleTextArea(textArea);
-  };
-
-  const handleAddCard = () => {
-    onAddCard(cardTitleTextArea, idColumn);
-    setcardTitleTextArea("");
   };
 
   const handleTextAreaVisible = () => {
@@ -85,13 +61,9 @@ export const Column: FC<ColumnProps> = ({
       {filtredCards.map((card) => {
         return <AddedCards key={card.id}>{card.title}</AddedCards>;
       })}
+
       {isTextAreaVisible ? (
-        <TextArea
-          cardTitleTextArea={cardTitleTextArea}
-          handleTextAreaBlur={handleTextAreaBlur}
-          handleTextAreaChange={handleTextAreaChange}
-          handleAddCard={handleAddCard}
-        />
+        <NewCardCreator idColumn={idColumn} onAddCard={onAddCard} />
       ) : (
         <StyledTextAreaButton
           text="+ Add a card"
