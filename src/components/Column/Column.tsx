@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 
-import { NewCardCreator } from "components";
+import { NewCardForm } from "components";
 import { Button } from "components/ui/Button";
 import styled from "styled-components";
 import { ICard } from "types";
@@ -21,7 +21,6 @@ export const Column: FC<ColumnProps> = ({
   idColumn,
 }) => {
   const [title, setTitle] = useState(columnTitle);
-  const [isTextAreaVisible, setTextAreaVisible] = useState(false);
 
   const cardsArray = Object.values(cards);
 
@@ -45,10 +44,6 @@ export const Column: FC<ColumnProps> = ({
     }
   };
 
-  const handleTextAreaVisible = () => {
-    setTextAreaVisible(true);
-  };
-
   return (
     <Root>
       <Title
@@ -62,14 +57,7 @@ export const Column: FC<ColumnProps> = ({
         return <AddedCards key={card.id}>{card.title}</AddedCards>;
       })}
 
-      {isTextAreaVisible ? (
-        <NewCardCreator idColumn={idColumn} onAddCard={onAddCard} />
-      ) : (
-        <StyledTextAreaButton
-          text="+ Add a card"
-          onClick={handleTextAreaVisible}
-        />
-      )}
+      <NewCardForm idColumn={idColumn} onAddCard={onAddCard} />
     </Root>
   );
 };

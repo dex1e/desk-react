@@ -3,17 +3,15 @@ import { FC, useState } from "react";
 import { Button } from "components/ui/Button";
 import styled from "styled-components";
 
-interface NewCardCreatorProps {
+interface NewCardFormProps {
   idColumn: string;
   onAddCard: (cardName: string, columnId: string) => void;
 }
 
-export const NewCardCreator: FC<NewCardCreatorProps> = ({
-  idColumn,
-  onAddCard,
-}) => {
+export const NewCardForm: FC<NewCardFormProps> = ({ idColumn, onAddCard }) => {
   const [cardTitle, setCardTitle] = useState("");
-  const [buttonIsDisabled, setButtonIsDisabled] = useState(false);
+  const [isCardTitleValid, setIsCardTitleValid] = useState(false);
+  const [isTextAreaVisible, setTextAreaVisible] = useState(false);
 
   const handleOnBlurArea = (cardTitle: string) => {
     setCardTitle(cardTitle);
@@ -31,31 +29,44 @@ export const NewCardCreator: FC<NewCardCreatorProps> = ({
   const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     let textArea = e.target.value;
     setCardTitle(textArea);
-    setButtonIsDisabled(false);
+    setIsCardTitleValid(false);
   };
 
   const handleAddCard = () => {
     if (!cardTitle) {
-      setButtonIsDisabled(true);
+      setIsCardTitleValid(true);
     } else {
       onAddCard(cardTitle, idColumn);
       setCardTitle("");
     }
   };
 
+  const handleTextAreaVisible = () => {
+    setTextAreaVisible(true);
+  };
+
   return (
     <Root>
-      <TextArea
-        onBlur={handleTextAreaBlur}
-        placeholder="Add card"
-        value={cardTitle}
-        onChange={handleTextAreaChange}
-      />
-      <StyledButtonAddCard
-        disabled={buttonIsDisabled}
-        text="+"
-        onClick={handleAddCard}
-      />
+      {isTextAreaVisible ? (
+        <>
+          <TextArea
+            onBlur={handleTextAreaBlur}
+            placeholder="Add card"
+            value={cardTitle}
+            onChange={handleTextAreaChange}
+          />
+          <StyledButtonAddCard
+            disabled={isCardTitleValid}
+            text="+"
+            onClick={handleAddCard}
+          />
+        </>
+      ) : (
+        <StyledTextAreaButton
+          text="+ Add a card"
+          onClick={handleTextAreaVisible}
+        />
+      )}
     </Root>
   );
 };
@@ -97,4 +108,16 @@ const StyledButtonAddCard = styled(Button)`
   border: 0;
   font-size: 25px;
   padding: 5px;
+`;
+
+const StyledTextAreaButton = styled(Button)`
+  padding: 5px;
+  width: 100%;
+  transition: ease-in 0.3s;
+  border: 1px solid var(--transparent);
+  text-align: start;
+  &:hover {
+    filter: drop-shadow(0px 0px 2px var(--shadow));
+    border: 1px solid var(--shadow);
+  }
 `;

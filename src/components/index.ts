@@ -3,4 +3,4 @@ export { Column } from "./Column";
 export { Columns } from "./Columns";
 export { Header } from "./Header";
 export { ModalLogin } from "./ModalLogin";
-export { NewCardCreator } from "./NewCardCreator";
+export { NewCardForm } from "./NewCardForm";
