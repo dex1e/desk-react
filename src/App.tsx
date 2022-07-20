@@ -29,6 +29,12 @@ function App() {
     setCards(newCards);
   };
 
+  const handleDeleteCard = (cardId: string) => {
+    let newCards = { ...cards };
+    delete newCards[cardId];
+    setCards(newCards);
+  };
+
   const handleLoginSubmit = (name: string) => {
     setUsername(name);
   };
@@ -42,6 +48,7 @@ function App() {
             username={username}
             cards={cards}
             onAddCard={handleAddCard}
+            handleDeleteCard={handleDeleteCard}
           />
         </Board>
       ) : (

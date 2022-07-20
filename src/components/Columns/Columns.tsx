@@ -10,9 +10,15 @@ interface ColumnsProps {
   username: string;
   cards: Record<string, ICard>;
   onAddCard: (cardName: string, columnId: string) => void;
+  handleDeleteCard: (cardId: string) => void;
 }
 
-export const Columns: FC<ColumnsProps> = ({ username, cards, onAddCard }) => {
+export const Columns: FC<ColumnsProps> = ({
+  username,
+  cards,
+  onAddCard,
+  handleDeleteCard,
+}) => {
   const columnsArray = Object.values(columns);
 
   return (
@@ -26,6 +32,7 @@ export const Columns: FC<ColumnsProps> = ({ username, cards, onAddCard }) => {
             columnTitle={column.title}
             cards={cards}
             onAddCard={onAddCard}
+            handleDeleteCard={handleDeleteCard}
           />
         );
       })}

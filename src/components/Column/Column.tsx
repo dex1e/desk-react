@@ -1,9 +1,9 @@
 import React, { FC, useState } from "react";
 
 import { NewCardForm } from "components";
-import { Button } from "components/ui/Button";
-import { ButtonRenameCardTitle } from "components/ui/imageComponents/Pencil";
-import { TrashCan } from "components/ui/imageComponents/TrashCan";
+import { PencilIcon, TrashCanIcon } from "components/icons";
+import { ButtonDeleteCardTitle } from "components/ui/ButtonDeleteCardTitle";
+import { ButtonRenameCardTitle } from "components/ui/ButtonRenameCardTitle";
 import styled from "styled-components";
 import { ICard } from "types";
 
@@ -11,16 +11,18 @@ interface ColumnProps {
   username: string;
   columnTitle: string;
   cards: Record<string, ICard>;
-  onAddCard: (cardName: string, columnId: string) => void;
   idColumn: string;
+  onAddCard: (cardName: string, columnId: string) => void;
+  handleDeleteCard: (cardId: string) => void;
 }
 
 export const Column: FC<ColumnProps> = ({
   username,
   cards,
   columnTitle,
-  onAddCard,
   idColumn,
+  onAddCard,
+  handleDeleteCard,
 }) => {
   const [title, setTitle] = useState(columnTitle);
   // const [cardTitle, setCardTitle] = useState("");
@@ -29,7 +31,9 @@ export const Column: FC<ColumnProps> = ({
 
   const handleEnterRenameTitle = (event: React.KeyboardEvent) => {
     if (event.code === "Enter") {
-      setTitle(columnTitle);
+      setTitle(title);
+      console.log(event.code);
+      console.log(title);
     }
   };
 
@@ -67,16 +71,19 @@ export const Column: FC<ColumnProps> = ({
 
       {filtredCards.map((card) => {
         return (
-          <AddedCards>
-            <CardTitle key={card.id}>{card.title}</CardTitle>
-            <Buttons>
-              <ButtonRenameCardTitle />
-              <TrashCan />
-            </Buttons>
+          <AddedCards key={card.id}>
+            <CardTitle>{card.title}</CardTitle>
+            <ButtonsWrapper>
+              <ButtonRenameCardTitle Icon={PencilIcon} />
+              <ButtonDeleteCardTitle
+                Icon={TrashCanIcon}
+                handleDeleteCard={handleDeleteCard}
+                cardId={card.id}
+              />
+            </ButtonsWrapper>
           </AddedCards>
         );
       })}
-
       <NewCardForm idColumn={idColumn} onAddCard={onAddCard} />
     </Root>
   );
@@ -147,10 +154,10 @@ const CardTitle = styled.div`
     cursor: pointer;
   }
 `;
-const Buttons = styled.div`
+const ButtonsWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 7px;
   font-size: 12px;
 `;
 
@@ -159,8 +166,11 @@ const Buttons = styled.div`
 //   height: 20px;
 //   margin-left: 7px; */
 // `;
-const ButtonDeleteCardTitle = styled(Button)`
-  width: 20px;
-  height: 20px;
-  /* padding: 5px; */
-`;
+// const ButtonDeleteCardTitle = styled(Button)`
+//   svg {
+//     width: ;
+//   }
+//   width: 20px;
+//   height: 20px;
+//   /* padding: 5px; */
+// `;

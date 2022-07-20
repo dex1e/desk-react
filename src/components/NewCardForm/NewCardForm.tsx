@@ -61,6 +61,7 @@ export const NewCardForm: FC<NewCardFormProps> = ({ idColumn, onAddCard }) => {
             value={cardTitle}
             onChange={handleTextAreaChange}
             onKeyDown={handleEnterTextAreaRenameTitle}
+            // disabled={isCardTitleValid}
           />
           <StyledButtonAddCard
             disabled={isCardTitleValid}

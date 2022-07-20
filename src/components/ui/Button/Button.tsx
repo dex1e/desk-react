@@ -6,24 +6,18 @@ interface ButtonProps {
   className?: string;
   onClick?: () => void;
   text?: string;
-  isBig?: boolean;
   disabled?: boolean;
 }
 
-export const Button: FC<ButtonProps> = ({
-  onClick,
-  text,
-  className,
-  isBig,
-}) => {
+export const Button: FC<ButtonProps> = ({ onClick, text, className }) => {
   return (
-    <Root onClick={onClick} className={className} $isBig={isBig}>
+    <Root onClick={onClick} className={className}>
       {text}
     </Root>
   );
 };
 
-const Root = styled.button<{ $isBig?: boolean }>`
+const Root = styled.button`
   width: 80px;
   height: 50px;
   border-radius: 7px;
