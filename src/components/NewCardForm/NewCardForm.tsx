@@ -10,7 +10,6 @@ interface NewCardFormProps {
 
 export const NewCardForm: FC<NewCardFormProps> = ({ idColumn, onAddCard }) => {
   const [cardTitle, setCardTitle] = useState("");
-  const [isCardTitleValid, setIsCardTitleValid] = useState(false);
   const [isTextAreaVisible, setTextAreaVisible] = useState(false);
 
   const handleOnBlurArea = (cardTitle: string) => {
@@ -29,21 +28,21 @@ export const NewCardForm: FC<NewCardFormProps> = ({ idColumn, onAddCard }) => {
   const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     let textArea = e.target.value;
     setCardTitle(textArea);
-    setIsCardTitleValid(false);
   };
 
   const handleAddCard = () => {
-    if (!cardTitle) {
-      setIsCardTitleValid(true);
-    } else {
-      onAddCard(cardTitle, idColumn);
+    if (cardTitle.trim()) {
+      onAddCard(cardTitle.trim(), idColumn);
       setCardTitle("");
     }
+    setTextAreaVisible(false);
   };
 
   const handleEnterTextAreaRenameTitle = (event: React.KeyboardEvent) => {
     if (event.code === "Enter") {
+      event.preventDefault();
       handleAddCard();
+      setTextAreaVisible(false);
     }
   };
 
@@ -61,11 +60,10 @@ export const NewCardForm: FC<NewCardFormProps> = ({ idColumn, onAddCard }) => {
             value={cardTitle}
             onChange={handleTextAreaChange}
             onKeyDown={handleEnterTextAreaRenameTitle}
-            // disabled={isCardTitleValid}
           />
           <StyledButtonAddCard
-            disabled={isCardTitleValid}
-            text="+"
+            disabled={Boolean(cardTitle)}
+            text="Add card"
             onClick={handleAddCard}
           />
         </>
@@ -111,11 +109,22 @@ const TextArea = styled.textarea`
 `;
 
 const StyledButtonAddCard = styled(Button)`
-  width: fit-content;
-  height: fit-content;
-  border: 0;
-  font-size: 25px;
+  width: 100%;
+  height: 100%;
+  border-radius: 7px;
+  font-size: 18px;
   padding: 5px;
+  background-color: var(--royalblue);
+  color: var(--white);
+
+  &:hover {
+    background-color: var(--darkblue);
+  }
+
+  &:focus {
+    box-shadow: none;
+    outline: 1px solid var(--black);
+  }
 `;
 
 const StyledTextAreaButton = styled(Button)`
@@ -124,6 +133,7 @@ const StyledTextAreaButton = styled(Button)`
   transition: ease-in 0.3s;
   border: 1px solid var(--transparent);
   text-align: start;
+
   &:hover {
     filter: drop-shadow(0px 0px 2px var(--shadow));
     border: 1px solid var(--shadow);

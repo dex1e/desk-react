@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 
 import styled from "styled-components";
 import { ICard } from "types";
@@ -11,6 +11,7 @@ interface ColumnsProps {
   cards: Record<string, ICard>;
   onAddCard: (cardName: string, columnId: string) => void;
   handleDeleteCard: (cardId: string) => void;
+  handleRenameCard: (cardId: string, newTitle: string) => void;
 }
 
 export const Columns: FC<ColumnsProps> = ({
@@ -18,7 +19,15 @@ export const Columns: FC<ColumnsProps> = ({
   cards,
   onAddCard,
   handleDeleteCard,
+  handleRenameCard,
 }) => {
+  // const [idTextAreaVisible, setIdTextAreaVisible] = useState({
+  //   a1: false,
+  //   a2: false,
+  //   a3: false,
+  //   a4: false,
+  // });
+
   const columnsArray = Object.values(columns);
 
   return (
@@ -33,6 +42,9 @@ export const Columns: FC<ColumnsProps> = ({
             cards={cards}
             onAddCard={onAddCard}
             handleDeleteCard={handleDeleteCard}
+            handleRenameCard={handleRenameCard}
+            // idTextAreaVisible={idTextAreaVisible}
+            // setIdTextAreaVisible={setIdTextAreaVisible}
           />
         );
       })}

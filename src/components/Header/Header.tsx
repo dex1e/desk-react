@@ -11,7 +11,7 @@ export const Header: FC<HeaderProps> = ({ username }) => {
 };
 
 const Root = styled.header`
-  min-width: 100vw;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,6 +19,6 @@ const Root = styled.header`
   padding: 15px;
   cursor: default;
   filter: drop-shadow(0px 0px 10px var(--shadow));
-  position: fixed;
+  position: absolute;
   top: 0;
 `;

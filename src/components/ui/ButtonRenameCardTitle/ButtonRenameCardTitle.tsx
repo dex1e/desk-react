@@ -4,19 +4,22 @@ import styled from "styled-components";
 
 interface ButtonRenameCardTitleProps {
   Icon: React.FunctionComponent;
-  // handleTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  cardTitle: any;
+  cardId: string;
+  handleCardTitleChange: () => void;
+  // handleRenameCard: (cardId: string, cardTitle: string) => void;
 }
 
 export const ButtonRenameCardTitle: FC<ButtonRenameCardTitleProps> = ({
   Icon,
-  // handleTitleChange,
+  cardTitle,
+  cardId,
+  handleCardTitleChange,
 }) => {
   return (
-    <>
-      <Root onClick={() => console.log("Hello")}>
-        <Icon />
-      </Root>
-    </>
+    <Root onClick={handleCardTitleChange}>
+      <Icon />
+    </Root>
   );
 };
 
