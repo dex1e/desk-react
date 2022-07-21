@@ -1,6 +1,5 @@
 import { FC, useState } from "react";
 
-import { CardModal } from "components";
 import { PencilIcon, TrashCanIcon } from "components/icons";
 import { ButtonIcon } from "components/ui/ButtonIcon";
 import styled from "styled-components";
@@ -73,8 +72,13 @@ export const CardItem: FC<CardProps> = ({
         </CardTitle>
       )}
       <ButtonsWrapper>
-        <ButtonIcon Icon={PencilIcon} onClick={handleCardTitleClick} />
-        <ButtonIcon Icon={TrashCanIcon} onClick={deleteCard} />
+        <ButtonIcon
+          Icon={PencilIcon}
+          onClick={handleCardTitleClick}
+          isMarginLeft
+          isHoverFocus
+        />
+        <ButtonIcon Icon={TrashCanIcon} onClick={deleteCard} isHoverFocus />
       </ButtonsWrapper>
     </Root>
   );
@@ -139,6 +143,6 @@ const CardTitle = styled.button`
 const ButtonsWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
   font-size: 12px;
 `;

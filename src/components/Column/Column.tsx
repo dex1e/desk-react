@@ -14,7 +14,6 @@ interface ColumnProps {
   onAddCard: (cardName: string, columnId: string) => void;
   handleDeleteCard: (cardId: string) => void;
   handleRenameCard: (cardId: string, newTitle: string) => void;
-  // setIdTextAreaVisible: IIdTextAreaVisible[] => void;
   setSelectedCard: (card: ICard) => void;
 }
 
@@ -90,7 +89,6 @@ export const Column: FC<ColumnProps> = ({
         onAddCard={onAddCard}
         visibleTextAreaId={visibleTextAreaId}
         setVisibleTextAreaId={setVisibleTextAreaId}
-        // closeTextArea={closeTextArea}
       />
     </Root>
   );

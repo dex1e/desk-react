@@ -1,38 +1,86 @@
 import { FC } from "react";
 
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 interface ButtonIconProps {
   className?: string;
   onClick?: () => void;
   Icon: React.FunctionComponent;
+  isHoverFocus?: boolean;
+  isMarginLeft?: boolean;
+  closeModal?: boolean;
 }
 
 export const ButtonIcon: FC<ButtonIconProps> = ({
   className,
   onClick,
   Icon,
+  isHoverFocus,
+  isMarginLeft,
+  closeModal,
 }) => {
   return (
-    <Root onClick={onClick} className={className}>
+    <Root
+      onClick={onClick}
+      className={className}
+      $isHoverFocus={isHoverFocus}
+      $isMarginLeft={isMarginLeft}
+      $closeModal={closeModal}
+    >
       <Icon />
     </Root>
   );
 };
 
-const Root = styled.button`
+const Root = styled.button<{
+  $isHoverFocus?: boolean;
+  $isMarginLeft?: boolean;
+  $closeModal?: boolean;
+}>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 25px;
   height: 25px;
-  text-align: center;
   border-radius: 20px;
 
-  &:hover {
-    cursor: pointer;
-    background-color: var(--lightskyblue);
-  }
+  ${({ $isMarginLeft }) =>
+    $isMarginLeft &&
+    css`
+      margin-left: 7px;
+    `}
 
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--lightskyblue);
-  }
+  ${({ $isHoverFocus }) =>
+    $isHoverFocus &&
+    css`
+      &:hover {
+        cursor: pointer;
+        background-color: var(--lightskyblue);
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px var(--lightskyblue);
+      }
+    `}
+
+    ${({ $closeModal }) =>
+    $closeModal &&
+    css`
+      width: 26px;
+      height: 26px;
+      cursor: pointer;
+      margin: 7px;
+      position: absolute;
+      top: 0;
+      right: 0;
+
+      &:hover {
+        background-color: var(--lightgray);
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 2px var(--focusColcor);
+      }
+    `}
 `;
