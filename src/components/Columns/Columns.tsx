@@ -12,6 +12,7 @@ interface ColumnsProps {
   onAddCard: (cardName: string, columnId: string) => void;
   handleDeleteCard: (cardId: string) => void;
   handleRenameCard: (cardId: string, newTitle: string) => void;
+  setSelectedCard: (card: ICard) => void;
 }
 
 export const Columns: FC<ColumnsProps> = ({
@@ -20,6 +21,7 @@ export const Columns: FC<ColumnsProps> = ({
   onAddCard,
   handleDeleteCard,
   handleRenameCard,
+  setSelectedCard,
 }) => {
   // const [idTextAreaVisible, setIdTextAreaVisible] = useState({
   //   a1: false,
@@ -43,6 +45,7 @@ export const Columns: FC<ColumnsProps> = ({
             onAddCard={onAddCard}
             handleDeleteCard={handleDeleteCard}
             handleRenameCard={handleRenameCard}
+            setSelectedCard={setSelectedCard}
             // idTextAreaVisible={idTextAreaVisible}
             // setIdTextAreaVisible={setIdTextAreaVisible}
           />

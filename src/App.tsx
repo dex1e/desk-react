@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Columns } from "components";
+import { CardModal, Columns } from "components";
 import { Header } from "components";
 import { ModalLogin } from "components";
 import styled from "styled-components";
@@ -11,6 +11,7 @@ import { v4 as uuidv4 } from "uuid";
 function App() {
   const [username, setUsername] = useState(defaultUsername.username);
   const [cards, setCards] = useState(defaultCards);
+  const [selectedCard, setSelectedCard] = useState<null | ICard>(null);
 
   const newCards = {
     ...cards,
@@ -59,11 +60,13 @@ function App() {
             onAddCard={handleAddCard}
             handleDeleteCard={handleDeleteCard}
             handleRenameCard={handleRenameCard}
+            setSelectedCard={setSelectedCard}
           />
         </Board>
       ) : (
         <ModalLogin onSubmit={handleLoginSubmit} />
       )}
+      {selectedCard && <CardModal card={selectedCard} />}
     </Root>
   );
 }

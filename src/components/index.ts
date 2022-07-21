@@ -1,4 +1,4 @@
-export { Card } from "./Card";
+export { CardItem } from "./CardItem";
 export { CardModal } from "./CardModal";
 export { Column } from "./Column";
 export { Columns } from "./Columns";

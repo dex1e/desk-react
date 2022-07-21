@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 
-import { Card, NewCardForm } from "components";
+import { CardItem, NewCardForm } from "components";
 import styled from "styled-components";
 import { ICard } from "types";
 
@@ -13,6 +13,7 @@ interface ColumnProps {
   handleDeleteCard: (cardId: string) => void;
   handleRenameCard: (cardId: string, newTitle: string) => void;
   // setIdTextAreaVisible: IIdTextAreaVisible[] => void;
+  setSelectedCard: (card: ICard) => void;
 }
 
 export const Column: FC<ColumnProps> = ({
@@ -23,6 +24,7 @@ export const Column: FC<ColumnProps> = ({
   onAddCard,
   handleDeleteCard,
   handleRenameCard,
+  setSelectedCard,
   // setIdTextAreaVisible,
 }) => {
   const [title, setTitle] = useState(columnTitle);
@@ -70,11 +72,12 @@ export const Column: FC<ColumnProps> = ({
       />
       {filtredCards.map((card) => {
         return (
-          <Card
+          <CardItem
             key={card.id}
             card={card}
             handleRenameCard={handleRenameCard}
             handleDeleteCard={handleDeleteCard}
+            setSelectedCard={setSelectedCard}
           />
         );
       })}

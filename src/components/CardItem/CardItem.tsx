@@ -1,5 +1,6 @@
 import { FC, useState } from "react";
 
+import { CardModal } from "components";
 import { PencilIcon, TrashCanIcon } from "components/icons";
 import { ButtonDeleteCardTitle } from "components/ui/ButtonDeleteCardTitle";
 import { ButtonRenameCardTitle } from "components/ui/ButtonRenameCardTitle";
@@ -10,15 +11,18 @@ interface CardProps {
   card: ICard;
   handleRenameCard: (cardId: string, newTitle: string) => void;
   handleDeleteCard: (cardId: string) => void;
+  setSelectedCard: (card: ICard) => void;
 }
 
-export const Card: FC<CardProps> = ({
+export const CardItem: FC<CardProps> = ({
   card,
   handleRenameCard,
   handleDeleteCard,
+  setSelectedCard,
 }) => {
   const [isButtonRenameActive, setIsButtonRenameActive] = useState(false);
   const [newTitle, setNewTitle] = useState(card.title);
+  const [isCardVisible, setCardVisible] = useState(true);
 
   const handleCardTitleClick = () => {
     setIsButtonRenameActive(true);
@@ -61,7 +65,9 @@ export const Card: FC<CardProps> = ({
           onKeyDown={handleEnterCardTitle}
         />
       ) : (
-        <CardTitle>{card.title}</CardTitle>
+        <CardTitle onClick={() => setSelectedCard(card)}>
+          {card.title}
+        </CardTitle>
       )}
       <ButtonsWrapper>
         <ButtonRenameCardTitle
@@ -77,6 +83,7 @@ export const Card: FC<CardProps> = ({
     </Root>
   );
 };
+
 const Root = styled.div`
   display: flex;
   align-items: center;
