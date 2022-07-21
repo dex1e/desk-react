@@ -8,7 +8,7 @@ import { ICard } from "types";
 
 interface CardProps {
   card: ICard;
-  handleRenameCard: (cardId: string, newTitle: string) => void;
+  handleRenameCard: (cardId: string, title: string) => void;
   handleDeleteCard: (cardId: string) => void;
 }
 
@@ -17,45 +17,48 @@ export const CardItem: FC<CardProps> = ({
   handleRenameCard,
   handleDeleteCard,
 }) => {
-  const [isButtonRenameActive, setIsButtonRenameActive] = useState(false);
-  const [newTitle, setNewTitle] = useState(card.title);
+  const [isRenameActive, setIsRenameActive] = useState(false);
+  const [title, setTitle] = useState(card.title);
 
   const handleCardTitleClick = () => {
-    setIsButtonRenameActive(true);
+    setIsRenameActive(true);
   };
 
-  const handleCardTitleChange = (e: any) => {
-    const textAreaValue = e.target.value;
-    setNewTitle(textAreaValue);
+  const handleCardTitleChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const title = event.target.value;
+    setTitle(title);
   };
 
   const changeCardTitle = () => {
-    const trimmedTitle = newTitle.trim();
+    const trimmedTitle = title.trim();
 
     if (trimmedTitle) {
       handleRenameCard(card.id, trimmedTitle);
-      setNewTitle(trimmedTitle);
+      setTitle(trimmedTitle);
     } else {
-      handleRenameCard(card.id, card.title);
-      setNewTitle(card.title);
+      setTitle(card.title);
     }
-    setIsButtonRenameActive(false);
+    setIsRenameActive(false);
   };
 
-  const handleEnterCardTitle = (event: any) => {
+  const handleEnterCardTitle = (
+    event: React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
     if (event.code === "Enter") {
       event.preventDefault();
       changeCardTitle();
       event.target.blur();
-      setIsButtonRenameActive(false);
+      setIsRenameActive(false);
     }
   };
 
   return (
     <Root key={card.id}>
-      {isButtonRenameActive ? (
+      {isRenameActive ? (
         <CardTitleTextArea
-          value={newTitle}
+          value={title}
           onChange={handleCardTitleChange}
           onBlur={changeCardTitle}
           onKeyDown={handleEnterCardTitle}

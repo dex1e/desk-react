@@ -2,6 +2,8 @@ import { FC } from "react";
 
 import styled from "styled-components";
 
+import { ButtonIcon } from "../ButtonIcon";
+
 interface ButtonRenameCardTitleProps {
   Icon: React.FunctionComponent;
   handleCardTitleClick: () => void;
@@ -18,25 +20,8 @@ export const ButtonRenameCardTitle: FC<ButtonRenameCardTitleProps> = ({
   );
 };
 
-const Root = styled.button`
+const Root = styled(ButtonIcon)`
   width: 26px;
   height: 26px;
   margin-left: 7px;
-  text-align: center;
-  border-radius: 20px;
-
-  &:hover {
-    cursor: pointer;
-    background-color: var(--lightskyblue);
-  }
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--lightskyblue);
-  }
-
-  &:disabled {
-    color: var(--gray);
-    cursor: not-allowed;
-  }
 `;

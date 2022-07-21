@@ -12,12 +12,12 @@ function App() {
   const [username, setUsername] = useState(defaultUsername.username);
   const [cards, setCards] = useState(defaultCards);
 
-  const newCards = {
-    ...cards,
-  };
-
   const handleAddCard = (cardName: string, columnId: string) => {
     const cardId = uuidv4();
+
+    let newCards = {
+      ...cards,
+    };
 
     const newCard: ICard = {
       columnId,
@@ -31,15 +31,19 @@ function App() {
   };
 
   const handleRenameCard = (cardId: string, newTitle: string) => {
-    let newCardsTitle = {
+    let newCards = {
       ...cards,
     };
 
-    newCardsTitle[cardId].title = newTitle;
-    setCards(newCardsTitle);
+    newCards[cardId].title = newTitle;
+    setCards(newCards);
   };
 
   const handleDeleteCard = (cardId: string) => {
+    let newCards = {
+      ...cards,
+    };
+
     delete newCards[cardId];
     setCards(newCards);
   };
