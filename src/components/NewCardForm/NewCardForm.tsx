@@ -38,7 +38,7 @@ export const NewCardForm: FC<NewCardFormProps> = ({ idColumn, onAddCard }) => {
     setTextAreaVisible(false);
   };
 
-  const handleEnterTextAreaRenameTitle = (event: React.KeyboardEvent) => {
+  const handleEnterRenameCardTitle = (event: React.KeyboardEvent) => {
     if (event.code === "Enter") {
       event.preventDefault();
       handleAddCard();
@@ -59,7 +59,7 @@ export const NewCardForm: FC<NewCardFormProps> = ({ idColumn, onAddCard }) => {
             placeholder="Add card"
             value={cardTitle}
             onChange={handleTextAreaChange}
-            onKeyDown={handleEnterTextAreaRenameTitle}
+            onKeyDown={handleEnterRenameCardTitle}
           />
           <StyledButtonAddCard
             disabled={Boolean(cardTitle)}

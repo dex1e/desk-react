@@ -16,9 +16,9 @@ export interface IComment {
   text: string;
 }
 
-export interface IIdTextAreaVisible {
-  a1: boolean;
-  a2: boolean;
-  a3: boolean;
-  a4: boolean;
-}
+// export interface IIdTextAreaVisible {
+//   a1: boolean;
+//   a2: boolean;
+//   a3: boolean;
+//   a4: boolean;
+// }

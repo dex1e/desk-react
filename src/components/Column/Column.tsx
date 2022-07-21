@@ -1,9 +1,8 @@
 import React, { FC, useState } from "react";
 
-import { NewCardForm } from "components";
-import { Card } from "components/CardRename/Card";
+import { Card, NewCardForm } from "components";
 import styled from "styled-components";
-import { ICard, IIdTextAreaVisible } from "types";
+import { ICard } from "types";
 
 interface ColumnProps {
   username: string;

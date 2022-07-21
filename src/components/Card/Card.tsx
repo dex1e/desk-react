@@ -66,9 +66,7 @@ export const Card: FC<CardProps> = ({
       <ButtonsWrapper>
         <ButtonRenameCardTitle
           Icon={PencilIcon}
-          handleCardTitleChange={handleCardTitleClick}
-          cardTitle={card.title}
-          cardId={card.id}
+          handleCardTitleClick={handleCardTitleClick}
         />
         <ButtonDeleteCardTitle
           Icon={TrashCanIcon}

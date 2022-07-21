@@ -4,20 +4,15 @@ import styled from "styled-components";
 
 interface ButtonRenameCardTitleProps {
   Icon: React.FunctionComponent;
-  cardTitle: any;
-  cardId: string;
-  handleCardTitleChange: () => void;
-  // handleRenameCard: (cardId: string, cardTitle: string) => void;
+  handleCardTitleClick: () => void;
 }
 
 export const ButtonRenameCardTitle: FC<ButtonRenameCardTitleProps> = ({
   Icon,
-  cardTitle,
-  cardId,
-  handleCardTitleChange,
+  handleCardTitleClick,
 }) => {
   return (
-    <Root onClick={handleCardTitleChange}>
+    <Root onClick={handleCardTitleClick}>
       <Icon />
     </Root>
   );
