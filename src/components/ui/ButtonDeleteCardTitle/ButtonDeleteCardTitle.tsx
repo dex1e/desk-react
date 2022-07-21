@@ -8,17 +8,20 @@ interface ButtonDeleteCardTitleProps {
   Icon: React.FunctionComponent;
   handleDeleteCard: (cardId: string) => void;
   cardId: string;
+  deleteCard: () => void;
 }
 
 export const ButtonDeleteCardTitle: FC<ButtonDeleteCardTitleProps> = ({
   Icon,
   handleDeleteCard,
   cardId,
+  deleteCard,
 }) => {
   return (
-    <Root onClick={() => handleDeleteCard(cardId)}>
-      <Icon />
-    </Root>
+    <div></div>
+    // <Root onClick={deleteCard}>
+    //   <Icon />
+    // </Root>
   );
 };
 

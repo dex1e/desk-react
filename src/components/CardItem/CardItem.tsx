@@ -1,8 +1,7 @@
 import { FC, useState } from "react";
 
 import { PencilIcon, TrashCanIcon } from "components/icons";
-import { ButtonDeleteCardTitle } from "components/ui/ButtonDeleteCardTitle";
-import { ButtonRenameCardTitle } from "components/ui/ButtonRenameCardTitle";
+import { ButtonIcon } from "components/ui/ButtonIcon";
 import styled from "styled-components";
 import { ICard } from "types";
 
@@ -54,6 +53,8 @@ export const CardItem: FC<CardProps> = ({
     }
   };
 
+  const deleteCard = () => handleDeleteCard(card.id);
+
   return (
     <Root key={card.id}>
       {isRenameActive ? (
@@ -67,15 +68,8 @@ export const CardItem: FC<CardProps> = ({
         <CardTitle>{card.title}</CardTitle>
       )}
       <ButtonsWrapper>
-        <ButtonRenameCardTitle
-          Icon={PencilIcon}
-          handleCardTitleClick={handleCardTitleClick}
-        />
-        <ButtonDeleteCardTitle
-          Icon={TrashCanIcon}
-          handleDeleteCard={handleDeleteCard}
-          cardId={card.id}
-        />
+        <ButtonIcon Icon={PencilIcon} onClick={handleCardTitleClick} />
+        <ButtonIcon Icon={TrashCanIcon} onClick={deleteCard} />
       </ButtonsWrapper>
     </Root>
   );

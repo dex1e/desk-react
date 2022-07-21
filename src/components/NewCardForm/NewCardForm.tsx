@@ -6,20 +6,22 @@ import styled from "styled-components";
 interface NewCardFormProps {
   idColumn: string;
   onAddCard: (cardName: string, columnId: string) => void;
+  visibleTextAreaId: string;
+  setVisibleTextAreaId: (idColumn: string) => void;
 }
 
-export const NewCardForm: FC<NewCardFormProps> = ({ idColumn, onAddCard }) => {
+export const NewCardForm: FC<NewCardFormProps> = ({
+  idColumn,
+  onAddCard,
+  visibleTextAreaId,
+  setVisibleTextAreaId,
+}) => {
   const [cardTitle, setCardTitle] = useState("");
-  const [isTextAreaVisible, setTextAreaVisible] = useState(false);
-
-  const handleOnBlurArea = (cardTitle: string) => {
-    setCardTitle(cardTitle);
-  };
 
   const handleTextAreaBlur = () => {
     const trimmedTextArea = cardTitle.trim();
     if (trimmedTextArea) {
-      handleOnBlurArea(trimmedTextArea);
+      setCardTitle(trimmedTextArea);
     } else {
       setCardTitle("");
     }
@@ -37,24 +39,24 @@ export const NewCardForm: FC<NewCardFormProps> = ({ idColumn, onAddCard }) => {
       onAddCard(cardTitle.trim(), idColumn);
       setCardTitle("");
     }
-    setTextAreaVisible(false);
+    setVisibleTextAreaId("");
   };
 
   const handleEnterRenameCardTitle = (event: React.KeyboardEvent) => {
     if (event.code === "Enter") {
       event.preventDefault();
       handleAddCard();
-      setTextAreaVisible(false);
+      setVisibleTextAreaId("");
     }
   };
 
   const handleTextAreaVisible = () => {
-    setTextAreaVisible(true);
+    setVisibleTextAreaId(idColumn);
   };
 
   return (
     <Root>
-      {isTextAreaVisible ? (
+      {visibleTextAreaId === idColumn ? (
         <>
           <TextArea
             onBlur={handleTextAreaBlur}
