@@ -86,7 +86,6 @@ export const Column: FC<ColumnProps> = ({
         onAddCard={onAddCard}
         visibleTextAreaId={visibleTextAreaId}
         setVisibleTextAreaId={setVisibleTextAreaId}
-        // closeTextArea={closeTextArea}
       />
     </Root>
   );
