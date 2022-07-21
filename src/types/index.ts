@@ -15,10 +15,3 @@ export interface IComment {
   author: string;
   text: string;
 }
-
-// export interface IIdTextAreaVisible {
-//   a1: boolean;
-//   a2: boolean;
-//   a3: boolean;
-//   a4: boolean;
-// }

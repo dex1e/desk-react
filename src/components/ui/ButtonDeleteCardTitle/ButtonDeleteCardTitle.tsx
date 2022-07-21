@@ -2,6 +2,8 @@ import { FC } from "react";
 
 import styled from "styled-components";
 
+import { ButtonIcon } from "../ButtonIcon";
+
 interface ButtonDeleteCardTitleProps {
   Icon: React.FunctionComponent;
   handleDeleteCard: (cardId: string) => void;
@@ -20,19 +22,7 @@ export const ButtonDeleteCardTitle: FC<ButtonDeleteCardTitleProps> = ({
   );
 };
 
-const Root = styled.button`
+const Root = styled(ButtonIcon)`
   width: 25px;
   height: 21px;
-  text-align: center;
-  border-radius: 20px;
-
-  &:hover {
-    cursor: pointer;
-    background-color: var(--lightskyblue);
-  }
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--lightskyblue);
-  }
 `;

@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 
 import styled from "styled-components";
 import { ICard } from "types";
@@ -23,13 +23,6 @@ export const Columns: FC<ColumnsProps> = ({
   handleRenameCard,
   setSelectedCard,
 }) => {
-  // const [idTextAreaVisible, setIdTextAreaVisible] = useState({
-  //   a1: false,
-  //   a2: false,
-  //   a3: false,
-  //   a4: false,
-  // });
-
   const columnsArray = Object.values(columns);
 
   return (

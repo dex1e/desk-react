@@ -33,13 +33,14 @@ export const Column: FC<ColumnProps> = ({
 
   const filtredCards = cardsArray.filter((card) => card.columnId === idColumn);
 
-  const handleEnterRenameTitle = (event: any) => {
-    if (event.code === "Enter" && title) {
-      setTitle(title);
-      event.target.blur();
-    }
-    if (event.code === "Enter" && !title) {
-      setTitle(columnTitle);
+  const handleEnterRenameTitle = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event.code === "Enter") {
+      if (title) {
+        setTitle(title);
+        event.target.blur();
+      } else setTitle(columnTitle);
     }
   };
 
