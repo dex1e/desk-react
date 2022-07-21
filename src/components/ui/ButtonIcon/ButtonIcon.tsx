@@ -5,22 +5,24 @@ import styled from "styled-components";
 interface ButtonIconProps {
   className?: string;
   onClick?: () => void;
-  children?: React.ReactNode;
+  Icon: React.FunctionComponent;
 }
 
 export const ButtonIcon: FC<ButtonIconProps> = ({
   className,
   onClick,
-  children,
+  Icon,
 }) => {
   return (
-    <Root onClick={onClick} className={className} children={children}></Root>
+    <Root onClick={onClick} className={className}>
+      <Icon />
+    </Root>
   );
 };
 
 const Root = styled.button`
   width: 25px;
-  height: 26px;
+  height: 25px;
   text-align: center;
   border-radius: 20px;
 

@@ -14,9 +14,10 @@ export const ButtonRenameCardTitle: FC<ButtonRenameCardTitleProps> = ({
   handleCardTitleClick,
 }) => {
   return (
-    <Root onClick={handleCardTitleClick}>
-      <Icon />
-    </Root>
+    <div></div>
+    // <Root onClick={handleCardTitleClick}>
+    //   <Icon />
+    // </Root>
   );
 };
 
