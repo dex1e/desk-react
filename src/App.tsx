@@ -5,13 +5,15 @@ import { Header } from "components";
 import { ModalLogin } from "components";
 import styled from "styled-components";
 import { ICard } from "types";
-import { defaultCards, defaultUsername } from "utils/mock";
+import { defaultCards, defaultUsername, defalutColumns } from "utils/mock";
 import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const [username, setUsername] = useState(defaultUsername.username);
   const [cards, setCards] = useState(defaultCards);
-  const [selectedCard, setSelectedCard] = useState<null | ICard>(null);
+  const [selectedCardId, setSelectedCardId] = useState("");
+
+  const columnsArray = Object.values(defalutColumns);
 
   const handleAddCard = (cardName: string, columnId: string) => {
     const cardId = uuidv4();
@@ -53,6 +55,16 @@ function App() {
     setUsername(name);
   };
 
+  const handleCardClick = (cardId: string) => {
+    setSelectedCardId(cardId);
+  };
+
+  const getModalColumnTitle = (cardId: string) => {
+    const columnId = cards[cardId].columnId;
+    const columnTitle = defalutColumns[columnId].title;
+    return columnTitle;
+  };
+
   return (
     <Root>
       {username ? (
@@ -64,13 +76,20 @@ function App() {
             onAddCard={handleAddCard}
             handleDeleteCard={handleDeleteCard}
             handleRenameCard={handleRenameCard}
-            setSelectedCard={setSelectedCard}
+            columnsArray={columnsArray}
+            onCardClick={handleCardClick}
           />
         </Board>
       ) : (
         <ModalLogin onSubmit={handleLoginSubmit} />
       )}
-      {selectedCard && <CardModal card={selectedCard} />}
+      {selectedCardId && (
+        <CardModal
+          columnTitle={getModalColumnTitle(selectedCardId)}
+          card={cards[selectedCardId]}
+          onClose={() => setSelectedCardId("")}
+        />
+      )}
     </Root>
   );
 }

@@ -14,7 +14,7 @@ interface ColumnProps {
   onAddCard: (cardName: string, columnId: string) => void;
   handleDeleteCard: (cardId: string) => void;
   handleRenameCard: (cardId: string, newTitle: string) => void;
-  setSelectedCard: (card: ICard) => void;
+  onCardClick: (cardId: string) => void;
 }
 
 export const Column: FC<ColumnProps> = ({
@@ -25,9 +25,9 @@ export const Column: FC<ColumnProps> = ({
   onAddCard,
   handleDeleteCard,
   handleRenameCard,
-  setSelectedCard,
   id,
   setId,
+  onCardClick,
 }) => {
   const [title, setTitle] = useState(columnTitle);
 
@@ -51,14 +51,10 @@ export const Column: FC<ColumnProps> = ({
     setTitle(inputTitle);
   };
 
-  const handleOnBlurColumnTitle = (columnTitleName: string) => {
-    setTitle(columnTitleName);
-  };
-
   const handleTitleBlur = () => {
     const trimmedTitle = title.trim();
     if (trimmedTitle) {
-      handleOnBlurColumnTitle(trimmedTitle);
+      setTitle(trimmedTitle);
     } else {
       setTitle(columnTitle);
     }
@@ -80,7 +76,7 @@ export const Column: FC<ColumnProps> = ({
             card={card}
             handleRenameCard={handleRenameCard}
             handleDeleteCard={handleDeleteCard}
-            setSelectedCard={setSelectedCard}
+            onCardClick={onCardClick}
           />
         );
       })}

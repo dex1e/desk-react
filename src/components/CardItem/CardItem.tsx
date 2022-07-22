@@ -1,5 +1,6 @@
 import { FC, useState } from "react";
 
+import { CardModal } from "components";
 import { PencilIcon, TrashCanIcon } from "components/icons";
 import { ButtonIcon } from "components/ui/ButtonIcon";
 import styled from "styled-components";
@@ -9,14 +10,14 @@ interface CardProps {
   card: ICard;
   handleRenameCard: (cardId: string, title: string) => void;
   handleDeleteCard: (cardId: string) => void;
-  setSelectedCard: (card: ICard) => void;
+  onCardClick: (cardId: string) => void;
 }
 
 export const CardItem: FC<CardProps> = ({
   card,
   handleRenameCard,
   handleDeleteCard,
-  setSelectedCard,
+  onCardClick,
 }) => {
   const [isRenameActive, setIsRenameActive] = useState(false);
   const [title, setTitle] = useState(card.title);
@@ -58,29 +59,34 @@ export const CardItem: FC<CardProps> = ({
   const deleteCard = () => handleDeleteCard(card.id);
 
   return (
-    <Root key={card.id}>
-      {isRenameActive ? (
-        <CardTitleTextArea
-          value={title}
-          onChange={handleCardTitleChange}
-          onBlur={changeCardTitle}
-          onKeyDown={handleEnterCardTitle}
-        />
-      ) : (
-        <CardTitle onClick={() => setSelectedCard(card)}>
-          {card.title}
-        </CardTitle>
-      )}
-      <ButtonsWrapper>
-        <ButtonIcon
-          Icon={PencilIcon}
-          onClick={handleCardTitleClick}
-          isMarginLeft
-          isHoverFocus
-        />
-        <ButtonIcon Icon={TrashCanIcon} onClick={deleteCard} isHoverFocus />
-      </ButtonsWrapper>
-    </Root>
+    <>
+      <Root key={card.id}>
+        {isRenameActive ? (
+          <CardTitleTextArea
+            value={title}
+            onChange={handleCardTitleChange}
+            onBlur={changeCardTitle}
+            onKeyDown={handleEnterCardTitle}
+          />
+        ) : (
+          <CardTitle onClick={() => onCardClick(card.id)}>
+            {card.title}
+          </CardTitle>
+        )}
+        <ButtonsWrapper>
+          <ButtonIcon
+            Icon={PencilIcon}
+            onClick={handleCardTitleClick}
+            isMarginLeft
+            isHoverFocus
+          />
+          <ButtonIcon Icon={TrashCanIcon} onClick={deleteCard} isHoverFocus />
+        </ButtonsWrapper>
+      </Root>
+      {/* {selectedCard && (
+        <CardModal setSelectedCard={setSelectedCard} card={selectedCard} />
+      )} */}
+    </>
   );
 };
 

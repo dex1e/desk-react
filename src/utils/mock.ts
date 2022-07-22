@@ -4,7 +4,7 @@ export const defaultUsername = {
   username: "",
 };
 
-export const columns: Record<string, IColumns> = {
+export const defalutColumns: Record<string, IColumns> = {
   a1: {
     id: "a1",
     title: "To Do",

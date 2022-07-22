@@ -1,8 +1,7 @@
 import { FC, useState } from "react";
 
 import styled from "styled-components";
-import { ICard } from "types";
-import { columns } from "utils/mock";
+import { ICard, IColumns } from "types";
 
 import { Column } from "..";
 
@@ -12,7 +11,8 @@ interface ColumnsProps {
   onAddCard: (cardName: string, columnId: string) => void;
   handleDeleteCard: (cardId: string) => void;
   handleRenameCard: (cardId: string, newTitle: string) => void;
-  setSelectedCard: (card: ICard) => void;
+  columnsArray: IColumns[];
+  onCardClick: (cardId: string) => void;
 }
 
 export const Columns: FC<ColumnsProps> = ({
@@ -21,11 +21,11 @@ export const Columns: FC<ColumnsProps> = ({
   onAddCard,
   handleDeleteCard,
   handleRenameCard,
-  setSelectedCard,
+  columnsArray,
+  onCardClick,
 }) => {
   const [id, setId] = useState("");
 
-  const columnsArray = Object.values(columns);
   return (
     <Root>
       {columnsArray.map((column) => {
@@ -39,9 +39,9 @@ export const Columns: FC<ColumnsProps> = ({
             onAddCard={onAddCard}
             handleDeleteCard={handleDeleteCard}
             handleRenameCard={handleRenameCard}
-            setSelectedCard={setSelectedCard}
             id={id}
             setId={setId}
+            onCardClick={onCardClick}
           />
         );
       })}

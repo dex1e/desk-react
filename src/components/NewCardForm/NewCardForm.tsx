@@ -30,8 +30,8 @@ export const NewCardForm: FC<NewCardFormProps> = ({
   const handleTextAreaChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    let textArea = event.target.value;
-    setCardTitle(textArea);
+    let cardTitle = event.target.value;
+    setCardTitle(cardTitle);
   };
 
   const handleAddCard = () => {

@@ -1,7 +1,6 @@
 import { FC, useState } from "react";
 
 import { Button } from "components/ui/Button";
-import { Modal } from "components/ui/Modal";
 import styled from "styled-components";
 
 interface ModalLoginProps {
@@ -28,7 +27,7 @@ export const ModalLogin: FC<ModalLoginProps> = ({ onSubmit }) => {
   };
 
   return (
-    <Modal>
+    <Root>
       <ModalWindow>
         Welcome!
         <Label>
@@ -44,9 +43,21 @@ export const ModalLogin: FC<ModalLoginProps> = ({ onSubmit }) => {
         </Label>
         <Button text="OK" disabled={isError} onClick={handleOnClick} />
       </ModalWindow>
-    </Modal>
+    </Root>
   );
 };
+
+const Root = styled.div`
+  width: 100%;
+  height: 100vh;
+  background-color: var(--transparent);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const ModalWindow = styled.div`
   display: flex;

@@ -1,33 +1,72 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 
-import { CloseIcon, PencilIcon, TrashCanIcon } from "components/icons";
+import { CloseIcon } from "components/icons";
 import { ButtonIcon } from "components/ui/ButtonIcon";
-import { Modal } from "components/ui/Modal";
 import styled from "styled-components";
-import { ICard } from "types";
+import { ICard, IColumns } from "types";
 
 interface CardModalProps {
   // username: string;
   // isCardVisible: boolean;
   // setCardVisible: (isCardVisible: boolean) => void;
   // textArea: string;
+  // setSelectedCard: (card: ICard | null) => void;
   card: ICard;
+  columnTitle: string;
+  onClose: () => void;
 }
 export const CardModal: FC<CardModalProps> = ({
   card,
+  columnTitle,
+  onClose,
+  // setSelectedCard,
+  // columnsArray,
   // setCardVisible,
   // username,
   // textArea,
 }) => {
+  const [title, setTitle] = useState(card.title);
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputTitle = e.target.value;
+    setTitle(inputTitle);
+  };
+
+  const handleTitleBlur = () => {
+    const trimmedTitle = title.trim();
+    if (trimmedTitle) {
+      setTitle(trimmedTitle);
+    } else {
+      setTitle(card.title);
+    }
+  };
+
+  const handleEnterRenameTitle = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event.code === "Enter") {
+      if (title) {
+        setTitle(title);
+        event.target.blur();
+      } else setTitle(card.title);
+    }
+  };
+
   return (
-    <Modal>
+    <Root>
       <ModalWrapper>
         <ModalWindow>
-          <ButtonIcon Icon={CloseIcon} closeModal />
+          <ButtonIcon Icon={CloseIcon} closeModal onClick={onClose} />
           <Header>
-            <HeaderTitleInput />
+            <HeaderTitleInput
+              value={title}
+              onChange={handleTitleChange}
+              onBlur={handleTitleBlur}
+              onKeyDown={handleEnterRenameTitle}
+            />
             <HeaderSubtitle>
-              In list <SubtitleColumnTitle>Done</SubtitleColumnTitle>
+              In list
+              <SubtitleColumnTitle>{columnTitle}</SubtitleColumnTitle>
             </HeaderSubtitle>
           </Header>
           <Description>
@@ -48,17 +87,32 @@ export const CardModal: FC<CardModalProps> = ({
           </Activity>
         </ModalWindow>
       </ModalWrapper>
-    </Modal>
+    </Root>
   );
 };
 
-const ModalWrapper = styled.div`
+const Root = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  background-color: var(--transparent);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ModalWrapper = styled.div`
+  width: 100vw;
+  height: 100vh;
   background-color: var(--shadow);
   display: flex;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  top: 0;
+  z-index: 1000;
 `;
 
 const ModalWindow = styled.div`
@@ -91,7 +145,7 @@ const ModalWindow = styled.div`
 
 const Header = styled.header`
   width: 100%;
-  min-height: 30px;
+  min-height: 40px;
   display: flex;
   flex-direction: column;
   gap: 3px;
@@ -101,7 +155,8 @@ const Header = styled.header`
 const HeaderTitleInput = styled.input`
   font-size: 20px;
   width: 93%;
-  min-height: 30px;
+  height: 40px;
+  min-height: 40px;
   font-weight: 600;
   padding: 7px;
   border-radius: 7px;
