@@ -6,15 +6,15 @@ import styled from "styled-components";
 interface NewCardFormProps {
   idColumn: string;
   onAddCard: (cardName: string, columnId: string) => void;
-  id: string;
-  setId: (idColumn: string) => void;
+  columnIdWithNewCardForm: string;
+  onNewCardFormOpen: (id: string) => void;
 }
 
 export const NewCardForm: FC<NewCardFormProps> = ({
   idColumn,
   onAddCard,
-  id,
-  setId,
+  columnIdWithNewCardForm,
+  onNewCardFormOpen,
 }) => {
   const [cardTitle, setCardTitle] = useState("");
 
@@ -39,24 +39,24 @@ export const NewCardForm: FC<NewCardFormProps> = ({
       onAddCard(cardTitle.trim(), idColumn);
       setCardTitle("");
     }
-    setId("");
+    onNewCardFormOpen("");
   };
 
   const handleEnterRenameCardTitle = (event: React.KeyboardEvent) => {
     if (event.code === "Enter") {
       event.preventDefault();
       handleAddCard();
-      setId("");
+      onNewCardFormOpen("");
     }
   };
 
   const handleTextAreaVisible = () => {
-    setId(idColumn);
+    onNewCardFormOpen(idColumn);
   };
 
   return (
     <Root>
-      {id === idColumn ? (
+      {columnIdWithNewCardForm === idColumn ? (
         <>
           <TextArea
             onBlur={handleTextAreaBlur}

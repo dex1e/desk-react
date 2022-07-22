@@ -74,10 +74,10 @@ function App() {
             username={username}
             cards={cards}
             onAddCard={handleAddCard}
-            handleDeleteCard={handleDeleteCard}
-            handleRenameCard={handleRenameCard}
-            columnsArray={columnsArray}
             onCardClick={handleCardClick}
+            onDeleteCard={handleDeleteCard}
+            onRenameCard={handleRenameCard}
+            columnsArray={columnsArray}
           />
         </Board>
       ) : (

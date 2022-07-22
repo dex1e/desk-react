@@ -56,7 +56,7 @@ export const CardModal: FC<CardModalProps> = ({
     <Root>
       <ModalWrapper>
         <ModalWindow>
-          <ButtonIcon Icon={CloseIcon} closeModal onClick={onClose} />
+          <ButtonIcon icon={<CloseIcon />} closeModal onClick={onClose} />
           <Header>
             <HeaderTitleInput
               value={title}

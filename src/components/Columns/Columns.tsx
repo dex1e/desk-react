@@ -9,22 +9,26 @@ interface ColumnsProps {
   username: string;
   cards: Record<string, ICard>;
   onAddCard: (cardName: string, columnId: string) => void;
-  handleDeleteCard: (cardId: string) => void;
-  handleRenameCard: (cardId: string, newTitle: string) => void;
-  columnsArray: IColumns[];
   onCardClick: (cardId: string) => void;
+  columnsArray: IColumns[];
+  onDeleteCard: (cardId: string) => void;
+  onRenameCard: (cardId: string, newTitle: string) => void;
 }
 
 export const Columns: FC<ColumnsProps> = ({
   username,
   cards,
   onAddCard,
-  handleDeleteCard,
-  handleRenameCard,
+  onDeleteCard,
+  onRenameCard,
   columnsArray,
   onCardClick,
 }) => {
-  const [id, setId] = useState("");
+  const [columnIdWithNewCardForm, setСolumnIdWithNewCardForm] = useState("");
+
+  const handleNewCardFormOpen = (id: string) => {
+    setСolumnIdWithNewCardForm(id);
+  };
 
   return (
     <Root>
@@ -37,10 +41,10 @@ export const Columns: FC<ColumnsProps> = ({
             columnTitle={column.title}
             cards={cards}
             onAddCard={onAddCard}
-            handleDeleteCard={handleDeleteCard}
-            handleRenameCard={handleRenameCard}
-            id={id}
-            setId={setId}
+            onDeleteCard={onDeleteCard}
+            onRenameCard={onRenameCard}
+            columnIdWithNewCardForm={columnIdWithNewCardForm}
+            onNewCardFormOpen={handleNewCardFormOpen}
             onCardClick={onCardClick}
           />
         );

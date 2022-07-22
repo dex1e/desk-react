@@ -8,15 +8,15 @@ import { ICard } from "types";
 
 interface CardProps {
   card: ICard;
-  handleRenameCard: (cardId: string, title: string) => void;
-  handleDeleteCard: (cardId: string) => void;
+  onRenameCard: (cardId: string, title: string) => void;
+  onDeleteCard: (cardId: string) => void;
   onCardClick: (cardId: string) => void;
 }
 
 export const CardItem: FC<CardProps> = ({
   card,
-  handleRenameCard,
-  handleDeleteCard,
+  onRenameCard,
+  onDeleteCard,
   onCardClick,
 }) => {
   const [isRenameActive, setIsRenameActive] = useState(false);
@@ -29,15 +29,15 @@ export const CardItem: FC<CardProps> = ({
   const handleCardTitleChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    const title = event.target.value;
-    setTitle(title);
+    const cardTitle = event.target.value;
+    setTitle(cardTitle);
   };
 
   const changeCardTitle = () => {
     const trimmedTitle = title.trim();
 
     if (trimmedTitle) {
-      handleRenameCard(card.id, trimmedTitle);
+      onRenameCard(card.id, trimmedTitle);
       setTitle(trimmedTitle);
     } else {
       setTitle(card.title);
@@ -56,37 +56,30 @@ export const CardItem: FC<CardProps> = ({
     }
   };
 
-  const deleteCard = () => handleDeleteCard(card.id);
+  const deleteCard = () => onDeleteCard(card.id);
 
   return (
-    <>
-      <Root key={card.id}>
-        {isRenameActive ? (
-          <CardTitleTextArea
-            value={title}
-            onChange={handleCardTitleChange}
-            onBlur={changeCardTitle}
-            onKeyDown={handleEnterCardTitle}
-          />
-        ) : (
-          <CardTitle onClick={() => onCardClick(card.id)}>
-            {card.title}
-          </CardTitle>
-        )}
-        <ButtonsWrapper>
-          <ButtonIcon
-            Icon={PencilIcon}
-            onClick={handleCardTitleClick}
-            isMarginLeft
-            isHoverFocus
-          />
-          <ButtonIcon Icon={TrashCanIcon} onClick={deleteCard} isHoverFocus />
-        </ButtonsWrapper>
-      </Root>
-      {/* {selectedCard && (
-        <CardModal setSelectedCard={setSelectedCard} card={selectedCard} />
-      )} */}
-    </>
+    <Root key={card.id}>
+      {isRenameActive ? (
+        <CardTitleTextArea
+          value={title}
+          onChange={handleCardTitleChange}
+          onBlur={changeCardTitle}
+          onKeyDown={handleEnterCardTitle}
+        />
+      ) : (
+        <CardTitle onClick={() => onCardClick(card.id)}>{card.title}</CardTitle>
+      )}
+      <ButtonsWrapper>
+        <ButtonIcon
+          icon={<PencilIcon />}
+          onClick={handleCardTitleClick}
+          isMarginLeft
+          isHoverFocus
+        />
+        <ButtonIcon icon={<TrashCanIcon />} onClick={deleteCard} isHoverFocus />
+      </ButtonsWrapper>
+    </Root>
   );
 };
 

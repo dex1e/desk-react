@@ -9,11 +9,11 @@ interface ColumnProps {
   columnTitle: string;
   cards: Record<string, ICard>;
   idColumn: string;
-  id: string;
-  setId: (idColumn: string) => void;
+  columnIdWithNewCardForm: string;
+  onNewCardFormOpen: (id: string) => void;
   onAddCard: (cardName: string, columnId: string) => void;
-  handleDeleteCard: (cardId: string) => void;
-  handleRenameCard: (cardId: string, newTitle: string) => void;
+  onDeleteCard: (cardId: string) => void;
+  onRenameCard: (cardId: string, newTitle: string) => void;
   onCardClick: (cardId: string) => void;
 }
 
@@ -23,10 +23,10 @@ export const Column: FC<ColumnProps> = ({
   columnTitle,
   idColumn,
   onAddCard,
-  handleDeleteCard,
-  handleRenameCard,
-  id,
-  setId,
+  onDeleteCard,
+  onRenameCard,
+  columnIdWithNewCardForm,
+  onNewCardFormOpen,
   onCardClick,
 }) => {
   const [title, setTitle] = useState(columnTitle);
@@ -74,8 +74,8 @@ export const Column: FC<ColumnProps> = ({
           <CardItem
             key={card.id}
             card={card}
-            handleRenameCard={handleRenameCard}
-            handleDeleteCard={handleDeleteCard}
+            onRenameCard={onRenameCard}
+            onDeleteCard={onDeleteCard}
             onCardClick={onCardClick}
           />
         );
@@ -83,8 +83,8 @@ export const Column: FC<ColumnProps> = ({
       <NewCardForm
         idColumn={idColumn}
         onAddCard={onAddCard}
-        id={id}
-        setId={setId}
+        columnIdWithNewCardForm={columnIdWithNewCardForm}
+        onNewCardFormOpen={onNewCardFormOpen}
       />
     </Root>
   );

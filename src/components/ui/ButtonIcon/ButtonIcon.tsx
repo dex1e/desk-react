@@ -1,11 +1,11 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 
 import styled, { css } from "styled-components";
 
 interface ButtonIconProps {
   className?: string;
   onClick?: () => void;
-  Icon: React.FunctionComponent;
+  icon: ReactNode;
   isHoverFocus?: boolean;
   isMarginLeft?: boolean;
   closeModal?: boolean;
@@ -14,7 +14,7 @@ interface ButtonIconProps {
 export const ButtonIcon: FC<ButtonIconProps> = ({
   className,
   onClick,
-  Icon,
+  icon,
   isHoverFocus,
   isMarginLeft,
   closeModal,
@@ -27,7 +27,7 @@ export const ButtonIcon: FC<ButtonIconProps> = ({
       $isMarginLeft={isMarginLeft}
       $closeModal={closeModal}
     >
-      <Icon />
+      {icon}
     </Root>
   );
 };
