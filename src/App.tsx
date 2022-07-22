@@ -4,13 +4,19 @@ import { CardModal, Columns } from "components";
 import { Header } from "components";
 import { ModalLogin } from "components";
 import styled from "styled-components";
-import { ICard } from "types";
-import { defaultCards, defaultUsername, defalutColumns } from "utils/mock";
+import { ICard, IComment } from "types";
+import {
+  defaultCards,
+  defaultUsername,
+  defalutColumns,
+  defaultComments,
+} from "utils/mock";
 import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const [username, setUsername] = useState(defaultUsername.username);
   const [cards, setCards] = useState(defaultCards);
+  const [comments, setComments] = useState(defaultComments);
   const [selectedCardId, setSelectedCardId] = useState("");
 
   const columnsArray = Object.values(defalutColumns);
@@ -31,6 +37,24 @@ function App() {
 
     newCards[cardId] = newCard;
     setCards(newCards);
+  };
+
+  const handleAddComment = (commentText: string, cardId: string) => {
+    const commentId = uuidv4();
+
+    let newComments = {
+      ...comments,
+    };
+
+    const newComment: IComment = {
+      cardId,
+      id: commentId,
+      author: username,
+      text: commentText,
+    };
+
+    newComments[commentId] = newComment;
+    setComments(newComments);
   };
 
   const handleRenameCard = (cardId: string, newTitle: string) => {
@@ -88,6 +112,8 @@ function App() {
           columnTitle={getModalColumnTitle(selectedCardId)}
           card={cards[selectedCardId]}
           onClose={() => setSelectedCardId("")}
+          comments={comments}
+          onAddComment={handleAddComment}
         />
       )}
     </Root>

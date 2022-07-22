@@ -1,6 +1,5 @@
 import { FC, useState } from "react";
 
-import { CardModal } from "components";
 import { PencilIcon, TrashCanIcon } from "components/icons";
 import { ButtonIcon } from "components/ui/ButtonIcon";
 import styled from "styled-components";

@@ -1,9 +1,10 @@
 import { FC, useState } from "react";
 
 import { CloseIcon } from "components/icons";
+import { Button } from "components/ui/Button";
 import { ButtonIcon } from "components/ui/ButtonIcon";
-import styled from "styled-components";
-import { ICard, IColumns } from "types";
+import styled, { css } from "styled-components";
+import { ICard, IComment } from "types";
 
 interface CardModalProps {
   // username: string;
@@ -11,14 +12,18 @@ interface CardModalProps {
   // setCardVisible: (isCardVisible: boolean) => void;
   // textArea: string;
   // setSelectedCard: (card: ICard | null) => void;
+  onAddComment: (commentText: string, cardId: string) => void;
   card: ICard;
   columnTitle: string;
   onClose: () => void;
+  comments: Record<string, IComment>;
 }
 export const CardModal: FC<CardModalProps> = ({
   card,
   columnTitle,
   onClose,
+  comments,
+  onAddComment,
   // setSelectedCard,
   // columnsArray,
   // setCardVisible,
@@ -26,9 +31,20 @@ export const CardModal: FC<CardModalProps> = ({
   // textArea,
 }) => {
   const [title, setTitle] = useState(card.title);
+  const [description, setDescription] = useState(card.description);
+  const [commentText, setCommentText] = useState("");
+  const [isVisibleButtonComment, setIsVisibleButtonComment] = useState(false);
+  const [isDescriptionTextAreaVisible, setIsDescriptionTextAreaVisible] =
+    useState(false);
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputTitle = e.target.value;
+  const commentsArray = Object.values(comments);
+
+  const filtredComments = commentsArray.filter(
+    (comment) => comment.cardId === card.id
+  );
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputTitle = event.target.value;
     setTitle(inputTitle);
   };
 
@@ -52,9 +68,87 @@ export const CardModal: FC<CardModalProps> = ({
     }
   };
 
+  const handleDescriptionChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const newDescription = event.target.value;
+    setDescription(newDescription);
+  };
+
+  const handleAddDescription = () => {
+    const trimmedDescription = description.trim();
+
+    if (trimmedDescription) {
+      setDescription(trimmedDescription);
+    } else {
+      setDescription("");
+    }
+    setIsDescriptionTextAreaVisible(false);
+  };
+
+  const handleDescriptionEnter = (
+    event: React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    if (event.code === "Enter") {
+      event.preventDefault();
+      handleAddDescription();
+      setIsDescriptionTextAreaVisible(false);
+      event.target.blur();
+    }
+  };
+
+  const handleDescriptionTextAreaVisible = () => {
+    setIsDescriptionTextAreaVisible(true);
+  };
+
+  const handleCancelDescription = () => {
+    setDescription("");
+    setIsDescriptionTextAreaVisible(false);
+  };
+
+  const handleTextAreaCommentChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    let commentText = event.target.value;
+    setCommentText(commentText);
+  };
+
+  const handleAddComment = () => {
+    let trimmedCommentText = commentText.trim();
+
+    if (trimmedCommentText) {
+      onAddComment(trimmedCommentText, card.id);
+      setCommentText("");
+    } else {
+      setCommentText("");
+    }
+    setIsVisibleButtonComment(false);
+  };
+
+  const handleCancelComment = () => {
+    setCommentText("");
+    setIsVisibleButtonComment(false);
+  };
+
+  const handleVisibleButtonComment = () => {
+    setIsVisibleButtonComment(true);
+  };
+
+  const handleCommentEnter = (
+    event: React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    if (event.code === "Enter") {
+      event.preventDefault();
+      handleAddComment();
+      setIsVisibleButtonComment(false);
+      event.target.blur();
+    }
+  };
+
   return (
     <Root>
       <ModalWrapper>
+        <Close onClick={onClose} />
         <ModalWindow>
           <ButtonIcon icon={<CloseIcon />} closeModal onClick={onClose} />
           <Header>
@@ -65,25 +159,76 @@ export const CardModal: FC<CardModalProps> = ({
               onKeyDown={handleEnterRenameTitle}
             />
             <HeaderSubtitle>
-              In list
+              in list
               <SubtitleColumnTitle>{columnTitle}</SubtitleColumnTitle>
             </HeaderSubtitle>
           </Header>
           <Description>
             <DescriptionTitle>Description</DescriptionTitle>
-            <DescriptionTextArea placeholder="Add description..." />
+
+            <Form>
+              <DescriptionTextArea
+                placeholder="Add description..."
+                value={description}
+                onChange={handleDescriptionChange}
+                // onBlur={handleDescriptionBlur}
+                onKeyDown={handleDescriptionEnter}
+                onFocus={handleDescriptionTextAreaVisible}
+              />
+              <ButtonsWrapperDescription>
+                <StyledButtonAddDescription
+                  text="Save"
+                  isDescriptionTextAreaVisible={isDescriptionTextAreaVisible}
+                  onClick={handleAddDescription}
+                />
+                <StyledButtonCancelDescription
+                  isDescriptionTextAreaVisible={isDescriptionTextAreaVisible}
+                  text="Cancel"
+                  onClick={handleCancelDescription}
+                />
+              </ButtonsWrapperDescription>
+            </Form>
+            {/* ) : (
+              <DescriptionText onClick={handleDescriptionTextAreaVisible}>
+                {description}
+              </DescriptionText>
+            )} */}
           </Description>
           <Activity>
             <ActivityTitle>Activity</ActivityTitle>
-            <ActivityTextArea placeholder="Write a comment..." />
-            <ActivityComments>
-              <AuthorComment>Dex1e</AuthorComment>
-              <Comment>Comment</Comment>
-              <ButtonsWrapper>
-                <ButtonEdit>Edit</ButtonEdit>
-                <ButtonDelete>Delete</ButtonDelete>
-              </ButtonsWrapper>
-            </ActivityComments>
+            <Form>
+              <ActivityTextArea
+                placeholder="Write a comment..."
+                value={commentText}
+                onChange={handleTextAreaCommentChange}
+                onFocus={handleVisibleButtonComment}
+                onKeyDown={handleCommentEnter}
+              />
+              <ButtonsWrapperComment>
+                <StyledButtonAddComment
+                  text="Save"
+                  isVisibleButtonComment={isVisibleButtonComment}
+                  onClick={handleAddComment}
+                />
+                <StyledButtonCancelComment
+                  isVisibleButtonComment={isVisibleButtonComment}
+                  text="Cancel"
+                  onClick={handleCancelComment}
+                />
+              </ButtonsWrapperComment>
+            </Form>
+            {filtredComments.map((comment) => {
+              return (
+                <ActivityComments>
+                  <AuthorComment>{comment.author}</AuthorComment>
+                  <Comment>{comment.text}</Comment>
+                  <ButtonsWrapper>
+                    <ButtonEdit>Edit</ButtonEdit>
+                    <ButtonDelete>Delete</ButtonDelete>
+                  </ButtonsWrapper>
+                </ActivityComments>
+              );
+            })}
           </Activity>
         </ModalWindow>
       </ModalWrapper>
@@ -95,24 +240,31 @@ const Root = styled.div`
   width: 100%;
   height: 100vh;
   background-color: var(--transparent);
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-x: hidden;
+`;
+
+const Close = styled.div`
+  width: 100%;
+  height: 100vh;
+  position: absolute;
 `;
 
 const ModalWrapper = styled.div`
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
+  /* height: 100vh; */
   background-color: var(--shadow);
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
   top: 0;
-  z-index: 1000;
 `;
 
 const ModalWindow = styled.div`
@@ -125,18 +277,21 @@ const ModalWindow = styled.div`
   padding: 5px;
   border-radius: 5px;
   line-height: 30px; */
-  margin: 0 6px;
+  margin: 6px;
   display: flex;
   flex-direction: column;
   max-width: 750px;
   width: 100%;
   height: 90%;
-  max-height: 800px;
+  /* min-height: 90%; */
+  min-height: 800px;
   background-color: var(--white);
   border-radius: 7px;
   border: 1px solid var(--gray);
   filter: drop-shadow(0px 0px 10px var(--shadow));
   gap: 20px;
+  overflow-y: auto;
+  /* overflow-x: hidden; */
 
   /* @media (max-width: 425px) {
     margin: 5%;
@@ -171,22 +326,24 @@ const HeaderTitleInput = styled.input`
   }
 
   &:hover {
-    /* background-color: var(--lightgray); */
     box-shadow: inset 0 0 0 2px var(--secondaryblue);
+    /* background-color: var(--lightgray); */
   }
 `;
 
 const HeaderSubtitle = styled.span`
+  display: flex;
+  align-items: center;
   width: 100%;
   font-size: 12px;
-  padding: 0 17px;
+  padding: 0 20px;
+  gap: 5px;
 `;
 
 const SubtitleColumnTitle = styled.p`
-  display: inline-block;
+  display: inline-flex;
   color: var(--gray);
   text-decoration: underline;
-  font-size: 14px;
 
   &:hover {
     cursor: pointer;
@@ -207,7 +364,7 @@ const Description = styled.section`
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: 50px;
+  min-height: 62px;
   padding: 16px;
   gap: 8px;
   /* height: 300px; */
@@ -221,13 +378,15 @@ const DescriptionTitle = styled.h2`
 
 const DescriptionTextArea = styled.textarea`
   width: 100%;
-  min-height: 50px;
+  min-height: 62px;
+  max-height: 180px;
   background-color: var(--secondarylight);
   border-radius: 7px;
   padding: 12px;
   font-size: 16px;
-  overflow: hidden;
+  overflow-wrap: break-word;
   word-wrap: break-word;
+  overflow-y: hidden;
 
   &:hover {
     cursor: pointer;
@@ -238,11 +397,89 @@ const DescriptionTextArea = styled.textarea`
     cursor: text;
     box-shadow: inset 0 0 0 2px var(--secondaryblue);
     resize: vertical;
+    overflow-y: visible;
   }
 
   &::placeholder {
     font-size: 14px;
     color: var(--gray);
+  }
+
+  /* &::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  } */
+`;
+
+const ButtonsWrapperDescription = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 5px;
+`;
+
+const StyledButtonAddDescription = styled(Button)<{
+  isDescriptionTextAreaVisible: boolean;
+}>`
+  display: ${({ isDescriptionTextAreaVisible }) =>
+    isDescriptionTextAreaVisible ? "block" : "none"};
+  width: 50px;
+  height: 30px;
+  border-radius: 3px;
+  font-size: 14px;
+  padding: 5px;
+  background-color: var(--royalblue);
+  color: var(--white);
+  border: none;
+
+  &:hover {
+    background-color: var(--darkblue);
+  }
+
+  &:focus {
+    box-shadow: none;
+    outline: 1px solid var(--black);
+  }
+`;
+
+const StyledButtonCancelDescription = styled(Button)<{
+  isDescriptionTextAreaVisible: boolean;
+}>`
+  display: ${({ isDescriptionTextAreaVisible }) =>
+    isDescriptionTextAreaVisible ? "block" : "none"};
+  width: 55px;
+  height: 30px;
+  border-radius: 3px;
+  font-size: 14px;
+  padding: 5px;
+  color: var(--royalblue);
+  border: none;
+
+  &:hover {
+    background-color: var(--lightgray);
+  }
+
+  &:focus {
+    box-shadow: none;
+    outline: 1px solid var(--royalblue);
+  }
+`;
+
+const DescriptionText = styled.span`
+  width: 100%;
+  min-height: 62px;
+  height: 100%;
+  /* background-color: green; */
+  border-radius: 7px;
+  /* padding: 12px; */
+  font-size: 16px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  overflow-y: hidden;
+  transition: ease 0.2ms;
+
+  &:hover {
+    cursor: pointer;
+    /* resize: vertical; */
   }
 `;
 
@@ -252,7 +489,7 @@ const Activity = styled.section`
   width: 100%;
   min-height: 200px;
   padding: 16px;
-  gap: 15px;
+  gap: 10px;
 `;
 
 const ActivityTitle = styled.h2`
@@ -261,14 +498,22 @@ const ActivityTitle = styled.h2`
   font-weight: 600px;
 `;
 
+const Form = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
+
 const ActivityTextArea = styled.textarea`
   width: 100%;
-  min-height: 30px;
+  min-height: 62px;
+  max-height: 150px;
   background-color: var(--secondarylight);
   border-radius: 7px;
   padding: 12px;
   font-size: 16px;
-  overflow: hidden;
+  overflow-wrap: break-word;
   word-wrap: break-word;
 
   &:hover {
@@ -280,6 +525,7 @@ const ActivityTextArea = styled.textarea`
     cursor: text;
     box-shadow: inset 0 0 0 2px var(--secondaryblue);
     resize: vertical;
+    overflow-y: auto;
   }
 
   &::placeholder {
@@ -288,9 +534,62 @@ const ActivityTextArea = styled.textarea`
   }
 `;
 
+const ButtonsWrapperComment = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 5px;
+`;
+
+const StyledButtonAddComment = styled(Button)<{
+  isVisibleButtonComment: boolean;
+}>`
+  display: ${({ isVisibleButtonComment }) =>
+    isVisibleButtonComment ? "block" : "none"};
+  width: 50px;
+  height: 30px;
+  border-radius: 3px;
+  font-size: 14px;
+  padding: 5px;
+  background-color: var(--royalblue);
+  color: var(--white);
+  border: none;
+
+  &:hover {
+    background-color: var(--darkblue);
+  }
+
+  &:focus {
+    box-shadow: none;
+    outline: 1px solid var(--black);
+  }
+`;
+
+const StyledButtonCancelComment = styled(Button)<{
+  isVisibleButtonComment: boolean;
+}>`
+  display: ${({ isVisibleButtonComment }) =>
+    isVisibleButtonComment ? "block" : "none"};
+  width: 55px;
+  height: 30px;
+  border-radius: 3px;
+  font-size: 14px;
+  padding: 5px;
+  color: var(--royalblue);
+  border: none;
+
+  &:hover {
+    background-color: var(--lightgray);
+  }
+
+  &:focus {
+    box-shadow: none;
+    outline: 1px solid var(--royalblue);
+  }
+`;
+
 const ActivityComments = styled.div`
   width: 100%;
-  min-height: 200px;
+  min-height: 30px;
   display: flex;
   flex-direction: column;
   gap: 7px;

@@ -24,10 +24,10 @@ export const Columns: FC<ColumnsProps> = ({
   columnsArray,
   onCardClick,
 }) => {
-  const [columnIdWithNewCardForm, setСolumnIdWithNewCardForm] = useState("");
+  const [columnIdWithNewCardForm, setColumnIdWithNewCardForm] = useState("");
 
   const handleNewCardFormOpen = (id: string) => {
-    setСolumnIdWithNewCardForm(id);
+    setColumnIdWithNewCardForm(id);
   };
 
   return (
