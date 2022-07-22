@@ -15,6 +15,10 @@ function App() {
   const handleAddCard = (cardName: string, columnId: string) => {
     const cardId = uuidv4();
 
+    let newCards = {
+      ...cards,
+    };
+
     const newCard: ICard = {
       columnId,
       id: cardId,
@@ -22,10 +26,25 @@ function App() {
       description: "",
     };
 
-    const newCards = {
+    newCards[cardId] = newCard;
+    setCards(newCards);
+  };
+
+  const handleRenameCard = (cardId: string, newTitle: string) => {
+    let newCards = {
       ...cards,
     };
-    newCards[cardId] = newCard;
+
+    newCards[cardId].title = newTitle;
+    setCards(newCards);
+  };
+
+  const handleDeleteCard = (cardId: string) => {
+    let newCards = {
+      ...cards,
+    };
+
+    delete newCards[cardId];
     setCards(newCards);
   };
 
@@ -42,6 +61,8 @@ function App() {
             username={username}
             cards={cards}
             onAddCard={handleAddCard}
+            onDeleteCard={handleDeleteCard}
+            onRenameCard={handleRenameCard}
           />
         </Board>
       ) : (
@@ -55,7 +76,7 @@ const Root = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  width: 100vw;
+  width: 100%;
   height: 100%;
   background: linear-gradient(
     45deg,
@@ -63,17 +84,25 @@ const Root = styled.div`
     rgba(0, 212, 255, 1) 100%
   );
   position: fixed;
-  overflow-y: hidden;
+  overflow-y: auto;
   overflow-x: auto;
 `;
 
 const Board = styled.div`
   margin-top: 50px;
-  min-width: 100%;
+  width: 100%;
+  height: calc(100% - 50px);
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: column;
+  overflow-y: auto;
+  overflow-x: auto;
+
+  &::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
 `;
 
 export default App;

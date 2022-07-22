@@ -27,7 +27,7 @@ export const defaultCards: Record<string, ICard> = {
   123: {
     columnId: "a1",
     id: "123",
-    title: "TitleTODO",
+    title: "TitleToDo",
     description: "",
   },
   345: {

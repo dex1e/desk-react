@@ -1,28 +1,30 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 
 import styled from "styled-components";
 
-interface ButtonProps {
+interface ButtonIconProps {
   className?: string;
   onClick?: () => void;
-  text?: string;
-  disabled?: boolean;
+  icon: ReactNode;
 }
 
-export const Button: FC<ButtonProps> = ({ onClick, text, className }) => {
+export const ButtonIcon: FC<ButtonIconProps> = ({
+  className,
+  onClick,
+  icon,
+}) => {
   return (
     <Root onClick={onClick} className={className}>
-      {text}
+      {icon}
     </Root>
   );
 };
 
 const Root = styled.button`
-  width: 80px;
-  height: 50px;
-  border-radius: 7px;
+  width: 25px;
+  height: 25px;
   text-align: center;
-  border: 1px solid var(--gray);
+  border-radius: 20px;
 
   &:hover {
     cursor: pointer;
@@ -32,10 +34,5 @@ const Root = styled.button`
   &:focus {
     outline: none;
     box-shadow: 0 0 0 3px var(--lightskyblue);
-  }
-
-  &:disabled {
-    color: var(--gray);
-    cursor: not-allowed;
   }
 `;

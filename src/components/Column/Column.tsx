@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 
-import { NewCardForm } from "components";
+import { CardItem, NewCardForm } from "components";
 import styled from "styled-components";
 import { ICard } from "types";
 
@@ -8,22 +8,41 @@ interface ColumnProps {
   username: string;
   columnTitle: string;
   cards: Record<string, ICard>;
-  onAddCard: (cardName: string, columnId: string) => void;
   idColumn: string;
+  columnIdWithNewCardForm: string;
+  onNewCardFormOpen: (id: string) => void;
+  onAddCard: (cardName: string, columnId: string) => void;
+  onDeleteCard: (cardId: string) => void;
+  onRenameCard: (cardId: string, newTitle: string) => void;
 }
 
 export const Column: FC<ColumnProps> = ({
   username,
   cards,
   columnTitle,
-  onAddCard,
   idColumn,
+  onAddCard,
+  onDeleteCard,
+  onRenameCard,
+  columnIdWithNewCardForm,
+  onNewCardFormOpen,
 }) => {
   const [title, setTitle] = useState(columnTitle);
 
   const cardsArray = Object.values(cards);
 
   const filtredCards = cardsArray.filter((card) => card.columnId === idColumn);
+
+  const handleEnterRenameTitle = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event.code === "Enter") {
+      if (title) {
+        setTitle(title);
+        event.target.blur();
+      } else setTitle(columnTitle);
+    }
+  };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputTitle = e.target.value;
@@ -50,13 +69,24 @@ export const Column: FC<ColumnProps> = ({
         value={title}
         maxLength={20}
         onChange={handleTitleChange}
+        onKeyDown={handleEnterRenameTitle}
       />
-
       {filtredCards.map((card) => {
-        return <AddedCards key={card.id}>{card.title}</AddedCards>;
+        return (
+          <CardItem
+            key={card.id}
+            card={card}
+            onRenameCard={onRenameCard}
+            onDeleteCard={onDeleteCard}
+          />
+        );
       })}
-
-      <NewCardForm idColumn={idColumn} onAddCard={onAddCard} />
+      <NewCardForm
+        idColumn={idColumn}
+        onAddCard={onAddCard}
+        columnIdWithNewCardForm={columnIdWithNewCardForm}
+        onNewCardFormOpen={onNewCardFormOpen}
+      />
     </Root>
   );
 };
@@ -71,7 +101,7 @@ const Root = styled.div`
   background-color: var(--white);
   border-radius: 5px;
   padding: 10px;
-  gap: 6px;
+  gap: 10px;
   filter: drop-shadow(0px 0px 10px var(--shadow));
 `;
 
@@ -96,22 +126,5 @@ const Title = styled.input`
   &:hover {
     outline: none;
     box-shadow: 0 0 0 3px var(--lightskyblue);
-  }
-`;
-
-const AddedCards = styled.div`
-  background-color: var(--white);
-  min-width: 100%;
-  max-width: 200px;
-  height: fit-content;
-  padding: 5px;
-  border-radius: 5px;
-  line-height: 30px;
-  word-wrap: break-word;
-
-  &:hover {
-    background-color: var(--lightgray);
-    filter: drop-shadow(0px 0px 2px var(--shadow));
-    cursor: pointer;
   }
 `;

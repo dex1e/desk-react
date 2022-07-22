@@ -6,12 +6,12 @@ export interface IColumns {
 export interface ICard {
   columnId: string;
   id: string;
-  title?: string;
+  title: string;
   description: string;
 }
 
 export interface IComment {
-  id: number;
+  id: string;
   author: string;
   text: string;
 }

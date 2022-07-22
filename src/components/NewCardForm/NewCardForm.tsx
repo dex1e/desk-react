@@ -6,58 +6,68 @@ import styled from "styled-components";
 interface NewCardFormProps {
   idColumn: string;
   onAddCard: (cardName: string, columnId: string) => void;
+  columnIdWithNewCardForm: string;
+  onNewCardFormOpen: (id: string) => void;
 }
 
-export const NewCardForm: FC<NewCardFormProps> = ({ idColumn, onAddCard }) => {
+export const NewCardForm: FC<NewCardFormProps> = ({
+  idColumn,
+  onAddCard,
+  columnIdWithNewCardForm,
+  onNewCardFormOpen,
+}) => {
   const [cardTitle, setCardTitle] = useState("");
-  const [isCardTitleValid, setIsCardTitleValid] = useState(false);
-  const [isTextAreaVisible, setTextAreaVisible] = useState(false);
-
-  const handleOnBlurArea = (cardTitle: string) => {
-    setCardTitle(cardTitle);
-  };
 
   const handleTextAreaBlur = () => {
     const trimmedTextArea = cardTitle.trim();
     if (trimmedTextArea) {
-      handleOnBlurArea(trimmedTextArea);
+      setCardTitle(trimmedTextArea);
     } else {
       setCardTitle("");
     }
   };
 
-  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    let textArea = e.target.value;
-    setCardTitle(textArea);
-    setIsCardTitleValid(false);
+  const handleTextAreaChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    let cardTitle = event.target.value;
+    setCardTitle(cardTitle);
   };
 
   const handleAddCard = () => {
-    if (!cardTitle) {
-      setIsCardTitleValid(true);
-    } else {
-      onAddCard(cardTitle, idColumn);
+    if (cardTitle.trim()) {
+      onAddCard(cardTitle.trim(), idColumn);
       setCardTitle("");
+    }
+    onNewCardFormOpen("");
+  };
+
+  const handleEnterRenameCardTitle = (event: React.KeyboardEvent) => {
+    if (event.code === "Enter") {
+      event.preventDefault();
+      handleAddCard();
+      onNewCardFormOpen("");
     }
   };
 
   const handleTextAreaVisible = () => {
-    setTextAreaVisible(true);
+    onNewCardFormOpen(idColumn);
   };
 
   return (
     <Root>
-      {isTextAreaVisible ? (
+      {columnIdWithNewCardForm === idColumn ? (
         <>
           <TextArea
             onBlur={handleTextAreaBlur}
             placeholder="Add card"
             value={cardTitle}
             onChange={handleTextAreaChange}
+            onKeyDown={handleEnterRenameCardTitle}
           />
           <StyledButtonAddCard
-            disabled={isCardTitleValid}
-            text="+"
+            disabled={Boolean(cardTitle)}
+            text="Add card"
             onClick={handleAddCard}
           />
         </>
@@ -103,11 +113,22 @@ const TextArea = styled.textarea`
 `;
 
 const StyledButtonAddCard = styled(Button)`
-  width: fit-content;
-  height: fit-content;
-  border: 0;
-  font-size: 25px;
+  width: 100%;
+  height: 100%;
+  border-radius: 7px;
+  font-size: 18px;
   padding: 5px;
+  background-color: var(--royalblue);
+  color: var(--white);
+
+  &:hover {
+    background-color: var(--darkblue);
+  }
+
+  &:focus {
+    box-shadow: none;
+    outline: 1px solid var(--black);
+  }
 `;
 
 const StyledTextAreaButton = styled(Button)`
@@ -116,6 +137,7 @@ const StyledTextAreaButton = styled(Button)`
   transition: ease-in 0.3s;
   border: 1px solid var(--transparent);
   text-align: start;
+
   &:hover {
     filter: drop-shadow(0px 0px 2px var(--shadow));
     border: 1px solid var(--shadow);
