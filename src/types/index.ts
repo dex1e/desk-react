@@ -11,7 +11,7 @@ export interface ICard {
 }
 
 export interface IComment {
-  id: number;
+  id: string;
   author: string;
   text: string;
 }

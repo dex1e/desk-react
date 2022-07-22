@@ -7,14 +7,14 @@ import { ICard } from "types";
 
 interface CardProps {
   card: ICard;
-  handleRenameCard: (cardId: string, title: string) => void;
-  handleDeleteCard: (cardId: string) => void;
+  onRenameCard: (cardId: string, title: string) => void;
+  onDeleteCard: (cardId: string) => void;
 }
 
 export const CardItem: FC<CardProps> = ({
   card,
-  handleRenameCard,
-  handleDeleteCard,
+  onRenameCard,
+  onDeleteCard,
 }) => {
   const [isRenameActive, setIsRenameActive] = useState(false);
   const [title, setTitle] = useState(card.title);
@@ -26,15 +26,15 @@ export const CardItem: FC<CardProps> = ({
   const handleCardTitleChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    const title = event.target.value;
-    setTitle(title);
+    const cardTitle = event.target.value;
+    setTitle(cardTitle);
   };
 
   const changeCardTitle = () => {
     const trimmedTitle = title.trim();
 
     if (trimmedTitle) {
-      handleRenameCard(card.id, trimmedTitle);
+      onRenameCard(card.id, trimmedTitle);
       setTitle(trimmedTitle);
     } else {
       setTitle(card.title);
@@ -53,7 +53,7 @@ export const CardItem: FC<CardProps> = ({
     }
   };
 
-  const deleteCard = () => handleDeleteCard(card.id);
+  const deleteCard = () => onDeleteCard(card.id);
 
   return (
     <Root key={card.id}>
@@ -68,8 +68,8 @@ export const CardItem: FC<CardProps> = ({
         <CardTitle>{card.title}</CardTitle>
       )}
       <ButtonsWrapper>
-        <ButtonIcon Icon={PencilIcon} onClick={handleCardTitleClick} />
-        <ButtonIcon Icon={TrashCanIcon} onClick={deleteCard} />
+        <ButtonIcon icon={<PencilIcon />} onClick={handleCardTitleClick} />
+        <ButtonIcon icon={<TrashCanIcon />} onClick={deleteCard} />
       </ButtonsWrapper>
     </Root>
   );

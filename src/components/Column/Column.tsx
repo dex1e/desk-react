@@ -9,11 +9,11 @@ interface ColumnProps {
   columnTitle: string;
   cards: Record<string, ICard>;
   idColumn: string;
-  id: string;
-  setId: (idColumn: string) => void;
+  idTextAreaOpen: string;
+  onTextAreaOpen: (id: string) => void;
   onAddCard: (cardName: string, columnId: string) => void;
-  handleDeleteCard: (cardId: string) => void;
-  handleRenameCard: (cardId: string, newTitle: string) => void;
+  onDeleteCard: (cardId: string) => void;
+  onRenameCard: (cardId: string, newTitle: string) => void;
 }
 
 export const Column: FC<ColumnProps> = ({
@@ -22,10 +22,10 @@ export const Column: FC<ColumnProps> = ({
   columnTitle,
   idColumn,
   onAddCard,
-  handleDeleteCard,
-  handleRenameCard,
-  id,
-  setId,
+  onDeleteCard,
+  onRenameCard,
+  idTextAreaOpen,
+  onTextAreaOpen,
 }) => {
   const [title, setTitle] = useState(columnTitle);
 
@@ -76,16 +76,16 @@ export const Column: FC<ColumnProps> = ({
           <CardItem
             key={card.id}
             card={card}
-            handleRenameCard={handleRenameCard}
-            handleDeleteCard={handleDeleteCard}
+            onRenameCard={onRenameCard}
+            onDeleteCard={onDeleteCard}
           />
         );
       })}
       <NewCardForm
         idColumn={idColumn}
         onAddCard={onAddCard}
-        id={id}
-        setId={setId}
+        idTextAreaOpen={idTextAreaOpen}
+        onTextAreaOpen={onTextAreaOpen}
       />
     </Root>
   );

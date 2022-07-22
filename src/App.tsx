@@ -61,8 +61,8 @@ function App() {
             username={username}
             cards={cards}
             onAddCard={handleAddCard}
-            handleDeleteCard={handleDeleteCard}
-            handleRenameCard={handleRenameCard}
+            onDeleteCard={handleDeleteCard}
+            onRenameCard={handleRenameCard}
           />
         </Board>
       ) : (

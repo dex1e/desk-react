@@ -6,15 +6,15 @@ import styled from "styled-components";
 interface NewCardFormProps {
   idColumn: string;
   onAddCard: (cardName: string, columnId: string) => void;
-  id: string;
-  setId: (idColumn: string) => void;
+  idTextAreaOpen: string;
+  onTextAreaOpen: (id: string) => void;
 }
 
 export const NewCardForm: FC<NewCardFormProps> = ({
   idColumn,
   onAddCard,
-  id,
-  setId,
+  idTextAreaOpen,
+  onTextAreaOpen,
 }) => {
   const [cardTitle, setCardTitle] = useState("");
 
@@ -30,8 +30,8 @@ export const NewCardForm: FC<NewCardFormProps> = ({
   const handleTextAreaChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    let textArea = event.target.value;
-    setCardTitle(textArea);
+    let cardTitle = event.target.value;
+    setCardTitle(cardTitle);
   };
 
   const handleAddCard = () => {
@@ -39,24 +39,24 @@ export const NewCardForm: FC<NewCardFormProps> = ({
       onAddCard(cardTitle.trim(), idColumn);
       setCardTitle("");
     }
-    setId("");
+    onTextAreaOpen("");
   };
 
   const handleEnterRenameCardTitle = (event: React.KeyboardEvent) => {
     if (event.code === "Enter") {
       event.preventDefault();
       handleAddCard();
-      setId("");
+      onTextAreaOpen("");
     }
   };
 
   const handleTextAreaVisible = () => {
-    setId(idColumn);
+    onTextAreaOpen(idColumn);
   };
 
   return (
     <Root>
-      {id === idColumn ? (
+      {idTextAreaOpen === idColumn ? (
         <>
           <TextArea
             onBlur={handleTextAreaBlur}

@@ -10,18 +10,22 @@ interface ColumnsProps {
   username: string;
   cards: Record<string, ICard>;
   onAddCard: (cardName: string, columnId: string) => void;
-  handleDeleteCard: (cardId: string) => void;
-  handleRenameCard: (cardId: string, newTitle: string) => void;
+  onDeleteCard: (cardId: string) => void;
+  onRenameCard: (cardId: string, newTitle: string) => void;
 }
 
 export const Columns: FC<ColumnsProps> = ({
   username,
   cards,
   onAddCard,
-  handleDeleteCard,
-  handleRenameCard,
+  onDeleteCard,
+  onRenameCard,
 }) => {
-  const [id, setId] = useState("");
+  const [idTextAreaOpen, setIdTextAreaOpen] = useState("");
+
+  const handleTextAreaOpen = (id: string) => {
+    setIdTextAreaOpen(id);
+  };
 
   const columnsArray = Object.values(columns);
   return (
@@ -35,10 +39,10 @@ export const Columns: FC<ColumnsProps> = ({
             columnTitle={column.title}
             cards={cards}
             onAddCard={onAddCard}
-            handleDeleteCard={handleDeleteCard}
-            handleRenameCard={handleRenameCard}
-            id={id}
-            setId={setId}
+            onDeleteCard={onDeleteCard}
+            onRenameCard={onRenameCard}
+            idTextAreaOpen={idTextAreaOpen}
+            onTextAreaOpen={handleTextAreaOpen}
           />
         );
       })}

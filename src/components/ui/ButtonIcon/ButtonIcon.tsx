@@ -1,21 +1,21 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 
 import styled from "styled-components";
 
 interface ButtonIconProps {
   className?: string;
   onClick?: () => void;
-  Icon: React.FunctionComponent;
+  icon: ReactNode;
 }
 
 export const ButtonIcon: FC<ButtonIconProps> = ({
   className,
   onClick,
-  Icon,
+  icon,
 }) => {
   return (
     <Root onClick={onClick} className={className}>
-      <Icon />
+      {icon}
     </Root>
   );
 };
