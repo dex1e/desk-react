@@ -9,8 +9,8 @@ interface ColumnProps {
   columnTitle: string;
   cards: Record<string, ICard>;
   idColumn: string;
-  idTextAreaOpen: string;
-  onTextAreaOpen: (id: string) => void;
+  columnIdWithNewCardForm: string;
+  onNewCardFormOpen: (id: string) => void;
   onAddCard: (cardName: string, columnId: string) => void;
   onDeleteCard: (cardId: string) => void;
   onRenameCard: (cardId: string, newTitle: string) => void;
@@ -24,8 +24,8 @@ export const Column: FC<ColumnProps> = ({
   onAddCard,
   onDeleteCard,
   onRenameCard,
-  idTextAreaOpen,
-  onTextAreaOpen,
+  columnIdWithNewCardForm,
+  onNewCardFormOpen,
 }) => {
   const [title, setTitle] = useState(columnTitle);
 
@@ -84,8 +84,8 @@ export const Column: FC<ColumnProps> = ({
       <NewCardForm
         idColumn={idColumn}
         onAddCard={onAddCard}
-        idTextAreaOpen={idTextAreaOpen}
-        onTextAreaOpen={onTextAreaOpen}
+        columnIdWithNewCardForm={columnIdWithNewCardForm}
+        onNewCardFormOpen={onNewCardFormOpen}
       />
     </Root>
   );

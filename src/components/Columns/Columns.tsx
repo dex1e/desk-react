@@ -21,10 +21,10 @@ export const Columns: FC<ColumnsProps> = ({
   onDeleteCard,
   onRenameCard,
 }) => {
-  const [idTextAreaOpen, setIdTextAreaOpen] = useState("");
+  const [columnIdWithNewCardForm, setСolumnIdWithNewCardForm] = useState("");
 
-  const handleTextAreaOpen = (id: string) => {
-    setIdTextAreaOpen(id);
+  const handleNewCardFormOpen = (id: string) => {
+    setСolumnIdWithNewCardForm(id);
   };
 
   const columnsArray = Object.values(columns);
@@ -41,8 +41,8 @@ export const Columns: FC<ColumnsProps> = ({
             onAddCard={onAddCard}
             onDeleteCard={onDeleteCard}
             onRenameCard={onRenameCard}
-            idTextAreaOpen={idTextAreaOpen}
-            onTextAreaOpen={handleTextAreaOpen}
+            columnIdWithNewCardForm={columnIdWithNewCardForm}
+            onNewCardFormOpen={handleNewCardFormOpen}
           />
         );
       })}
