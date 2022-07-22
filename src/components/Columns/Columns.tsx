@@ -23,7 +23,7 @@ export const Columns: FC<ColumnsProps> = ({
   handleRenameCard,
   setSelectedCard,
 }) => {
-  const [visibleTextAreaId, setVisibleTextAreaId] = useState("");
+  const [id, setId] = useState("");
 
   const columnsArray = Object.values(columns);
   return (
@@ -40,8 +40,8 @@ export const Columns: FC<ColumnsProps> = ({
             handleDeleteCard={handleDeleteCard}
             handleRenameCard={handleRenameCard}
             setSelectedCard={setSelectedCard}
-            visibleTextAreaId={visibleTextAreaId}
-            setVisibleTextAreaId={setVisibleTextAreaId}
+            id={id}
+            setId={setId}
           />
         );
       })}
