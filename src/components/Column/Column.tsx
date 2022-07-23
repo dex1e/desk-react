@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { ICard } from "types";
 
 interface ColumnProps {
-  username: string;
   columnTitle: string;
   cards: Record<string, ICard>;
   idColumn: string;
@@ -18,7 +17,6 @@ interface ColumnProps {
 }
 
 export const Column: FC<ColumnProps> = ({
-  username,
   cards,
   columnTitle,
   idColumn,

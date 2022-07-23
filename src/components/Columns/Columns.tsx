@@ -6,7 +6,6 @@ import { ICard, IColumns } from "types";
 import { Column } from "..";
 
 interface ColumnsProps {
-  username: string;
   cards: Record<string, ICard>;
   onAddCard: (cardName: string, columnId: string) => void;
   onCardClick: (cardId: string) => void;
@@ -16,7 +15,6 @@ interface ColumnsProps {
 }
 
 export const Columns: FC<ColumnsProps> = ({
-  username,
   cards,
   onAddCard,
   onDeleteCard,
@@ -35,7 +33,6 @@ export const Columns: FC<ColumnsProps> = ({
       {columnsArray.map((column) => {
         return (
           <Column
-            username={username}
             key={column.id}
             idColumn={column.id}
             columnTitle={column.title}

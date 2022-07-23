@@ -66,6 +66,14 @@ function App() {
     setCards(newCards);
   };
 
+  const handleRenameComment = (commentId: string, newCommentText: string) => {
+    let newComments = {
+      ...comments,
+    };
+    newComments[commentId].text = newCommentText;
+    setComments(newComments);
+  };
+
   const handleDeleteCard = (cardId: string) => {
     let newCards = {
       ...cards,
@@ -73,6 +81,14 @@ function App() {
 
     delete newCards[cardId];
     setCards(newCards);
+  };
+
+  const handleDeleteComment = (commentId: string) => {
+    let newComments = {
+      ...comments,
+    };
+    delete newComments[commentId];
+    setComments(newComments);
   };
 
   const handleLoginSubmit = (name: string) => {
@@ -95,7 +111,6 @@ function App() {
         <Board>
           <Header username={username} />
           <Columns
-            username={username}
             cards={cards}
             onAddCard={handleAddCard}
             onCardClick={handleCardClick}
@@ -114,6 +129,8 @@ function App() {
           onClose={() => setSelectedCardId("")}
           comments={comments}
           onAddComment={handleAddComment}
+          onRenameComment={handleRenameComment}
+          onDeleteComment={handleDeleteComment}
         />
       )}
     </Root>
