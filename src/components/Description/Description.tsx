@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 
-import { Button } from "components/ui/Button";
+import { ButtonAdd, ButtonClear } from "components/ui/ButtonCardModal";
 import styled from "styled-components";
 
 interface DescriptionProps {
@@ -174,51 +174,18 @@ const ButtonsWrapperDescription = styled.div`
   gap: 5px;
 `;
 
-const StyledButtonAddDescription = styled(Button)<{
+const StyledButtonAddDescription = styled(ButtonAdd)<{
   $isDescriptionTextAreaVisible: boolean;
 }>`
   display: ${({ $isDescriptionTextAreaVisible }) =>
     $isDescriptionTextAreaVisible ? "block" : "none"};
-  width: 50px;
-  height: 30px;
-  border-radius: 3px;
-  font-size: 14px;
-  padding: 5px;
-  background-color: var(--royalblue);
-  color: var(--white);
-  border: none;
-
-  &:hover {
-    background-color: var(--darkblue);
-  }
-
-  &:focus {
-    box-shadow: none;
-    outline: 1px solid var(--black);
-  }
 `;
 
-const StyledButtonClearDescription = styled(Button)<{
+const StyledButtonClearDescription = styled(ButtonClear)<{
   $isDescriptionTextAreaVisible: boolean;
 }>`
   display: ${({ $isDescriptionTextAreaVisible }) =>
     $isDescriptionTextAreaVisible ? "block" : "none"};
-  width: 55px;
-  height: 30px;
-  border-radius: 3px;
-  font-size: 14px;
-  padding: 5px;
-  color: var(--royalblue);
-  border: none;
-
-  &:hover {
-    background-color: var(--salmon);
-  }
-
-  &:focus {
-    box-shadow: none;
-    outline: 1px solid var(--royalblue);
-  }
 `;
 
 const DescriptionText = styled.span`

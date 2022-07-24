@@ -80,20 +80,15 @@ export const CardItem: FC<CardProps> = ({
       )}
       <IconsWrapper>
         <CommentWrapper>
-          <ButtonIcon icon={<CommentIcon />}></ButtonIcon>
+          <ButtonIcon icon={<CommentIcon />} />
           <CommentCount>{countComments}</CommentCount>
         </CommentWrapper>
         <ButtonsWrapper>
-          <ButtonIcon
+          <StyledButtonIcon
             icon={<PencilIcon />}
             onClick={handleCardTitleClick}
-            isHoverFocus
           />
-          <ButtonIcon
-            icon={<TrashCanIcon />}
-            onClick={deleteCard}
-            isHoverFocus
-          />
+          <StyledButtonIcon icon={<TrashCanIcon />} onClick={deleteCard} />
         </ButtonsWrapper>
       </IconsWrapper>
     </Root>
@@ -182,4 +177,16 @@ const ButtonsWrapper = styled.div`
   align-items: center;
   gap: 4px;
   font-size: 12px;
+`;
+
+const StyledButtonIcon = styled(ButtonIcon)`
+  &:hover {
+    cursor: pointer;
+    background-color: var(--lightskyblue);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--lightskyblue);
+  }
 `;

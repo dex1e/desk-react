@@ -16,3 +16,10 @@ export interface IComment {
   author: string;
   text: string;
 }
+
+export enum LocalStorageVariables {
+  NAME = "name",
+  COLUMNS = "columns",
+  CARDS = "cards",
+  COMMENTS = "comments",
+}

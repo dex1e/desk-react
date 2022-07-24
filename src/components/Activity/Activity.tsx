@@ -2,7 +2,8 @@ import { FC, useState } from "react";
 
 import { Comments } from "components";
 import { Button } from "components/ui/Button";
-import styled from "styled-components";
+import { ButtonAdd, ButtonClear } from "components/ui/ButtonCardModal";
+import styled, { css } from "styled-components";
 import { IComment } from "types";
 
 interface ActivityProps {
@@ -86,8 +87,8 @@ export const Activity: FC<ActivityProps> = ({
         <ButtonsWrapperComment>
           <StyledButtonAddComment
             text="Save"
-            $isVisibleButtonComment={isVisibleButtonAddComment}
             onClick={handleAddComment}
+            $isVisibleButtonComment={isVisibleButtonAddComment}
           />
           <StyledButtonClearComment
             $isVisibleButtonComment={isVisibleButtonAddComment}
@@ -170,49 +171,28 @@ const ButtonsWrapperComment = styled.div`
   gap: 5px;
 `;
 
-const StyledButtonAddComment = styled(Button)<{
+// const buttonStyles = css`
+//   height: 30px;
+//   border-radius: 3px;
+//   font-size: 14px;
+//   padding: 5px;
+//   border: none;
+
+//   &:focus {
+//     box-shadow: none;
+//   }
+// `;
+
+const StyledButtonAddComment = styled(ButtonAdd)<{
   $isVisibleButtonComment: boolean;
 }>`
   display: ${({ $isVisibleButtonComment }) =>
     $isVisibleButtonComment ? "block" : "none"};
-  width: 50px;
-  height: 30px;
-  border-radius: 3px;
-  font-size: 14px;
-  padding: 5px;
-  background-color: var(--royalblue);
-  color: var(--white);
-  border: none;
-
-  &:hover {
-    background-color: var(--darkblue);
-  }
-
-  &:focus {
-    box-shadow: none;
-    outline: 1px solid var(--black);
-  }
 `;
 
-const StyledButtonClearComment = styled(Button)<{
+const StyledButtonClearComment = styled(ButtonClear)<{
   $isVisibleButtonComment: boolean;
 }>`
   display: ${({ $isVisibleButtonComment }) =>
     $isVisibleButtonComment ? "block" : "none"};
-  width: 55px;
-  height: 30px;
-  border-radius: 3px;
-  font-size: 14px;
-  padding: 5px;
-  color: var(--royalblue);
-  border: none;
-
-  &:hover {
-    background-color: var(--salmon);
-  }
-
-  &:focus {
-    box-shadow: none;
-    outline: 1px solid var(--royalblue);
-  }
 `;

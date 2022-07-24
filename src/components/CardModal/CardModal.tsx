@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 import { Description, Activity } from "components";
 import { CloseIcon } from "components/icons";
@@ -30,6 +30,17 @@ export const CardModal: FC<CardModalProps> = ({
 }) => {
   const [title, setTitle] = useState(card.title);
 
+  useEffect(() => {
+    const closeCardModal = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onCloseCardModal();
+      }
+    };
+    window.addEventListener("keydown", closeCardModal);
+
+    return () => window.removeEventListener("keydown", closeCardModal);
+  }, []);
+
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputTitle = event.target.value;
     setTitle(inputTitle);
@@ -56,24 +67,12 @@ export const CardModal: FC<CardModalProps> = ({
     }
   };
 
-  // const handleEscCloseModal = (
-  //   event: React.KeyboardEvent<HTMLInputElement>
-  // ) => {
-  //   if (event.code === "Escape") {
-  //     onCloseCardModal();
-  //   }
-  // };
-
   return (
     <Root>
       <ModalWrapper>
         <CloseCardModal onClick={onCloseCardModal} />
         <ModalWindow>
-          <ButtonIcon
-            icon={<CloseIcon />}
-            closeModal
-            onClick={onCloseCardModal}
-          />
+          <StyledButtonIcon icon={<CloseIcon />} onClick={onCloseCardModal} />
           <Header>
             <HeaderTitleInput
               value={title}
@@ -148,6 +147,24 @@ const ModalWindow = styled.div`
   filter: drop-shadow(0px 0px 10px var(--shadow));
   gap: 20px;
   overflow-y: auto;
+`;
+
+const StyledButtonIcon = styled(ButtonIcon)`
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  margin: 7px;
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  &:hover {
+    background-color: var(--lightgray);
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2px var(--focusColcor);
+  }
 `;
 
 const Header = styled.header`

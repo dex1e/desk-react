@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { CardModal, Columns } from "components";
 import { Header } from "components";
@@ -7,14 +7,14 @@ import styled from "styled-components";
 import { ICard, IComment } from "types";
 import {
   defaultCards,
-  defaultUsername,
   defalutColumns,
   defaultComments,
+  defaultUser,
 } from "utils/mock";
 import { v4 as uuidv4 } from "uuid";
 
 function App() {
-  const [username, setUsername] = useState(defaultUsername.username);
+  const [username, setUsername] = useState(defaultUser.name);
   const [cards, setCards] = useState(defaultCards);
   const [comments, setComments] = useState(defaultComments);
   const [selectedCardId, setSelectedCardId] = useState("");

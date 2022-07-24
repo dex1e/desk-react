@@ -1,7 +1,7 @@
 import { ICard, IColumns, IComment } from "types";
 
-export const defaultUsername = {
-  username: "",
+export const defaultUser = {
+  name: "",
 };
 
 export const defalutColumns: Record<string, IColumns> = {
