@@ -1,6 +1,7 @@
 import React, { FC, useState } from "react";
 
 import { CardItem, NewCardForm } from "components";
+import { Input } from "components/ui/Input";
 import styled from "styled-components";
 import { ICard, IComment } from "types";
 
@@ -46,8 +47,8 @@ export const Column: FC<ColumnProps> = ({
     }
   };
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputTitle = e.target.value;
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputTitle = event.target.value;
     setTitle(inputTitle);
   };
 
@@ -62,9 +63,9 @@ export const Column: FC<ColumnProps> = ({
 
   return (
     <Root>
-      <Title
-        onBlur={handleTitleBlur}
+      <Input
         value={title}
+        onBlur={handleTitleBlur}
         maxLength={20}
         onChange={handleTitleChange}
         onKeyDown={handleEnterRenameTitle}
@@ -103,28 +104,4 @@ const Root = styled.div`
   padding: 10px;
   gap: 10px;
   filter: drop-shadow(0px 0px 10px var(--shadow));
-`;
-
-const Title = styled.input`
-  max-width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 600;
-  padding: 7px;
-  width: 200px;
-  height: 30px;
-  background-color: var(--white);
-  border-radius: 7px;
-  cursor: text;
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--lightskyblue);
-  }
-
-  &:hover {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--lightskyblue);
-  }
 `;

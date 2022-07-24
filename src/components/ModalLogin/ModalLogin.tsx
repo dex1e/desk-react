@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
 
 import { Button } from "components/ui/Button";
+import { Input } from "components/ui/Input";
 import styled from "styled-components";
 
 interface ModalLoginProps {
@@ -31,7 +32,7 @@ export const ModalLogin: FC<ModalLoginProps> = ({ onSubmit }) => {
       <ModalWindow>
         Welcome!
         <Label>
-          <Input
+          <StyledInput
             onChange={handleNameChange}
             value={name}
             placeholder="Username"
@@ -86,26 +87,11 @@ const Label = styled.label`
   color: var(--red);
 `;
 
-const Input = styled.input<{ isError: boolean }>`
-  padding: 7px;
+const StyledInput = styled(Input)<{ isError: boolean }>`
   width: 200px;
   height: 50px;
-  background-color: var(--white);
-  border-radius: 7px;
+  font-weight: 400;
+  font-size: 16px;
   color: var(--black);
   border: 1px solid ${({ isError }) => (isError ? "var(--red)" : "var(--gray)")};
-
-  &:hover {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--lightskyblue);
-  }
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--lightskyblue);
-  }
-
-  &::placeholder {
-    color: var(--secondarygray);
-  }
 `;

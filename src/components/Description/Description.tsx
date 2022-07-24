@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
 
 import { ButtonAdd, ButtonClear } from "components/ui/ButtonCardModal";
+import { Textarea } from "components/ui/Textarea";
 import styled from "styled-components";
 
 interface DescriptionProps {
@@ -71,7 +72,7 @@ export const Description: FC<DescriptionProps> = ({
 
       {isDescriptionTextAreaVisible ? (
         <Form>
-          <DescriptionTextArea
+          <Textarea
             placeholder="Add description..."
             value={description}
             onChange={handleDescriptionChange}
@@ -136,36 +137,6 @@ const Form = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
-`;
-
-const DescriptionTextArea = styled.textarea`
-  width: 100%;
-  min-height: 62px;
-  max-height: 180px;
-  background-color: var(--secondarylight);
-  border-radius: 7px;
-  padding: 12px;
-  font-size: 16px;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  overflow-y: hidden;
-
-  &:hover {
-    cursor: pointer;
-    resize: vertical;
-  }
-
-  &:focus {
-    cursor: text;
-    box-shadow: inset 0 0 0 2px var(--secondaryblue);
-    resize: vertical;
-    overflow-y: visible;
-  }
-
-  &::placeholder {
-    font-size: 14px;
-    color: var(--gray);
-  }
 `;
 
 const ButtonsWrapperDescription = styled.div`

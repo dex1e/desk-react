@@ -3,6 +3,7 @@ import { FC, useState } from "react";
 import { Comments } from "components";
 import { Button } from "components/ui/Button";
 import { ButtonAdd, ButtonClear } from "components/ui/ButtonCardModal";
+import { Textarea } from "components/ui/Textarea";
 import styled, { css } from "styled-components";
 import { IComment } from "types";
 
@@ -77,7 +78,7 @@ export const Activity: FC<ActivityProps> = ({
     <Root>
       <Title>Activity</Title>
       <Form>
-        <ActivityTextArea
+        <StyledTextArea
           placeholder="Write a comment..."
           value={commentText}
           onChange={handleTextAreaNewCommentChange}
@@ -136,33 +137,8 @@ const Form = styled.div`
   gap: 5px;
 `;
 
-const ActivityTextArea = styled.textarea`
-  width: 100%;
-  min-height: 62px;
+const StyledTextArea = styled(Textarea)`
   max-height: 150px;
-  background-color: var(--secondarylight);
-  border-radius: 7px;
-  padding: 12px;
-  font-size: 16px;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-
-  &:hover {
-    cursor: pointer;
-    resize: vertical;
-  }
-
-  &:focus {
-    cursor: text;
-    box-shadow: inset 0 0 0 2px var(--secondaryblue);
-    resize: vertical;
-    overflow-y: auto;
-  }
-
-  &::placeholder {
-    font-size: 14px;
-    color: var(--gray);
-  }
 `;
 
 const ButtonsWrapperComment = styled.div`

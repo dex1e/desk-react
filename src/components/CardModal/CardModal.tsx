@@ -3,6 +3,7 @@ import { FC, useEffect, useState } from "react";
 import { Description, Activity } from "components";
 import { CloseIcon } from "components/icons";
 import { ButtonIcon } from "components/ui/ButtonIcon";
+import { Input } from "components/ui/Input";
 import styled from "styled-components";
 import { ICard, IComment } from "types";
 
@@ -74,7 +75,7 @@ export const CardModal: FC<CardModalProps> = ({
         <ModalWindow>
           <StyledButtonIcon icon={<CloseIcon />} onClick={onCloseCardModal} />
           <Header>
-            <HeaderTitleInput
+            <StyledInput
               value={title}
               onChange={handleTitleChange}
               onBlur={handleTitleBlur}
@@ -175,23 +176,19 @@ const Header = styled.header`
   gap: 3px;
 `;
 
-const HeaderTitleInput = styled.input`
-  font-size: 20px;
+const StyledInput = styled(Input)`
   width: 93%;
   height: 40px;
   min-height: 40px;
-  font-weight: 600;
-  padding: 7px;
-  border-radius: 7px;
-  cursor: text;
+  font-size: 20px;
   margin: 10px 10px 0;
 
   &:focus {
-    box-shadow: inset 0 0 0 2px var(--secondaryblue);
+    box-shadow: 0 0 0 2px var(--secondaryblue);
   }
 
   &:hover {
-    box-shadow: inset 0 0 0 2px var(--secondaryblue);
+    box-shadow: 0 0 0 2px var(--secondaryblue);
   }
 `;
 

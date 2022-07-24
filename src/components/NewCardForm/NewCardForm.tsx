@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
 
 import { Button } from "components/ui/Button";
+import { Textarea } from "components/ui/Textarea";
 import styled from "styled-components";
 
 interface NewCardFormProps {
@@ -58,7 +59,7 @@ export const NewCardForm: FC<NewCardFormProps> = ({
     <Root>
       {columnIdWithNewCardForm === idColumn ? (
         <>
-          <TextArea
+          <StyledTextarea
             onBlur={handleTextAreaBlur}
             placeholder="Add card"
             value={cardTitle}
@@ -91,24 +92,18 @@ const Root = styled.div`
   font-size: 16px;
 `;
 
-const TextArea = styled.textarea`
+const StyledTextarea = styled(Textarea)`
   width: 100%;
-  min-height: 50px;
   background-color: var(--white);
   border: 1px solid var(--black);
-  border-radius: 7px;
   padding: 10px;
-  resize: vertical;
-  overflow: hidden;
-  word-wrap: break-word;
 
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--lightskyblue);
+  &:hover {
+    cursor: text;
   }
 
-  &::placeholder {
-    color: var(--secondarygray);
+  &:focus {
+    box-shadow: 0 0 0 3px var(--lightskyblue);
   }
 `;
 

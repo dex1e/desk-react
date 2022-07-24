@@ -2,6 +2,7 @@ import React, { FC, useRef, useState } from "react";
 
 import { CommentIcon, PencilIcon, TrashCanIcon } from "components/icons";
 import { ButtonIcon } from "components/ui/ButtonIcon";
+import { Textarea } from "components/ui/Textarea";
 import styled from "styled-components";
 import { ICard, IComment } from "types";
 
@@ -68,7 +69,7 @@ export const CardItem: FC<CardProps> = ({
   return (
     <Root key={card.id}>
       {isRenameActive ? (
-        <CardTitleTextArea
+        <StyledTextarea
           value={title}
           onChange={handleCardTitleChange}
           onBlur={changeCardTitle}
@@ -114,29 +115,22 @@ const Root = styled.div`
   }
 `;
 
-const CardTitleTextArea = styled.textarea`
+const StyledTextarea = styled(Textarea)`
   width: 150px;
   max-width: 80%;
-  padding: 7px;
   height: 60px;
   min-height: 60px;
+  padding: 7px;
   font-size: 15px;
   background-color: var(--white);
   border: 1px solid var(--transparent);
-  border-radius: 7px;
-  cursor: text;
-  word-wrap: break-word;
 
   &:hover {
-    outline: none;
     box-shadow: 0 0 0 3px var(--lightskyblue);
-    resize: vertical;
   }
 
   &:focus {
-    outline: none;
     box-shadow: 0 0 0 3px var(--lightskyblue);
-    resize: vertical;
   }
 `;
 
