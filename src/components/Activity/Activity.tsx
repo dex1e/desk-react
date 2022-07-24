@@ -21,12 +21,13 @@ export const Activity: FC<ActivityProps> = ({
   onDeleteComment,
 }) => {
   const [commentText, setCommentText] = useState("");
-  const [commentId, setCommentId] = useState("");
+  const [commentIdWithEditCommentForm, setCommentIdWithEditCommentForm] =
+    useState("");
   const [isVisibleButtonAddComment, setIsVisibleButtonAddComment] =
     useState(false);
   const commentsArray = Object.values(comments);
 
-  const filtredComments = commentsArray.filter(
+  const filteredComments = commentsArray.filter(
     (comment) => comment.cardId === cardId
   );
 
@@ -42,10 +43,8 @@ export const Activity: FC<ActivityProps> = ({
 
     if (trimmedCommentText) {
       onAddComment(trimmedCommentText, cardId);
-      setCommentText("");
-    } else {
-      setCommentText("");
     }
+    setCommentText("");
     setIsVisibleButtonAddComment(false);
   };
 
@@ -70,12 +69,12 @@ export const Activity: FC<ActivityProps> = ({
   };
 
   const handleCommentTextAreaOpen = (idComment: string) => {
-    setCommentId(idComment);
+    setCommentIdWithEditCommentForm(idComment);
   };
 
   return (
     <Root>
-      <ActivityTitle>Activity</ActivityTitle>
+      <Title>Activity</Title>
       <Form>
         <ActivityTextArea
           placeholder="Write a comment..."
@@ -87,21 +86,23 @@ export const Activity: FC<ActivityProps> = ({
         <ButtonsWrapperComment>
           <StyledButtonAddComment
             text="Save"
-            isVisibleButtonComment={isVisibleButtonAddComment}
+            $isVisibleButtonComment={isVisibleButtonAddComment}
             onClick={handleAddComment}
           />
           <StyledButtonClearComment
-            isVisibleButtonComment={isVisibleButtonAddComment}
+            $isVisibleButtonComment={isVisibleButtonAddComment}
             text="Clear"
             onClick={handleCancelComment}
           />
         </ButtonsWrapperComment>
       </Form>
-      {filtredComments.map((comment) => {
+
+      {filteredComments.map((comment) => {
         return (
           <Comments
+            key={comment.id}
             comment={comment}
-            commentId={commentId}
+            commentIdWithEditCommentForm={commentIdWithEditCommentForm}
             onCommentTextAreaOpen={handleCommentTextAreaOpen}
             onRenameComment={onRenameComment}
             onDeleteComment={onDeleteComment}
@@ -121,7 +122,7 @@ const Root = styled.section`
   gap: 10px;
 `;
 
-const ActivityTitle = styled.h2`
+const Title = styled.h2`
   width: 100%;
   min-height: 25px;
   font-weight: 600px;
@@ -170,10 +171,10 @@ const ButtonsWrapperComment = styled.div`
 `;
 
 const StyledButtonAddComment = styled(Button)<{
-  isVisibleButtonComment: boolean;
+  $isVisibleButtonComment: boolean;
 }>`
-  display: ${({ isVisibleButtonComment }) =>
-    isVisibleButtonComment ? "block" : "none"};
+  display: ${({ $isVisibleButtonComment }) =>
+    $isVisibleButtonComment ? "block" : "none"};
   width: 50px;
   height: 30px;
   border-radius: 3px;
@@ -194,10 +195,10 @@ const StyledButtonAddComment = styled(Button)<{
 `;
 
 const StyledButtonClearComment = styled(Button)<{
-  isVisibleButtonComment: boolean;
+  $isVisibleButtonComment: boolean;
 }>`
-  display: ${({ isVisibleButtonComment }) =>
-    isVisibleButtonComment ? "block" : "none"};
+  display: ${({ $isVisibleButtonComment }) =>
+    $isVisibleButtonComment ? "block" : "none"};
   width: 55px;
   height: 30px;
   border-radius: 3px;

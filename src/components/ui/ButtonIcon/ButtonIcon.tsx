@@ -7,7 +7,6 @@ interface ButtonIconProps {
   onClick?: () => void;
   icon: ReactNode;
   isHoverFocus?: boolean;
-  isMarginLeft?: boolean;
   closeModal?: boolean;
 }
 
@@ -16,7 +15,6 @@ export const ButtonIcon: FC<ButtonIconProps> = ({
   onClick,
   icon,
   isHoverFocus,
-  isMarginLeft,
   closeModal,
 }) => {
   return (
@@ -24,7 +22,6 @@ export const ButtonIcon: FC<ButtonIconProps> = ({
       onClick={onClick}
       className={className}
       $isHoverFocus={isHoverFocus}
-      $isMarginLeft={isMarginLeft}
       $closeModal={closeModal}
     >
       {icon}
@@ -34,7 +31,6 @@ export const ButtonIcon: FC<ButtonIconProps> = ({
 
 const Root = styled.button<{
   $isHoverFocus?: boolean;
-  $isMarginLeft?: boolean;
   $closeModal?: boolean;
 }>`
   display: flex;
@@ -43,12 +39,6 @@ const Root = styled.button<{
   width: 25px;
   height: 25px;
   border-radius: 20px;
-
-  ${({ $isMarginLeft }) =>
-    $isMarginLeft &&
-    css`
-      margin-left: 7px;
-    `}
 
   ${({ $isHoverFocus }) =>
     $isHoverFocus &&
@@ -64,7 +54,7 @@ const Root = styled.button<{
       }
     `}
 
-    ${({ $closeModal }) =>
+  ${({ $closeModal }) =>
     $closeModal &&
     css`
       width: 26px;

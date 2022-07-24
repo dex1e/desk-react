@@ -5,9 +5,15 @@ import styled from "styled-components";
 
 interface DescriptionProps {
   cardDescription: string;
+  cardId: string;
+  onEditDescription: (cardId: string, newDescription: string) => void;
 }
 
-export const Description: FC<DescriptionProps> = ({ cardDescription }) => {
+export const Description: FC<DescriptionProps> = ({
+  cardDescription,
+  onEditDescription,
+  cardId,
+}) => {
   const [description, setDescription] = useState(cardDescription);
   const [isDescriptionTextAreaVisible, setIsDescriptionTextAreaVisible] =
     useState(false);
@@ -23,6 +29,7 @@ export const Description: FC<DescriptionProps> = ({ cardDescription }) => {
     const trimmedDescription = description.trim();
 
     if (trimmedDescription) {
+      onEditDescription(cardId, trimmedDescription);
       setDescription(trimmedDescription);
     } else {
       setDescription("");
@@ -50,6 +57,7 @@ export const Description: FC<DescriptionProps> = ({ cardDescription }) => {
   };
 
   const handleCancelDescription = () => {
+    onEditDescription(cardId, "");
     setDescription("");
     setIsDescriptionTextAreaVisible(false);
   };
@@ -60,6 +68,7 @@ export const Description: FC<DescriptionProps> = ({ cardDescription }) => {
         <Title>Description</Title>
         <ButtonEdit onClick={handleEditDescription}>Edit</ButtonEdit>
       </TitleWrapper>
+
       {isDescriptionTextAreaVisible ? (
         <Form>
           <DescriptionTextArea
@@ -68,15 +77,16 @@ export const Description: FC<DescriptionProps> = ({ cardDescription }) => {
             onChange={handleDescriptionChange}
             onKeyDown={handleDescriptionEnter}
             onFocus={handleDescriptionTextAreaVisible}
+            autoFocus
           />
           <ButtonsWrapperDescription>
             <StyledButtonAddDescription
               text="Save"
-              isDescriptionTextAreaVisible={isDescriptionTextAreaVisible}
+              $isDescriptionTextAreaVisible={isDescriptionTextAreaVisible}
               onClick={handleAddDescription}
             />
             <StyledButtonClearDescription
-              isDescriptionTextAreaVisible={isDescriptionTextAreaVisible}
+              $isDescriptionTextAreaVisible={isDescriptionTextAreaVisible}
               text="Clear"
               onClick={handleCancelDescription}
             />
@@ -165,10 +175,10 @@ const ButtonsWrapperDescription = styled.div`
 `;
 
 const StyledButtonAddDescription = styled(Button)<{
-  isDescriptionTextAreaVisible: boolean;
+  $isDescriptionTextAreaVisible: boolean;
 }>`
-  display: ${({ isDescriptionTextAreaVisible }) =>
-    isDescriptionTextAreaVisible ? "block" : "none"};
+  display: ${({ $isDescriptionTextAreaVisible }) =>
+    $isDescriptionTextAreaVisible ? "block" : "none"};
   width: 50px;
   height: 30px;
   border-radius: 3px;
@@ -189,10 +199,10 @@ const StyledButtonAddDescription = styled(Button)<{
 `;
 
 const StyledButtonClearDescription = styled(Button)<{
-  isDescriptionTextAreaVisible: boolean;
+  $isDescriptionTextAreaVisible: boolean;
 }>`
-  display: ${({ isDescriptionTextAreaVisible }) =>
-    isDescriptionTextAreaVisible ? "block" : "none"};
+  display: ${({ $isDescriptionTextAreaVisible }) =>
+    $isDescriptionTextAreaVisible ? "block" : "none"};
   width: 55px;
   height: 30px;
   border-radius: 3px;

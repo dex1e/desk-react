@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 
 import styled from "styled-components";
-import { ICard, IColumns } from "types";
+import { ICard, IColumns, IComment } from "types";
 
 import { Column } from "..";
 
@@ -12,6 +12,7 @@ interface ColumnsProps {
   columnsArray: IColumns[];
   onDeleteCard: (cardId: string) => void;
   onRenameCard: (cardId: string, newTitle: string) => void;
+  commentsArray: IComment[];
 }
 
 export const Columns: FC<ColumnsProps> = ({
@@ -21,6 +22,7 @@ export const Columns: FC<ColumnsProps> = ({
   onRenameCard,
   columnsArray,
   onCardClick,
+  commentsArray,
 }) => {
   const [columnIdWithNewCardForm, setColumnIdWithNewCardForm] = useState("");
 
@@ -43,6 +45,7 @@ export const Columns: FC<ColumnsProps> = ({
             columnIdWithNewCardForm={columnIdWithNewCardForm}
             onNewCardFormOpen={handleNewCardFormOpen}
             onCardClick={onCardClick}
+            commentsArray={commentsArray}
           />
         );
       })}

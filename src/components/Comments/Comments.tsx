@@ -5,7 +5,7 @@ import { IComment } from "types";
 
 interface CommentsProps {
   comment: IComment;
-  commentId: string;
+  commentIdWithEditCommentForm: string;
   onCommentTextAreaOpen: (idComment: string) => void;
   onRenameComment: (commentId: string, newCommentText: string) => void;
   onDeleteComment: (commentId: string) => void;
@@ -13,7 +13,7 @@ interface CommentsProps {
 
 export const Comments: FC<CommentsProps> = ({
   comment,
-  commentId,
+  commentIdWithEditCommentForm,
   onCommentTextAreaOpen,
   onRenameComment,
   onDeleteComment,
@@ -61,16 +61,19 @@ export const Comments: FC<CommentsProps> = ({
   return (
     <Root>
       <AuthorComment>{comment.author}</AuthorComment>
-      {isRenameActive && commentId === comment.id ? (
+
+      {isRenameActive && commentIdWithEditCommentForm === comment.id ? (
         <CommentRenameTextArea
           value={commentText}
           onChange={handleCommentChange}
           onBlur={handleEditCommentBlur}
           onKeyDown={handleEnterEditCommentText}
+          autoFocus
         />
       ) : (
         <Comment>{comment.text}</Comment>
       )}
+
       <ButtonsWrapper>
         <ButtonEdit onClick={handleClickEditComment}>Edit</ButtonEdit>
         <ButtonDelete onClick={deleteComment}>Delete</ButtonDelete>

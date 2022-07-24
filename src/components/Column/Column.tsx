@@ -2,7 +2,7 @@ import React, { FC, useState } from "react";
 
 import { CardItem, NewCardForm } from "components";
 import styled from "styled-components";
-import { ICard } from "types";
+import { ICard, IComment } from "types";
 
 interface ColumnProps {
   columnTitle: string;
@@ -14,6 +14,7 @@ interface ColumnProps {
   onDeleteCard: (cardId: string) => void;
   onRenameCard: (cardId: string, newTitle: string) => void;
   onCardClick: (cardId: string) => void;
+  commentsArray: IComment[];
 }
 
 export const Column: FC<ColumnProps> = ({
@@ -26,12 +27,13 @@ export const Column: FC<ColumnProps> = ({
   columnIdWithNewCardForm,
   onNewCardFormOpen,
   onCardClick,
+  commentsArray,
 }) => {
   const [title, setTitle] = useState(columnTitle);
 
   const cardsArray = Object.values(cards);
 
-  const filtredCards = cardsArray.filter((card) => card.columnId === idColumn);
+  const filteredCards = cardsArray.filter((card) => card.columnId === idColumn);
 
   const handleEnterRenameTitle = (
     event: React.KeyboardEvent<HTMLInputElement>
@@ -67,7 +69,7 @@ export const Column: FC<ColumnProps> = ({
         onChange={handleTitleChange}
         onKeyDown={handleEnterRenameTitle}
       />
-      {filtredCards.map((card) => {
+      {filteredCards.map((card) => {
         return (
           <CardItem
             key={card.id}
@@ -75,6 +77,7 @@ export const Column: FC<ColumnProps> = ({
             onRenameCard={onRenameCard}
             onDeleteCard={onDeleteCard}
             onCardClick={onCardClick}
+            commentsArray={commentsArray}
           />
         );
       })}

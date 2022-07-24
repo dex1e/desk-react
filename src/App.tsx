@@ -21,6 +21,8 @@ function App() {
 
   const columnsArray = Object.values(defalutColumns);
 
+  const commentsArray = Object.values(comments);
+
   const handleAddCard = (cardName: string, columnId: string) => {
     const cardId = uuidv4();
 
@@ -66,6 +68,15 @@ function App() {
     setCards(newCards);
   };
 
+  const handleEditDescription = (cardId: string, newDescription: string) => {
+    let newCards = {
+      ...cards,
+    };
+
+    newCards[cardId].description = newDescription;
+    setCards(newCards);
+  };
+
   const handleRenameComment = (commentId: string, newCommentText: string) => {
     let newComments = {
       ...comments,
@@ -105,6 +116,10 @@ function App() {
     return columnTitle;
   };
 
+  const onCloseCardModal = () => {
+    setSelectedCardId("");
+  };
+
   return (
     <Root>
       {username ? (
@@ -117,6 +132,7 @@ function App() {
             onDeleteCard={handleDeleteCard}
             onRenameCard={handleRenameCard}
             columnsArray={columnsArray}
+            commentsArray={commentsArray}
           />
         </Board>
       ) : (
@@ -126,11 +142,13 @@ function App() {
         <CardModal
           columnTitle={getModalColumnTitle(selectedCardId)}
           card={cards[selectedCardId]}
-          onClose={() => setSelectedCardId("")}
+          onCloseCardModal={onCloseCardModal}
           comments={comments}
           onAddComment={handleAddComment}
           onRenameComment={handleRenameComment}
           onDeleteComment={handleDeleteComment}
+          onEditDescription={handleEditDescription}
+          onRenameCard={handleRenameCard}
         />
       )}
     </Root>

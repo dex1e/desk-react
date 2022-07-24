@@ -10,19 +10,23 @@ interface CardModalProps {
   card: ICard;
   columnTitle: string;
   comments: Record<string, IComment>;
-  onClose: () => void;
+  onCloseCardModal: () => void;
   onAddComment: (commentText: string, cardId: string) => void;
   onRenameComment: (commentId: string, newCommentText: string) => void;
   onDeleteComment: (commentId: string) => void;
+  onEditDescription: (cardId: string, newDescription: string) => void;
+  onRenameCard: (cardId: string, newTitle: string) => void;
 }
 export const CardModal: FC<CardModalProps> = ({
   card,
   columnTitle,
-  onClose,
   comments,
+  onCloseCardModal,
   onAddComment,
   onRenameComment,
   onDeleteComment,
+  onEditDescription,
+  onRenameCard,
 }) => {
   const [title, setTitle] = useState(card.title);
 
@@ -34,6 +38,7 @@ export const CardModal: FC<CardModalProps> = ({
   const handleTitleBlur = () => {
     const trimmedTitle = title.trim();
     if (trimmedTitle) {
+      onRenameCard(card.id, trimmedTitle);
       setTitle(trimmedTitle);
     } else {
       setTitle(card.title);
@@ -51,12 +56,24 @@ export const CardModal: FC<CardModalProps> = ({
     }
   };
 
+  // const handleEscCloseModal = (
+  //   event: React.KeyboardEvent<HTMLInputElement>
+  // ) => {
+  //   if (event.code === "Escape") {
+  //     onCloseCardModal();
+  //   }
+  // };
+
   return (
     <Root>
       <ModalWrapper>
-        <Close onClick={onClose} />
+        <CloseCardModal onClick={onCloseCardModal} />
         <ModalWindow>
-          <ButtonIcon icon={<CloseIcon />} closeModal onClick={onClose} />
+          <ButtonIcon
+            icon={<CloseIcon />}
+            closeModal
+            onClick={onCloseCardModal}
+          />
           <Header>
             <HeaderTitleInput
               value={title}
@@ -69,7 +86,11 @@ export const CardModal: FC<CardModalProps> = ({
               <SubtitleColumnTitle>{columnTitle}</SubtitleColumnTitle>
             </HeaderSubtitle>
           </Header>
-          <Description cardDescription={card.description} />
+          <Description
+            cardDescription={card.description}
+            onEditDescription={onEditDescription}
+            cardId={card.id}
+          />
           <Activity
             onAddComment={onAddComment}
             onRenameComment={onRenameComment}
@@ -96,7 +117,7 @@ const Root = styled.div`
   overflow-x: hidden;
 `;
 
-const Close = styled.div`
+const CloseCardModal = styled.div`
   width: 100%;
   height: 100vh;
   position: absolute;
