@@ -1,11 +1,12 @@
 import { FC, useEffect, useState } from "react";
 
-import { Description, Activity } from "components";
 import { CloseIcon } from "components/icons";
 import { ButtonIcon } from "components/ui/ButtonIcon";
 import { Input } from "components/ui/Input";
 import styled from "styled-components";
 import { ICard, IComment } from "types";
+
+import { Activity, Description } from "./components";
 
 interface CardModalProps {
   card: ICard;

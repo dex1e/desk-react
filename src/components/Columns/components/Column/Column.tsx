@@ -1,9 +1,10 @@
 import React, { FC, useState } from "react";
 
-import { CardItem, NewCardForm } from "components";
 import { Input } from "components/ui/Input";
 import styled from "styled-components";
 import { ICard, IComment } from "types";
+
+import { CardItem, NewCardForm } from "./components";
 
 interface ColumnProps {
   columnTitle: string;
@@ -16,6 +17,7 @@ interface ColumnProps {
   onRenameCard: (cardId: string, newTitle: string) => void;
   onCardClick: (cardId: string) => void;
   commentsArray: IComment[];
+  changeColumnTitle: (columnId: string, columnTitle: string) => void;
 }
 
 export const Column: FC<ColumnProps> = ({
@@ -29,6 +31,7 @@ export const Column: FC<ColumnProps> = ({
   onNewCardFormOpen,
   onCardClick,
   commentsArray,
+  changeColumnTitle,
 }) => {
   const [title, setTitle] = useState(columnTitle);
 
@@ -41,7 +44,6 @@ export const Column: FC<ColumnProps> = ({
   ) => {
     if (event.code === "Enter") {
       if (title) {
-        setTitle(title);
         event.target.blur();
       } else setTitle(columnTitle);
     }
@@ -50,6 +52,7 @@ export const Column: FC<ColumnProps> = ({
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputTitle = event.target.value;
     setTitle(inputTitle);
+    changeColumnTitle(idColumn, inputTitle);
   };
 
   const handleTitleBlur = () => {
@@ -70,6 +73,7 @@ export const Column: FC<ColumnProps> = ({
         onChange={handleTitleChange}
         onKeyDown={handleEnterRenameTitle}
       />
+
       {filteredCards.map((card) => {
         return (
           <CardItem
@@ -82,6 +86,7 @@ export const Column: FC<ColumnProps> = ({
           />
         );
       })}
+
       <NewCardForm
         idColumn={idColumn}
         onAddCard={onAddCard}

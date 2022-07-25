@@ -1,6 +1,7 @@
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useState } from "react";
 
 import { CommentIcon, PencilIcon, TrashCanIcon } from "components/icons";
+import { Button } from "components/ui/Button";
 import { ButtonIcon } from "components/ui/ButtonIcon";
 import { Textarea } from "components/ui/Textarea";
 import styled from "styled-components";
@@ -77,8 +78,13 @@ export const CardItem: FC<CardProps> = ({
           autoFocus
         />
       ) : (
-        <CardTitle onClick={() => onCardClick(card.id)}>{card.title}</CardTitle>
+        <Button
+          text={card.title}
+          variant="primaryGray"
+          onClick={() => onCardClick(card.id)}
+        />
       )}
+
       <IconsWrapper>
         <CommentWrapper>
           <ButtonIcon icon={<CommentIcon />} />
@@ -134,16 +140,6 @@ const StyledTextarea = styled(Textarea)`
   }
 `;
 
-const CardTitle = styled.button`
-  width: 150px;
-  height: 100%;
-  min-height: 40px;
-  padding: 5px;
-
-  &:hover {
-    cursor: pointer;
-  }
-`;
 const IconsWrapper = styled.div`
   width: 20%;
   display: flex;

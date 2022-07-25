@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 
-import { ButtonAdd, ButtonClear } from "components/ui/ButtonCardModal";
+import { Button } from "components/ui/Button";
 import { Textarea } from "components/ui/Textarea";
 import styled from "styled-components";
 
@@ -67,7 +67,11 @@ export const Description: FC<DescriptionProps> = ({
     <Root>
       <TitleWrapper>
         <Title>Description</Title>
-        <ButtonEdit onClick={handleEditDescription}>Edit</ButtonEdit>
+        <Button
+          text="Edit"
+          variant="primaryUnderline"
+          onClick={handleEditDescription}
+        />
       </TitleWrapper>
 
       {isDescriptionTextAreaVisible ? (
@@ -85,11 +89,13 @@ export const Description: FC<DescriptionProps> = ({
               text="Save"
               $isDescriptionTextAreaVisible={isDescriptionTextAreaVisible}
               onClick={handleAddDescription}
+              variant="primaryAdd"
             />
             <StyledButtonClearDescription
               $isDescriptionTextAreaVisible={isDescriptionTextAreaVisible}
               text="Clear"
               onClick={handleCancelDescription}
+              variant="primaryClear"
             />
           </ButtonsWrapperDescription>
         </Form>
@@ -122,16 +128,6 @@ const Title = styled.h2`
   font-weight: 600px;
 `;
 
-const ButtonEdit = styled.button`
-  font-size: 14px;
-  text-decoration: underline;
-  color: var(--gray);
-  &:hover {
-    cursor: pointer;
-    color: var(--royalblue);
-  }
-`;
-
 const Form = styled.div`
   width: 100%;
   display: flex;
@@ -145,14 +141,14 @@ const ButtonsWrapperDescription = styled.div`
   gap: 5px;
 `;
 
-const StyledButtonAddDescription = styled(ButtonAdd)<{
+const StyledButtonAddDescription = styled(Button)<{
   $isDescriptionTextAreaVisible: boolean;
 }>`
   display: ${({ $isDescriptionTextAreaVisible }) =>
     $isDescriptionTextAreaVisible ? "block" : "none"};
 `;
 
-const StyledButtonClearDescription = styled(ButtonClear)<{
+const StyledButtonClearDescription = styled(Button)<{
   $isDescriptionTextAreaVisible: boolean;
 }>`
   display: ${({ $isDescriptionTextAreaVisible }) =>

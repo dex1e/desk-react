@@ -1,10 +1,4 @@
-export { Description } from "./Description";
-export { Comments } from "./Comments";
-export { CardItem } from "./CardItem";
 export { CardModal } from "./CardModal";
-export { Column } from "./Column";
 export { Columns } from "./Columns";
 export { Header } from "./Header";
 export { ModalLogin } from "./ModalLogin";
-export { NewCardForm } from "./NewCardForm";
-export { Activity } from "./Activity";

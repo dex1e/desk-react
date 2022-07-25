@@ -1,18 +1,19 @@
 import { FC, useState } from "react";
 
 import styled from "styled-components";
-import { ICard, IColumns, IComment } from "types";
+import { ICard, IColumn, IComment } from "types";
 
-import { Column } from "..";
+import { Column } from "./components";
 
 interface ColumnsProps {
   cards: Record<string, ICard>;
   onAddCard: (cardName: string, columnId: string) => void;
   onCardClick: (cardId: string) => void;
-  columnsArray: IColumns[];
+  columnsArray: IColumn[];
   onDeleteCard: (cardId: string) => void;
   onRenameCard: (cardId: string, newTitle: string) => void;
   commentsArray: IComment[];
+  changeColumnTitle: (columnId: string, columnTitle: string) => void;
 }
 
 export const Columns: FC<ColumnsProps> = ({
@@ -23,6 +24,7 @@ export const Columns: FC<ColumnsProps> = ({
   columnsArray,
   onCardClick,
   commentsArray,
+  changeColumnTitle,
 }) => {
   const [columnIdWithNewCardForm, setColumnIdWithNewCardForm] = useState("");
 
@@ -46,6 +48,7 @@ export const Columns: FC<ColumnsProps> = ({
             onNewCardFormOpen={handleNewCardFormOpen}
             onCardClick={onCardClick}
             commentsArray={commentsArray}
+            changeColumnTitle={changeColumnTitle}
           />
         );
       })}

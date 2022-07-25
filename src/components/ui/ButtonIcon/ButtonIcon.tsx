@@ -1,22 +1,20 @@
 import { FC, ReactNode } from "react";
 
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 interface ButtonIconProps {
   className?: string;
   onClick?: () => void;
   icon: ReactNode;
-  closeModal?: boolean;
 }
 
 export const ButtonIcon: FC<ButtonIconProps> = ({
   className,
   onClick,
   icon,
-  closeModal,
 }) => {
   return (
-    <Root onClick={onClick} className={className} $closeModal={closeModal}>
+    <Root onClick={onClick} className={className}>
       {icon}
     </Root>
   );

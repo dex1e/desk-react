@@ -1,5 +1,6 @@
 import { FC, useState } from "react";
 
+import { Button } from "components/ui/Button";
 import styled from "styled-components";
 import { IComment } from "types";
 
@@ -75,8 +76,16 @@ export const Comments: FC<CommentsProps> = ({
       )}
 
       <ButtonsWrapper>
-        <ButtonEdit onClick={handleClickEditComment}>Edit</ButtonEdit>
-        <ButtonDelete onClick={deleteComment}>Delete</ButtonDelete>
+        <Button
+          variant="primaryUnderline"
+          text="Edit"
+          onClick={handleClickEditComment}
+        />
+        <Button
+          variant="primaryUnderline"
+          text="Delete"
+          onClick={deleteComment}
+        />
       </ButtonsWrapper>
     </Root>
   );
@@ -142,18 +151,4 @@ const ButtonsWrapper = styled.span`
   padding: 0 12px;
   text-decoration: underline;
   color: var(--gray);
-`;
-
-const ButtonEdit = styled.button`
-  &:hover {
-    cursor: pointer;
-    color: var(--royalblue);
-  }
-`;
-
-const ButtonDelete = styled.button`
-  &:hover {
-    cursor: pointer;
-    color: var(--royalblue);
-  }
 `;

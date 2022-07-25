@@ -42,7 +42,12 @@ export const ModalLogin: FC<ModalLoginProps> = ({ onSubmit }) => {
           />
           {isError && <p>Please enter correct name</p>}
         </Label>
-        <Button text="OK" disabled={isError} onClick={handleOnClick} />
+        <Button
+          text="OK"
+          disabled={isError}
+          onClick={handleOnClick}
+          variant="primary"
+        />
       </ModalWindow>
     </Root>
   );

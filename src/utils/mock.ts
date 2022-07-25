@@ -1,10 +1,12 @@
-import { ICard, IColumns, IComment } from "types";
+import { ICard, IColumn, IComment } from "types";
 
-export const defaultUser = {
+import { IUser } from "./../types/index";
+
+export const defaultUser: IUser = {
   name: "",
 };
 
-export const defalutColumns: Record<string, IColumns> = {
+export const defaultColumns: Record<string, IColumn> = {
   a1: {
     id: "a1",
     title: "To Do",

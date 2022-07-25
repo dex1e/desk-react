@@ -1,4 +1,8 @@
-export interface IColumns {
+export interface IUser {
+  name: string;
+}
+
+export interface IColumn {
   id: string;
   title: string;
 }
@@ -18,7 +22,7 @@ export interface IComment {
 }
 
 export enum LocalStorageVariables {
-  NAME = "name",
+  USER = "user",
   COLUMNS = "columns",
   CARDS = "cards",
   COMMENTS = "comments",

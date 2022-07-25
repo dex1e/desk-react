@@ -70,12 +70,14 @@ export const NewCardForm: FC<NewCardFormProps> = ({
             disabled={Boolean(cardTitle)}
             text="Add card"
             onClick={handleAddCard}
+            variant="primary"
           />
         </>
       ) : (
         <StyledTextAreaButton
           text="+ Add a card"
           onClick={handleTextAreaVisible}
+          variant="primary"
         />
       )}
     </Root>

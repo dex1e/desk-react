@@ -1,11 +1,11 @@
 import { FC, useState } from "react";
 
-import { Comments } from "components";
 import { Button } from "components/ui/Button";
-import { ButtonAdd, ButtonClear } from "components/ui/ButtonCardModal";
 import { Textarea } from "components/ui/Textarea";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { IComment } from "types";
+
+import { Comments } from "./components";
 
 interface ActivityProps {
   comments: Record<string, IComment>;
@@ -23,10 +23,13 @@ export const Activity: FC<ActivityProps> = ({
   onDeleteComment,
 }) => {
   const [commentText, setCommentText] = useState("");
+
   const [commentIdWithEditCommentForm, setCommentIdWithEditCommentForm] =
     useState("");
+
   const [isVisibleButtonAddComment, setIsVisibleButtonAddComment] =
     useState(false);
+
   const commentsArray = Object.values(comments);
 
   const filteredComments = commentsArray.filter(
@@ -90,11 +93,13 @@ export const Activity: FC<ActivityProps> = ({
             text="Save"
             onClick={handleAddComment}
             $isVisibleButtonComment={isVisibleButtonAddComment}
+            variant="primaryAdd"
           />
           <StyledButtonClearComment
             $isVisibleButtonComment={isVisibleButtonAddComment}
             text="Clear"
             onClick={handleCancelComment}
+            variant="primaryClear"
           />
         </ButtonsWrapperComment>
       </Form>
@@ -147,26 +152,14 @@ const ButtonsWrapperComment = styled.div`
   gap: 5px;
 `;
 
-// const buttonStyles = css`
-//   height: 30px;
-//   border-radius: 3px;
-//   font-size: 14px;
-//   padding: 5px;
-//   border: none;
-
-//   &:focus {
-//     box-shadow: none;
-//   }
-// `;
-
-const StyledButtonAddComment = styled(ButtonAdd)<{
+const StyledButtonAddComment = styled(Button)<{
   $isVisibleButtonComment: boolean;
 }>`
   display: ${({ $isVisibleButtonComment }) =>
     $isVisibleButtonComment ? "block" : "none"};
 `;
 
-const StyledButtonClearComment = styled(ButtonClear)<{
+const StyledButtonClearComment = styled(Button)<{
   $isVisibleButtonComment: boolean;
 }>`
   display: ${({ $isVisibleButtonComment }) =>
