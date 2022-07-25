@@ -68,8 +68,8 @@ export const Column: FC<ColumnProps> = ({
     <Root>
       <Input
         value={title}
-        onBlur={handleTitleBlur}
         maxLength={20}
+        onBlur={handleTitleBlur}
         onChange={handleTitleChange}
         onKeyDown={handleEnterRenameTitle}
       />

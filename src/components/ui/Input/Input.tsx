@@ -1,39 +1,26 @@
-import { FC } from "react";
+import { FC, InputHTMLAttributes } from "react";
 
 import styled from "styled-components";
 
-interface InputProps {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
-  maxLength?: number;
-  minLength?: number;
   placeholder?: string;
   value?: string;
-  onBlur?: () => void;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 export const Input: FC<InputProps> = ({
   className,
   value,
   placeholder,
-  maxLength,
-  minLength,
-  onBlur,
-  onChange,
-  onKeyDown,
+  ...props
 }) => {
   return (
     <Root
       value={value}
-      maxLength={maxLength}
-      onKeyDown={onKeyDown}
-      onChange={onChange}
-      onBlur={onBlur}
       className={className}
       placeholder={placeholder}
-      minLength={minLength}
-    ></Root>
+      {...props}
+    />
   );
 };
 

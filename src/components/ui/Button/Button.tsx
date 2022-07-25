@@ -2,17 +2,19 @@ import { FC } from "react";
 
 import styled from "styled-components";
 
+type Variant =
+  | "primary"
+  | "primaryAdd"
+  | "primaryClear"
+  | "primaryUnderline"
+  | "primaryGray";
+
 interface ButtonProps {
   className?: string;
   onClick?: () => void;
   text?: string;
   disabled?: boolean;
-  variant?:
-    | "primary"
-    | "primaryAdd"
-    | "primaryClear"
-    | "primaryUnderline"
-    | "primaryGray";
+  variant?: Variant;
 }
 
 export const Button: FC<ButtonProps> = ({

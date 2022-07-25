@@ -1,40 +1,17 @@
-import { FC } from "react";
+import { FC, TextareaHTMLAttributes } from "react";
 
 import styled from "styled-components";
 
-interface TextareaProps {
+interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   className?: string;
-  placeholder?: string;
-  value?: string;
-  autoFocus?: boolean;
-  onBlur?: () => void;
-  onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  onKeyDown?: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void;
-  onFocus?: () => void;
 }
 
 export const Textarea: FC<TextareaProps> = ({
   className,
-  placeholder,
-  value,
-  autoFocus,
-  onBlur,
-  onChange,
-  onKeyDown,
-  onFocus,
+
+  ...props
 }) => {
-  return (
-    <Root
-      className={className}
-      placeholder={placeholder}
-      value={value}
-      autoFocus={autoFocus}
-      onBlur={onBlur}
-      onChange={onChange}
-      onKeyDown={onKeyDown}
-      onFocus={onFocus}
-    ></Root>
-  );
+  return <Root className={className} {...props} />;
 };
 
 const Root = styled.textarea`
