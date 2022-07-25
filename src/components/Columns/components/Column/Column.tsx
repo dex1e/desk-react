@@ -1,11 +1,12 @@
 import React, { FC, useState } from "react";
 
-import { CardItem, NewCardForm } from "components";
+import { Input } from "components/ui/Input";
 import styled from "styled-components";
-import { ICard } from "types";
+import { ICard, IComment } from "types";
+
+import { CardItem, NewCardForm } from "./components";
 
 interface ColumnProps {
-  username: string;
   columnTitle: string;
   cards: Record<string, ICard>;
   idColumn: string;
@@ -14,10 +15,12 @@ interface ColumnProps {
   onAddCard: (cardName: string, columnId: string) => void;
   onDeleteCard: (cardId: string) => void;
   onRenameCard: (cardId: string, newTitle: string) => void;
+  onCardClick: (cardId: string) => void;
+  commentsArray: IComment[];
+  changeColumnTitle: (columnId: string, columnTitle: string) => void;
 }
 
 export const Column: FC<ColumnProps> = ({
-  username,
   cards,
   columnTitle,
   idColumn,
@@ -26,37 +29,36 @@ export const Column: FC<ColumnProps> = ({
   onRenameCard,
   columnIdWithNewCardForm,
   onNewCardFormOpen,
+  onCardClick,
+  commentsArray,
+  changeColumnTitle,
 }) => {
   const [title, setTitle] = useState(columnTitle);
 
   const cardsArray = Object.values(cards);
 
-  const filtredCards = cardsArray.filter((card) => card.columnId === idColumn);
+  const filteredCards = cardsArray.filter((card) => card.columnId === idColumn);
 
   const handleEnterRenameTitle = (
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {
     if (event.code === "Enter") {
       if (title) {
-        setTitle(title);
         event.target.blur();
       } else setTitle(columnTitle);
     }
   };
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputTitle = e.target.value;
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputTitle = event.target.value;
     setTitle(inputTitle);
-  };
-
-  const handleOnBlurColumnTitle = (columnTitleName: string) => {
-    setTitle(columnTitleName);
+    changeColumnTitle(idColumn, inputTitle);
   };
 
   const handleTitleBlur = () => {
     const trimmedTitle = title.trim();
     if (trimmedTitle) {
-      handleOnBlurColumnTitle(trimmedTitle);
+      setTitle(trimmedTitle);
     } else {
       setTitle(columnTitle);
     }
@@ -64,23 +66,27 @@ export const Column: FC<ColumnProps> = ({
 
   return (
     <Root>
-      <Title
-        onBlur={handleTitleBlur}
+      <Input
         value={title}
         maxLength={20}
+        onBlur={handleTitleBlur}
         onChange={handleTitleChange}
         onKeyDown={handleEnterRenameTitle}
       />
-      {filtredCards.map((card) => {
+
+      {filteredCards.map((card) => {
         return (
           <CardItem
             key={card.id}
             card={card}
             onRenameCard={onRenameCard}
             onDeleteCard={onDeleteCard}
+            onCardClick={onCardClick}
+            commentsArray={commentsArray}
           />
         );
       })}
+
       <NewCardForm
         idColumn={idColumn}
         onAddCard={onAddCard}
@@ -103,28 +109,4 @@ const Root = styled.div`
   padding: 10px;
   gap: 10px;
   filter: drop-shadow(0px 0px 10px var(--shadow));
-`;
-
-const Title = styled.input`
-  max-width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 600;
-  padding: 7px;
-  width: 200px;
-  height: 30px;
-  background-color: var(--white);
-  border-radius: 7px;
-  cursor: text;
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--lightskyblue);
-  }
-
-  &:hover {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--lightskyblue);
-  }
 `;

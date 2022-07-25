@@ -1,16 +1,56 @@
 import { useState } from "react";
 
-import { Columns } from "components";
+import { CardModal, Columns } from "components";
 import { Header } from "components";
 import { ModalLogin } from "components";
 import styled from "styled-components";
-import { ICard } from "types";
-import { defaultCards, defaultUsername } from "utils/mock";
+import { ICard, IComment, LocalStorageVariables } from "types";
+import {
+  getDataFromLocalStorage,
+  setCardsToLocalStorage,
+  setColumnsToLocalStorage,
+  setCommentsToLocalStorage,
+  setUserToLocalStorage,
+} from "utils/data";
+import {
+  defaultCards,
+  defaultColumns,
+  defaultComments,
+  defaultUser,
+} from "utils/mock";
 import { v4 as uuidv4 } from "uuid";
 
 function App() {
-  const [username, setUsername] = useState(defaultUsername.username);
-  const [cards, setCards] = useState(defaultCards);
+  const [user, setUser] = useState(() =>
+    getDataFromLocalStorage(LocalStorageVariables.USER, defaultUser)
+  );
+
+  const [columns, setColumns] = useState(() =>
+    getDataFromLocalStorage(LocalStorageVariables.COLUMNS, defaultColumns)
+  );
+
+  const [cards, setCards] = useState(() =>
+    getDataFromLocalStorage(LocalStorageVariables.CARDS, defaultCards)
+  );
+
+  const [comments, setComments] = useState(() =>
+    getDataFromLocalStorage(LocalStorageVariables.COMMENTS, defaultComments)
+  );
+
+  const [selectedCardId, setSelectedCardId] = useState("");
+
+  const columnsArray = Object.values(columns);
+
+  const commentsArray = Object.values(comments);
+
+  const changeColumnTitle = (columnId: string, newTitle: string) => {
+    let newColumns = {
+      ...columns,
+    };
+    newColumns[columnId].title = newTitle;
+    setColumns(newColumns);
+    setColumnsToLocalStorage(newColumns);
+  };
 
   const handleAddCard = (cardName: string, columnId: string) => {
     const cardId = uuidv4();
@@ -28,6 +68,26 @@ function App() {
 
     newCards[cardId] = newCard;
     setCards(newCards);
+    setCardsToLocalStorage(newCards);
+  };
+
+  const handleAddComment = (commentText: string, cardId: string) => {
+    const commentId = uuidv4();
+
+    let newComments = {
+      ...comments,
+    };
+
+    const newComment: IComment = {
+      cardId,
+      id: commentId,
+      author: user.name,
+      text: commentText,
+    };
+
+    newComments[commentId] = newComment;
+    setComments(newComments);
+    setCommentsToLocalStorage(newComments);
   };
 
   const handleRenameCard = (cardId: string, newTitle: string) => {
@@ -37,6 +97,26 @@ function App() {
 
     newCards[cardId].title = newTitle;
     setCards(newCards);
+    setCardsToLocalStorage(newCards);
+  };
+
+  const handleEditDescription = (cardId: string, newDescription: string) => {
+    let newCards = {
+      ...cards,
+    };
+
+    newCards[cardId].description = newDescription;
+    setCards(newCards);
+    setCardsToLocalStorage(newCards);
+  };
+
+  const handleRenameComment = (commentId: string, newCommentText: string) => {
+    let newComments = {
+      ...comments,
+    };
+    newComments[commentId].text = newCommentText;
+    setComments(newComments);
+    setCommentsToLocalStorage(newComments);
   };
 
   const handleDeleteCard = (cardId: string) => {
@@ -46,27 +126,68 @@ function App() {
 
     delete newCards[cardId];
     setCards(newCards);
+    setCardsToLocalStorage(newCards);
+  };
+
+  const handleDeleteComment = (commentId: string) => {
+    let newComments = {
+      ...comments,
+    };
+    delete newComments[commentId];
+    setComments(newComments);
+    setCommentsToLocalStorage(newComments);
   };
 
   const handleLoginSubmit = (name: string) => {
-    setUsername(name);
+    setUser({ name });
+    setUserToLocalStorage({ name });
+  };
+
+  const handleCardClick = (cardId: string) => {
+    setSelectedCardId(cardId);
+  };
+
+  const getModalColumnTitle = (cardId: string) => {
+    const columnId = cards[cardId].columnId;
+    const columnTitle = defaultColumns[columnId].title;
+    return columnTitle;
+  };
+
+  const onCloseCardModal = () => {
+    setSelectedCardId("");
   };
 
   return (
     <Root>
-      {username ? (
+      {user?.name ? (
         <Board>
-          <Header username={username} />
+          <Header username={user.name} />
           <Columns
-            username={username}
             cards={cards}
             onAddCard={handleAddCard}
+            onCardClick={handleCardClick}
             onDeleteCard={handleDeleteCard}
             onRenameCard={handleRenameCard}
+            columnsArray={columnsArray}
+            commentsArray={commentsArray}
+            changeColumnTitle={changeColumnTitle}
           />
         </Board>
       ) : (
         <ModalLogin onSubmit={handleLoginSubmit} />
+      )}
+      {selectedCardId && (
+        <CardModal
+          columnTitle={getModalColumnTitle(selectedCardId)}
+          card={cards[selectedCardId]}
+          onCloseCardModal={onCloseCardModal}
+          comments={comments}
+          onAddComment={handleAddComment}
+          onRenameComment={handleRenameComment}
+          onDeleteComment={handleDeleteComment}
+          onEditDescription={handleEditDescription}
+          onRenameCard={handleRenameCard}
+        />
       )}
     </Root>
   );

@@ -20,19 +20,14 @@ export const ButtonIcon: FC<ButtonIconProps> = ({
   );
 };
 
-const Root = styled.button`
+const Root = styled.button<{
+  $isHoverFocus?: boolean;
+  $closeModal?: boolean;
+}>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 25px;
   height: 25px;
-  text-align: center;
   border-radius: 20px;
-
-  &:hover {
-    cursor: pointer;
-    background-color: var(--lightskyblue);
-  }
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--lightskyblue);
-  }
 `;

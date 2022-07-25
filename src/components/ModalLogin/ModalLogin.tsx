@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 
 import { Button } from "components/ui/Button";
-import { Modal } from "components/ui/Modal";
+import { Input } from "components/ui/Input";
 import styled from "styled-components";
 
 interface ModalLoginProps {
@@ -28,11 +28,11 @@ export const ModalLogin: FC<ModalLoginProps> = ({ onSubmit }) => {
   };
 
   return (
-    <Modal>
+    <Root>
       <ModalWindow>
         Welcome!
         <Label>
-          <Input
+          <StyledInput
             onChange={handleNameChange}
             value={name}
             placeholder="Username"
@@ -42,11 +42,28 @@ export const ModalLogin: FC<ModalLoginProps> = ({ onSubmit }) => {
           />
           {isError && <p>Please enter correct name</p>}
         </Label>
-        <Button text="OK" disabled={isError} onClick={handleOnClick} />
+        <Button
+          text="OK"
+          disabled={isError}
+          onClick={handleOnClick}
+          variant="primary"
+        />
       </ModalWindow>
-    </Modal>
+    </Root>
   );
 };
+
+const Root = styled.div`
+  width: 100%;
+  height: 100vh;
+  background-color: var(--transparent);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const ModalWindow = styled.div`
   display: flex;
@@ -75,26 +92,11 @@ const Label = styled.label`
   color: var(--red);
 `;
 
-const Input = styled.input<{ isError: boolean }>`
-  padding: 7px;
+const StyledInput = styled(Input)<{ isError: boolean }>`
   width: 200px;
   height: 50px;
-  background-color: var(--white);
-  border-radius: 7px;
+  font-weight: 400;
+  font-size: 16px;
   color: var(--black);
   border: 1px solid ${({ isError }) => (isError ? "var(--red)" : "var(--gray)")};
-
-  &:hover {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--lightskyblue);
-  }
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--lightskyblue);
-  }
-
-  &::placeholder {
-    color: var(--secondarygray);
-  }
 `;

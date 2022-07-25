@@ -1,39 +1,42 @@
 import { FC, useState } from "react";
 
 import styled from "styled-components";
-import { ICard } from "types";
-import { columns } from "utils/mock";
+import { ICard, IColumn, IComment } from "types";
 
-import { Column } from "..";
+import { Column } from "./components";
 
 interface ColumnsProps {
-  username: string;
   cards: Record<string, ICard>;
   onAddCard: (cardName: string, columnId: string) => void;
+  onCardClick: (cardId: string) => void;
+  columnsArray: IColumn[];
   onDeleteCard: (cardId: string) => void;
   onRenameCard: (cardId: string, newTitle: string) => void;
+  commentsArray: IComment[];
+  changeColumnTitle: (columnId: string, columnTitle: string) => void;
 }
 
 export const Columns: FC<ColumnsProps> = ({
-  username,
   cards,
   onAddCard,
   onDeleteCard,
   onRenameCard,
+  columnsArray,
+  onCardClick,
+  commentsArray,
+  changeColumnTitle,
 }) => {
-  const [columnIdWithNewCardForm, setСolumnIdWithNewCardForm] = useState("");
+  const [columnIdWithNewCardForm, setColumnIdWithNewCardForm] = useState("");
 
   const handleNewCardFormOpen = (id: string) => {
-    setСolumnIdWithNewCardForm(id);
+    setColumnIdWithNewCardForm(id);
   };
 
-  const columnsArray = Object.values(columns);
   return (
     <Root>
       {columnsArray.map((column) => {
         return (
           <Column
-            username={username}
             key={column.id}
             idColumn={column.id}
             columnTitle={column.title}
@@ -43,6 +46,9 @@ export const Columns: FC<ColumnsProps> = ({
             onRenameCard={onRenameCard}
             columnIdWithNewCardForm={columnIdWithNewCardForm}
             onNewCardFormOpen={handleNewCardFormOpen}
+            onCardClick={onCardClick}
+            commentsArray={commentsArray}
+            changeColumnTitle={changeColumnTitle}
           />
         );
       })}
