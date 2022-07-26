@@ -3,41 +3,31 @@ import { useState } from "react";
 import { CardModal, Columns } from "components";
 import { Header } from "components";
 import { ModalLogin } from "components";
+import {
+  addCard,
+  deleteCard,
+  editCardDescription,
+  renameCard,
+} from "store/features/cards/cardsSlice";
+import { renameColumn } from "store/features/columns/columnsSlice";
+import {
+  addComment,
+  deleteComment,
+  renameComment,
+} from "store/features/comments/commentsSlice";
 import { setUserName } from "store/features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import styled from "styled-components";
-import { ICard, IComment, LocalStorageVariables } from "types";
-import {
-  getDataFromLocalStorage,
-  setCardsToLocalStorage,
-  setColumnsToLocalStorage,
-  setCommentsToLocalStorage,
-  setUserToLocalStorage,
-} from "utils/data";
-import {
-  defaultCards,
-  defaultColumns,
-  defaultComments,
-  defaultUser,
-} from "utils/mock";
+import { ICard, IComment } from "types";
 import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const user = useAppSelector((state) => state.user.user);
+  const columns = useAppSelector((state) => state.columns.columns);
+  const cards = useAppSelector((state) => state.cards.cards);
+  const comments = useAppSelector((state) => state.comments.comments);
 
   const dispatch = useAppDispatch();
-
-  const [columns, setColumns] = useState(() =>
-    getDataFromLocalStorage(LocalStorageVariables.COLUMNS, defaultColumns)
-  );
-
-  const [cards, setCards] = useState(() =>
-    getDataFromLocalStorage(LocalStorageVariables.CARDS, defaultCards)
-  );
-
-  const [comments, setComments] = useState(() =>
-    getDataFromLocalStorage(LocalStorageVariables.COMMENTS, defaultComments)
-  );
 
   const [selectedCardId, setSelectedCardId] = useState("");
 
@@ -45,21 +35,16 @@ function App() {
 
   const commentsArray = Object.values(comments);
 
+  const handleLoginSubmit = (name: string) => {
+    dispatch(setUserName({ name }));
+  };
+
   const changeColumnTitle = (columnId: string, newTitle: string) => {
-    let newColumns = {
-      ...columns,
-    };
-    newColumns[columnId].title = newTitle;
-    setColumns(newColumns);
-    setColumnsToLocalStorage(newColumns);
+    dispatch(renameColumn({ columnId, newTitle }));
   };
 
   const handleAddCard = (cardName: string, columnId: string) => {
     const cardId = uuidv4();
-
-    let newCards = {
-      ...cards,
-    };
 
     const newCard: ICard = {
       columnId,
@@ -68,17 +53,11 @@ function App() {
       description: "",
     };
 
-    newCards[cardId] = newCard;
-    setCards(newCards);
-    setCardsToLocalStorage(newCards);
+    dispatch(addCard({ [cardId]: newCard }));
   };
 
   const handleAddComment = (commentText: string, cardId: string) => {
     const commentId = uuidv4();
-
-    let newComments = {
-      ...comments,
-    };
 
     const newComment: IComment = {
       cardId,
@@ -87,62 +66,27 @@ function App() {
       text: commentText,
     };
 
-    newComments[commentId] = newComment;
-    setComments(newComments);
-    setCommentsToLocalStorage(newComments);
+    dispatch(addComment({ [commentId]: newComment }));
   };
 
   const handleRenameCard = (cardId: string, newTitle: string) => {
-    let newCards = {
-      ...cards,
-    };
-
-    newCards[cardId].title = newTitle;
-    setCards(newCards);
-    setCardsToLocalStorage(newCards);
+    dispatch(renameCard({ cardId, newTitle }));
   };
 
   const handleEditDescription = (cardId: string, newDescription: string) => {
-    let newCards = {
-      ...cards,
-    };
-
-    newCards[cardId].description = newDescription;
-    setCards(newCards);
-    setCardsToLocalStorage(newCards);
+    dispatch(editCardDescription({ cardId, newDescription }));
   };
 
   const handleRenameComment = (commentId: string, newCommentText: string) => {
-    let newComments = {
-      ...comments,
-    };
-    newComments[commentId].text = newCommentText;
-    setComments(newComments);
-    setCommentsToLocalStorage(newComments);
+    dispatch(renameComment({ commentId, newCommentText }));
   };
 
   const handleDeleteCard = (cardId: string) => {
-    let newCards = {
-      ...cards,
-    };
-
-    delete newCards[cardId];
-    setCards(newCards);
-    setCardsToLocalStorage(newCards);
+    dispatch(deleteCard(cardId));
   };
 
   const handleDeleteComment = (commentId: string) => {
-    let newComments = {
-      ...comments,
-    };
-    delete newComments[commentId];
-    setComments(newComments);
-    setCommentsToLocalStorage(newComments);
-  };
-
-  const handleLoginSubmit = (name: string) => {
-    dispatch(setUserName({ name }));
-    setUserToLocalStorage({ name });
+    dispatch(deleteComment(commentId));
   };
 
   const handleCardClick = (cardId: string) => {
@@ -151,7 +95,7 @@ function App() {
 
   const getModalColumnTitle = (cardId: string) => {
     const columnId = cards[cardId].columnId;
-    const columnTitle = defaultColumns[columnId].title;
+    const columnTitle = columns[columnId].title;
     return columnTitle;
   };
 

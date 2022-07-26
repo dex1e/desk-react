@@ -1,3 +1,1 @@
-import userReducer from "./columnsSlice";
-
-export default userReducer;
+export { default } from "./columnsSlice";

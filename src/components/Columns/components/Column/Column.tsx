@@ -11,12 +11,12 @@ interface ColumnProps {
   cards: Record<string, ICard>;
   idColumn: string;
   columnIdWithNewCardForm: string;
+  commentsArray: IComment[];
   onNewCardFormOpen: (id: string) => void;
   onAddCard: (cardName: string, columnId: string) => void;
   onDeleteCard: (cardId: string) => void;
   onRenameCard: (cardId: string, newTitle: string) => void;
   onCardClick: (cardId: string) => void;
-  commentsArray: IComment[];
   changeColumnTitle: (columnId: string, columnTitle: string) => void;
 }
 

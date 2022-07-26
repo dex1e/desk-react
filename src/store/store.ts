@@ -1,10 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
 
+import cardsReducer from "./features/cards";
+import columnsReducer from "./features/columns";
+import commentsReducer from "./features/comments";
 import userReducer from "./features/user";
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
+    columns: columnsReducer,
+    cards: cardsReducer,
+    comments: commentsReducer,
   },
 });
 
