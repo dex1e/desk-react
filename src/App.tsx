@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { CardModal, Columns } from "components";
 import { Header } from "components";
@@ -40,14 +40,6 @@ function App() {
   );
 
   const [selectedCardId, setSelectedCardId] = useState("");
-
-  useEffect(() => {
-    dispatch(
-      setUserName(
-        getDataFromLocalStorage(LocalStorageVariables.USER, defaultUser)
-      )
-    );
-  }, []);
 
   const columnsArray = Object.values(columns);
 
