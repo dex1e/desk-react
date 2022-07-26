@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { CardModal, Columns } from "components";
 import { Header } from "components";
 import { ModalLogin } from "components";
+import { setUserName } from "store/features/user/userSlice";
+import { useAppDispatch, useAppSelector } from "store/hooks";
 import styled from "styled-components";
 import { ICard, IComment, LocalStorageVariables } from "types";
 import {
@@ -21,9 +23,9 @@ import {
 import { v4 as uuidv4 } from "uuid";
 
 function App() {
-  const [user, setUser] = useState(() =>
-    getDataFromLocalStorage(LocalStorageVariables.USER, defaultUser)
-  );
+  const user = useAppSelector((state) => state.user.user);
+
+  const dispatch = useAppDispatch();
 
   const [columns, setColumns] = useState(() =>
     getDataFromLocalStorage(LocalStorageVariables.COLUMNS, defaultColumns)
@@ -38,6 +40,14 @@ function App() {
   );
 
   const [selectedCardId, setSelectedCardId] = useState("");
+
+  useEffect(() => {
+    dispatch(
+      setUserName(
+        getDataFromLocalStorage(LocalStorageVariables.USER, defaultUser)
+      )
+    );
+  }, []);
 
   const columnsArray = Object.values(columns);
 
@@ -139,7 +149,7 @@ function App() {
   };
 
   const handleLoginSubmit = (name: string) => {
-    setUser({ name });
+    dispatch(setUserName({ name }));
     setUserToLocalStorage({ name });
   };
 
