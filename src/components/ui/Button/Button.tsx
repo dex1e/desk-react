@@ -15,6 +15,8 @@ interface ButtonProps {
   text?: string;
   disabled?: boolean;
   variant?: Variant;
+  type?: "button" | "submit" | "reset" | undefined;
+  props?: any;
 }
 
 export const Button: FC<ButtonProps> = ({
@@ -22,11 +24,19 @@ export const Button: FC<ButtonProps> = ({
   text,
   className,
   variant = "primary",
+  type,
+  ...props
 }) => {
   const buttonStyles = buttonTheme[variant];
 
   return (
-    <Root onClick={onClick} className={className} $buttonStyles={buttonStyles}>
+    <Root
+      onClick={onClick}
+      className={className}
+      $buttonStyles={buttonStyles}
+      type={type}
+      {...props}
+    >
       {text}
     </Root>
   );

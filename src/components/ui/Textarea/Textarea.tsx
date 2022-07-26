@@ -6,11 +6,7 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   className?: string;
 }
 
-export const Textarea: FC<TextareaProps> = ({
-  className,
-
-  ...props
-}) => {
+export const Textarea: FC<TextareaProps> = ({ className, ...props }) => {
   return <Root className={className} {...props} />;
 };
 
