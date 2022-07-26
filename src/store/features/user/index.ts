@@ -1,3 +1,1 @@
-import userReducer from "./userSlice";
-
-export default userReducer;
+export { default as userReducer } from "./userSlice";
