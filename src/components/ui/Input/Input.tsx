@@ -1,5 +1,5 @@
 import React from "react";
-import { FC, InputHTMLAttributes } from "react";
+import { InputHTMLAttributes } from "react";
 
 import styled from "styled-components";
 
@@ -7,13 +7,9 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   placeholder?: string;
   value?: string;
-  ref?:
-    | ((instance: HTMLInputElement | null) => void)
-    | React.RefObject<HTMLInputElement>
-    | null;
 }
 
-export const Input: FC<InputProps> = React.forwardRef(
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, value, placeholder, ...props }, ref) => {
     return (
       <Root

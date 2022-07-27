@@ -1,9 +1,10 @@
-import { FC, useRef } from "react";
+import { FC } from "react";
 
 import { Button } from "components/ui/Button";
 import { Input } from "components/ui/Input";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "styled-components";
+import { isEmpty } from "utils/validators";
 
 interface ModalLoginProps {
   onSubmit: (name: string) => void;
@@ -14,21 +15,15 @@ type Inputs = {
 };
 
 export const ModalLogin: FC<ModalLoginProps> = ({ onSubmit }) => {
-  const usernameRef = useRef<HTMLInputElement | null>(null);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
 
-  const handleOnSubmit: SubmitHandler<Inputs> = (data) => {
-    const trimmedName = data.username.trim();
-    if (trimmedName) {
-      onSubmit(trimmedName);
-    }
+  const handleOnSubmit: SubmitHandler<Inputs> = ({ username }) => {
+    onSubmit(username);
   };
-
-  const { ref, ...rest } = register("username", { required: true });
 
   return (
     <Root>
@@ -36,17 +31,14 @@ export const ModalLogin: FC<ModalLoginProps> = ({ onSubmit }) => {
         Welcome!
         <Form onSubmit={handleSubmit(handleOnSubmit)}>
           <StyledInput
-            minLength={2}
             maxLength={20}
             placeholder="Username"
-            isError={Boolean(errors.username)}
-            ref={(e: any) => {
-              ref(e);
-              usernameRef.current = e;
-            }}
-            {...rest}
+            $isError={Boolean(errors.username)}
+            {...register("username", { required: true, validate: isEmpty })}
           />
+
           {errors.username && <Error>This field is required</Error>}
+
           <Button
             variant="primary"
             type="submit"
@@ -102,11 +94,12 @@ const Error = styled.span`
   color: var(--red);
 `;
 
-const StyledInput = styled(Input)<{ isError: boolean }>`
+const StyledInput = styled(Input)<{ $isError?: boolean }>`
   width: 200px;
   height: 50px;
   font-weight: 400;
   font-size: 16px;
   color: var(--black);
-  border: 1px solid ${({ isError }) => (isError ? "var(--red)" : "var(--gray)")};
+  border: 1px solid
+    ${({ $isError }) => ($isError ? "var(--red)" : "var(--gray)")};
 `;

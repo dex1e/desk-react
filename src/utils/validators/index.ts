@@ -1,3 +1,1 @@
-export const hasEmptyValueField = (value: any) => {
-  return value ? undefined : "textError";
-};
+export const isEmpty = (value?: string) => Boolean(value?.trim());
