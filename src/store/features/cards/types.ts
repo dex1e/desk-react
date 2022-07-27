@@ -4,6 +4,11 @@ export interface ICardInitialState {
   cards: Record<string, ICard>;
 }
 
+export interface IAddCard {
+  cardName: string;
+  columnId: string;
+}
+
 export interface IRenameCardsPayload {
   cardId: string;
   newTitle: string;

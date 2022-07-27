@@ -1,25 +1,21 @@
 import { useState } from "react";
 
-import { CardModal, Columns } from "components";
-import { Header } from "components";
-import { ModalLogin } from "components";
+import { CardModal, Columns, Header, ModalLogin } from "components";
 import {
   addCard,
   deleteCard,
   editCardDescription,
   renameCard,
-} from "store/features/cards/cardsSlice";
-import { renameColumn } from "store/features/columns/columnsSlice";
+} from "store/features/cards";
+import { renameColumn } from "store/features/columns";
 import {
   addComment,
   deleteComment,
   renameComment,
-} from "store/features/comments/commentsSlice";
-import { setUserName } from "store/features/user/userSlice";
+} from "store/features/comments";
+import { setUserName } from "store/features/user";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import styled from "styled-components";
-import { ICard, IComment } from "types";
-import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const user = useAppSelector((state) => state.user.user);
@@ -44,29 +40,11 @@ function App() {
   };
 
   const handleAddCard = (cardName: string, columnId: string) => {
-    const cardId = uuidv4();
-
-    const newCard: ICard = {
-      columnId,
-      id: cardId,
-      title: cardName,
-      description: "",
-    };
-
-    dispatch(addCard({ [cardId]: newCard }));
+    dispatch(addCard({ cardName, columnId }));
   };
 
   const handleAddComment = (commentText: string, cardId: string) => {
-    const commentId = uuidv4();
-
-    const newComment: IComment = {
-      cardId,
-      id: commentId,
-      author: user.name,
-      text: commentText,
-    };
-
-    dispatch(addComment({ [commentId]: newComment }));
+    dispatch(addComment({ commentText, cardId, user: user.name }));
   };
 
   const handleRenameCard = (cardId: string, newTitle: string) => {

@@ -8,3 +8,9 @@ export interface IRenameComment {
   commentId: string;
   newCommentText: string;
 }
+
+export interface IAddComment {
+  cardId: string;
+  commentText: string;
+  user: string;
+}

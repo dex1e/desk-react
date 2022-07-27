@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { ICard } from "types";
+import { v4 as uuidv4 } from "uuid";
 
 import { initialState } from "./initialState";
-import { IEditDescription, IRenameCardsPayload } from "./types";
+import { IAddCard, IEditDescription, IRenameCardsPayload } from "./types";
 
 export const cardsSlice = createSlice({
   name: "cards",
@@ -15,8 +16,19 @@ export const cardsSlice = createSlice({
       state.cards[cardId].title = newTitle;
     },
 
-    addCard: (state, action: PayloadAction<Record<string, ICard>>) => {
-      state.cards = { ...state.cards, ...action.payload };
+    addCard: (state, action: PayloadAction<IAddCard>) => {
+      const cardId = uuidv4();
+
+      const { cardName, columnId } = action.payload;
+
+      const newCard: ICard = {
+        columnId,
+        id: cardId,
+        title: cardName,
+        description: "",
+      };
+
+      state.cards[cardId] = newCard;
     },
 
     deleteCard: (state, action: PayloadAction<string>) => {
