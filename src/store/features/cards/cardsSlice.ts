@@ -3,8 +3,14 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { ICard } from "types";
 import { v4 as uuidv4 } from "uuid";
 
-import { initialState } from "./initialState";
-import { IAddCard, IEditDescription, IRenameCardsPayload } from "./types";
+import {
+  IAddCardPayload,
+  IEditDescriptionPayload,
+  IRenameCardsPayload,
+  ICardInitialState,
+} from "./types";
+
+const initialState: ICardInitialState = { cards: {} };
 
 export const cardsSlice = createSlice({
   name: "cards",
@@ -16,7 +22,7 @@ export const cardsSlice = createSlice({
       state.cards[cardId].title = newTitle;
     },
 
-    addCard: (state, action: PayloadAction<IAddCard>) => {
+    addCard: (state, action: PayloadAction<IAddCardPayload>) => {
       const cardId = uuidv4();
 
       const { cardName, columnId } = action.payload;
@@ -37,7 +43,10 @@ export const cardsSlice = createSlice({
       delete state.cards[cardId];
     },
 
-    editCardDescription: (state, action: PayloadAction<IEditDescription>) => {
+    editCardDescription: (
+      state,
+      action: PayloadAction<IEditDescriptionPayload>
+    ) => {
       const { cardId, newDescription } = action.payload;
 
       state.cards[cardId].description = newDescription;
