@@ -19,6 +19,7 @@ interface CardModalProps {
   onEditDescription: (cardId: string, newDescription: string) => void;
   onRenameCard: (cardId: string, newTitle: string) => void;
 }
+
 export const CardModal: FC<CardModalProps> = ({
   card,
   columnTitle,

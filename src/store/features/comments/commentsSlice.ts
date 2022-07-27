@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { IComment } from "types";
+import { v4 as uuidv4 } from "uuid";
 
 import { initialState } from "./initialState";
-import { IRenameComment } from "./types";
+import { IAddComment, IRenameComment } from "./types";
 
 export const commentsSlice = createSlice({
   name: "cards",
@@ -16,8 +17,19 @@ export const commentsSlice = createSlice({
       state.comments[commentId].text = newCommentText;
     },
 
-    addComment: (state, action: PayloadAction<Record<string, IComment>>) => {
-      state.comments = { ...state.comments, ...action.payload };
+    addComment: (state, action: PayloadAction<IAddComment>) => {
+      const commentId = uuidv4();
+
+      const { commentText, cardId, user } = action.payload;
+
+      const newComment: IComment = {
+        cardId,
+        id: commentId,
+        author: user,
+        text: commentText,
+      };
+
+      state.comments[commentId] = newComment;
     },
 
     deleteComment: (state, action: PayloadAction<string>) => {
