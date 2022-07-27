@@ -1,23 +1,40 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { IComment } from "types";
+import { v4 as uuidv4 } from "uuid";
 
-import { initialState } from "./initialState";
-import { IRenameComment } from "./types";
+import {
+  IAddCommentPayload,
+  ICommentInitialState,
+  IRenameCommentPayload,
+} from "./types";
+
+const initialState: ICommentInitialState = { comments: {} };
 
 export const commentsSlice = createSlice({
   name: "cards",
   initialState,
 
   reducers: {
-    renameComment: (state, action: PayloadAction<IRenameComment>) => {
+    renameComment: (state, action: PayloadAction<IRenameCommentPayload>) => {
       const { commentId, newCommentText } = action.payload;
 
       state.comments[commentId].text = newCommentText;
     },
 
-    addComment: (state, action: PayloadAction<Record<string, IComment>>) => {
-      state.comments = { ...state.comments, ...action.payload };
+    addComment: (state, action: PayloadAction<IAddCommentPayload>) => {
+      const commentId = uuidv4();
+
+      const { commentText, cardId, user } = action.payload;
+
+      const newComment: IComment = {
+        cardId,
+        id: commentId,
+        author: user,
+        text: commentText,
+      };
+
+      state.comments[commentId] = newComment;
     },
 
     deleteComment: (state, action: PayloadAction<string>) => {
