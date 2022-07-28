@@ -1,9 +1,11 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { Textarea } from "components/ui/Textarea";
+import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import { IComment } from "types";
+import { isEmpty } from "utils/validators";
 
 import { Comments } from "./components";
 
@@ -15,6 +17,10 @@ interface ActivityProps {
   onDeleteComment: (commentId: string) => void;
 }
 
+type ActivityFormValues = {
+  commentText: string;
+};
+
 export const Activity: FC<ActivityProps> = ({
   comments,
   cardId,
@@ -22,13 +28,27 @@ export const Activity: FC<ActivityProps> = ({
   onRenameComment,
   onDeleteComment,
 }) => {
-  const [commentText, setCommentText] = useState("");
-
   const [commentIdWithEditCommentForm, setCommentIdWithEditCommentForm] =
     useState("");
 
   const [isVisibleButtonAddComment, setIsVisibleButtonAddComment] =
     useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState,
+    formState: { errors },
+  } = useForm<ActivityFormValues>({
+    mode: "onChange",
+  });
+
+  useEffect(() => {
+    if (formState.isSubmitSuccessful) {
+      reset({ commentText: "" });
+    }
+  }, [formState, reset]);
 
   const commentsArray = Object.values(comments);
 
@@ -36,25 +56,14 @@ export const Activity: FC<ActivityProps> = ({
     (comment) => comment.cardId === cardId
   );
 
-  const handleTextAreaNewCommentChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    let commentText = event.target.value;
-    setCommentText(commentText);
-  };
-
-  const handleAddComment = () => {
-    let trimmedCommentText = commentText.trim();
-
-    if (trimmedCommentText) {
-      onAddComment(trimmedCommentText, cardId);
-    }
-    setCommentText("");
+  const handleAddComment: SubmitHandler<ActivityFormValues> = ({
+    commentText,
+  }) => {
+    onAddComment(commentText, cardId);
     setIsVisibleButtonAddComment(false);
   };
 
-  const handleCancelComment = () => {
-    setCommentText("");
+  const handleClearComment = () => {
     setIsVisibleButtonAddComment(false);
   };
 
@@ -67,7 +76,7 @@ export const Activity: FC<ActivityProps> = ({
   ) => {
     if (event.code === "Enter") {
       event.preventDefault();
-      handleAddComment();
+      handleSubmit(handleAddComment)();
       setIsVisibleButtonAddComment(false);
       event.target.blur();
     }
@@ -80,26 +89,40 @@ export const Activity: FC<ActivityProps> = ({
   return (
     <Root>
       <Title>Activity</Title>
-      <Form>
+      <Form
+        onSubmit={handleSubmit(handleAddComment)}
+        onReset={handleClearComment}
+      >
         <StyledTextArea
           placeholder="Write a comment..."
-          value={commentText}
-          onChange={handleTextAreaNewCommentChange}
           onFocus={handleVisibleButtonAddComment}
           onKeyDown={handleCommentAddEnter}
+          {...register("commentText", {
+            required: true,
+            validate: isEmpty,
+          })}
         />
+
+        {errors.commentText && (
+          <Error $isVisibleButtonComment={isVisibleButtonAddComment}>
+            This field is required
+          </Error>
+        )}
+
         <ButtonsWrapperComment>
           <StyledButtonAddComment
             text="Save"
-            onClick={handleAddComment}
             $isVisibleButtonComment={isVisibleButtonAddComment}
             variant="primaryAdd"
+            type="submit"
+            disabled={Boolean(errors.commentText)}
           />
           <StyledButtonClearComment
             $isVisibleButtonComment={isVisibleButtonAddComment}
             text="Clear"
-            onClick={handleCancelComment}
+            onClick={() => handleClearComment}
             variant="primaryClear"
+            type="reset"
           />
         </ButtonsWrapperComment>
       </Form>
@@ -135,7 +158,7 @@ const Title = styled.h2`
   font-weight: 600px;
 `;
 
-const Form = styled.div`
+const Form = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -144,6 +167,13 @@ const Form = styled.div`
 
 const StyledTextArea = styled(Textarea)`
   max-height: 150px;
+`;
+
+const Error = styled.span<{ $isVisibleButtonComment: boolean }>`
+  display: ${({ $isVisibleButtonComment }) =>
+    $isVisibleButtonComment ? "block" : "none"};
+  font-size: 14px;
+  color: var(--red);
 `;
 
 const ButtonsWrapperComment = styled.div`

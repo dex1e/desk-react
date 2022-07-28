@@ -10,7 +10,7 @@ interface ModalLoginProps {
   onSubmit: (name: string) => void;
 }
 
-type Inputs = {
+type LoginFormValues = {
   username: string;
 };
 
@@ -19,9 +19,9 @@ export const ModalLogin: FC<ModalLoginProps> = ({ onSubmit }) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<LoginFormValues>();
 
-  const handleOnSubmit: SubmitHandler<Inputs> = ({ username }) => {
+  const handleOnSubmit: SubmitHandler<LoginFormValues> = ({ username }) => {
     onSubmit(username);
   };
 
@@ -34,7 +34,10 @@ export const ModalLogin: FC<ModalLoginProps> = ({ onSubmit }) => {
             maxLength={20}
             placeholder="Username"
             $isError={Boolean(errors.username)}
-            {...register("username", { required: true, validate: isEmpty })}
+            {...register("username", {
+              required: true,
+              validate: isEmpty,
+            })}
           />
 
           {errors.username && <Error>This field is required</Error>}

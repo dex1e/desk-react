@@ -1,8 +1,11 @@
 import { FC, useState } from "react";
 
 import { Button } from "components/ui/Button";
+import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import { IComment } from "types";
+import { moveCaretAtEnd } from "utils/helpers";
+import { isEmpty } from "utils/validators";
 
 interface CommentsProps {
   comment: IComment;
@@ -12,6 +15,10 @@ interface CommentsProps {
   onDeleteComment: (commentId: string) => void;
 }
 
+type CommentFormValues = {
+  commentText: string;
+};
+
 export const Comments: FC<CommentsProps> = ({
   comment,
   commentIdWithEditCommentForm,
@@ -20,24 +27,15 @@ export const Comments: FC<CommentsProps> = ({
   onDeleteComment,
 }) => {
   const [isRenameActive, setIsRenameActive] = useState(false);
-  const [commentText, setCommentText] = useState(comment.text);
 
-  const handleCommentChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const newCommentText = event.target.value;
-    setCommentText(newCommentText);
-  };
+  const { register, handleSubmit } = useForm<CommentFormValues>({
+    mode: "onChange",
+  });
 
-  const handleEditCommentBlur = () => {
-    const trimmedCommentText = commentText.trim();
-
-    if (trimmedCommentText) {
-      onRenameComment(comment.id, trimmedCommentText);
-      setCommentText(trimmedCommentText);
-    } else {
-      setCommentText(comment.text);
-    }
+  const handleEditCommentBlur: SubmitHandler<CommentFormValues> = ({
+    commentText,
+  }) => {
+    onRenameComment(comment.id, commentText);
     setIsRenameActive(false);
   };
 
@@ -46,7 +44,7 @@ export const Comments: FC<CommentsProps> = ({
   ) => {
     if (event.code === "Enter") {
       event.preventDefault();
-      handleEditCommentBlur();
+      handleSubmit(handleEditCommentBlur)();
       event.target.blur();
       setIsRenameActive(false);
     }
@@ -64,13 +62,18 @@ export const Comments: FC<CommentsProps> = ({
       <AuthorComment>{comment.author}</AuthorComment>
 
       {isRenameActive && commentIdWithEditCommentForm === comment.id ? (
-        <CommentRenameTextArea
-          value={commentText}
-          onChange={handleCommentChange}
-          onBlur={handleEditCommentBlur}
-          onKeyDown={handleEnterEditCommentText}
-          autoFocus
-        />
+        <Form onBlur={handleSubmit(handleEditCommentBlur)}>
+          <CommentRenameTextArea
+            defaultValue={comment.text}
+            onKeyDown={handleEnterEditCommentText}
+            onFocus={moveCaretAtEnd}
+            autoFocus
+            {...register("commentText", {
+              required: true,
+              validate: isEmpty,
+            })}
+          />
+        </Form>
       ) : (
         <Comment>{comment.text}</Comment>
       )}
@@ -104,6 +107,13 @@ const AuthorComment = styled.h3`
   width: 100%;
   min-height: 15px;
   font-weight: 700;
+`;
+
+const Form = styled.form`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 `;
 
 const CommentRenameTextArea = styled.textarea`
