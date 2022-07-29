@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { Button, Error, Input } from "components/ui";
+import { Button, Error, Input, Modal } from "components/ui";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "styled-components";
 import { isEmpty } from "utils/validators";
@@ -25,7 +25,7 @@ export const ModalLogin: FC<ModalLoginProps> = ({ onSubmit }) => {
   };
 
   return (
-    <Root>
+    <Modal>
       <ModalWindow>
         Welcome!
         <Form onSubmit={handleSubmit(handleOnSubmit)}>
@@ -49,21 +49,9 @@ export const ModalLogin: FC<ModalLoginProps> = ({ onSubmit }) => {
           />
         </Form>
       </ModalWindow>
-    </Root>
+    </Modal>
   );
 };
-
-const Root = styled.div`
-  width: 100%;
-  height: 100vh;
-  background-color: var(--transparent);
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 
 const ModalWindow = styled.div`
   display: flex;
