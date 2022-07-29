@@ -1,53 +1,53 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 
-import { Button } from "components/ui/Button";
-import { Input } from "components/ui/Input";
+import { Button, Error, Input } from "components/ui";
+import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "styled-components";
+import { isEmpty } from "utils/validators";
 
 interface ModalLoginProps {
   onSubmit: (name: string) => void;
 }
 
+type LoginFormValues = {
+  username: string;
+};
+
 export const ModalLogin: FC<ModalLoginProps> = ({ onSubmit }) => {
-  const [name, setName] = useState("");
-  const [isError, setIsError] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormValues>();
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let inputName = e.target.value;
-    setName(inputName);
-    setIsError(false);
-  };
-
-  const handleOnClick = () => {
-    const trimmedName = name.trim();
-    if (trimmedName) {
-      onSubmit(trimmedName);
-    } else {
-      setIsError(true);
-    }
+  const handleOnSubmit: SubmitHandler<LoginFormValues> = ({ username }) => {
+    onSubmit(username);
   };
 
   return (
     <Root>
       <ModalWindow>
         Welcome!
-        <Label>
+        <Form onSubmit={handleSubmit(handleOnSubmit)}>
           <StyledInput
-            onChange={handleNameChange}
-            value={name}
-            placeholder="Username"
-            isError={isError}
-            minLength={2}
             maxLength={20}
+            placeholder="Username"
+            $isError={Boolean(errors.username)}
+            {...register("username", {
+              required: true,
+              validate: isEmpty,
+            })}
           />
-          {isError && <p>Please enter correct name</p>}
-        </Label>
-        <Button
-          text="OK"
-          disabled={isError}
-          onClick={handleOnClick}
-          variant="primary"
-        />
+
+          {errors?.username && <Error text="This field is required" />}
+
+          <Button
+            variant="primary"
+            type="submit"
+            text="OK"
+            disabled={Boolean(errors.username)}
+          />
+        </Form>
       </ModalWindow>
     </Root>
   );
@@ -83,20 +83,21 @@ const ModalWindow = styled.div`
   }
 `;
 
-const Label = styled.label`
+const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   font-size: 14px;
-  color: var(--red);
+  gap: 10px;
 `;
 
-const StyledInput = styled(Input)<{ isError: boolean }>`
+const StyledInput = styled(Input)<{ $isError?: boolean }>`
   width: 200px;
   height: 50px;
   font-weight: 400;
   font-size: 16px;
   color: var(--black);
-  border: 1px solid ${({ isError }) => (isError ? "var(--red)" : "var(--gray)")};
+  border: 1px solid
+    ${({ $isError }) => ($isError ? "var(--red)" : "var(--gray)")};
 `;

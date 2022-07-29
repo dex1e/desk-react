@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { ButtonHTMLAttributes, FC } from "react";
 
 import styled from "styled-components";
 
@@ -9,12 +9,13 @@ type Variant =
   | "primaryUnderline"
   | "primaryGray";
 
-interface ButtonProps {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   onClick?: () => void;
   text?: string;
   disabled?: boolean;
   variant?: Variant;
+  props?: any;
 }
 
 export const Button: FC<ButtonProps> = ({
@@ -22,11 +23,19 @@ export const Button: FC<ButtonProps> = ({
   text,
   className,
   variant = "primary",
+  type = "button",
+  ...props
 }) => {
   const buttonStyles = buttonTheme[variant];
 
   return (
-    <Root onClick={onClick} className={className} $buttonStyles={buttonStyles}>
+    <Root
+      onClick={onClick}
+      className={className}
+      $buttonStyles={buttonStyles}
+      type={type}
+      {...props}
+    >
       {text}
     </Root>
   );

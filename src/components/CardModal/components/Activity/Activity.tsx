@@ -1,9 +1,10 @@
 import { FC, useState } from "react";
 
-import { Button } from "components/ui/Button";
-import { Textarea } from "components/ui/Textarea";
+import { Button, Error, Textarea } from "components/ui";
+import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import { IComment } from "types";
+import { isEmpty } from "utils/validators";
 
 import { Comments } from "./components";
 
@@ -15,6 +16,10 @@ interface ActivityProps {
   onDeleteComment: (commentId: string) => void;
 }
 
+type ActivityFormValues = {
+  commentText: string;
+};
+
 export const Activity: FC<ActivityProps> = ({
   comments,
   cardId,
@@ -22,13 +27,20 @@ export const Activity: FC<ActivityProps> = ({
   onRenameComment,
   onDeleteComment,
 }) => {
-  const [commentText, setCommentText] = useState("");
-
   const [commentIdWithEditCommentForm, setCommentIdWithEditCommentForm] =
     useState("");
 
   const [isVisibleButtonAddComment, setIsVisibleButtonAddComment] =
     useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ActivityFormValues>({
+    mode: "onChange",
+  });
 
   const commentsArray = Object.values(comments);
 
@@ -36,25 +48,15 @@ export const Activity: FC<ActivityProps> = ({
     (comment) => comment.cardId === cardId
   );
 
-  const handleTextAreaNewCommentChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    let commentText = event.target.value;
-    setCommentText(commentText);
-  };
-
-  const handleAddComment = () => {
-    let trimmedCommentText = commentText.trim();
-
-    if (trimmedCommentText) {
-      onAddComment(trimmedCommentText, cardId);
-    }
-    setCommentText("");
+  const handleAddComment: SubmitHandler<ActivityFormValues> = ({
+    commentText,
+  }) => {
+    onAddComment(commentText, cardId);
+    reset();
     setIsVisibleButtonAddComment(false);
   };
 
-  const handleCancelComment = () => {
-    setCommentText("");
+  const handleClearComment = () => {
     setIsVisibleButtonAddComment(false);
   };
 
@@ -67,7 +69,7 @@ export const Activity: FC<ActivityProps> = ({
   ) => {
     if (event.code === "Enter") {
       event.preventDefault();
-      handleAddComment();
+      handleSubmit(handleAddComment)();
       setIsVisibleButtonAddComment(false);
       event.target.blur();
     }
@@ -80,26 +82,38 @@ export const Activity: FC<ActivityProps> = ({
   return (
     <Root>
       <Title>Activity</Title>
-      <Form>
+      <Form
+        onSubmit={handleSubmit(handleAddComment)}
+        onReset={handleClearComment}
+      >
         <StyledTextArea
           placeholder="Write a comment..."
-          value={commentText}
-          onChange={handleTextAreaNewCommentChange}
           onFocus={handleVisibleButtonAddComment}
           onKeyDown={handleCommentAddEnter}
+          {...register("commentText", {
+            required: true,
+            validate: isEmpty,
+          })}
         />
+
+        {errors?.commentText && isVisibleButtonAddComment && (
+          <Error text="This field is required" />
+        )}
+
         <ButtonsWrapperComment>
           <StyledButtonAddComment
             text="Save"
-            onClick={handleAddComment}
             $isVisibleButtonComment={isVisibleButtonAddComment}
             variant="primaryAdd"
+            type="submit"
+            disabled={Boolean(errors.commentText)}
           />
           <StyledButtonClearComment
             $isVisibleButtonComment={isVisibleButtonAddComment}
             text="Clear"
-            onClick={handleCancelComment}
+            onClick={handleClearComment}
             variant="primaryClear"
+            type="reset"
           />
         </ButtonsWrapperComment>
       </Form>
@@ -135,7 +149,7 @@ const Title = styled.h2`
   font-weight: 600px;
 `;
 
-const Form = styled.div`
+const Form = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;

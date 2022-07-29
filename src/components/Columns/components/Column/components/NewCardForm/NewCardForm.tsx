@@ -1,8 +1,9 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 
-import { Button } from "components/ui/Button";
-import { Textarea } from "components/ui/Textarea";
+import { Button, Error, Textarea } from "components/ui";
+import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
+import { isEmpty } from "utils/validators";
 
 interface NewCardFormProps {
   idColumn: string;
@@ -11,42 +12,40 @@ interface NewCardFormProps {
   onNewCardFormOpen: (id: string) => void;
 }
 
+type NewCardFormValues = {
+  cardTitle: string;
+};
+
 export const NewCardForm: FC<NewCardFormProps> = ({
   idColumn,
   onAddCard,
   columnIdWithNewCardForm,
   onNewCardFormOpen,
 }) => {
-  const [cardTitle, setCardTitle] = useState("");
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm<NewCardFormValues>({
+    mode: "onChange",
+  });
 
-  const handleTextAreaBlur = () => {
-    const trimmedTextArea = cardTitle.trim();
-    if (trimmedTextArea) {
-      setCardTitle(trimmedTextArea);
-    } else {
-      setCardTitle("");
-    }
-  };
+  const handleAddCard: SubmitHandler<NewCardFormValues> = ({ cardTitle }) => {
+    const trimmedCardTitle = cardTitle.trim();
 
-  const handleTextAreaChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    let cardTitle = event.target.value;
-    setCardTitle(cardTitle);
-  };
+    onAddCard(trimmedCardTitle, idColumn);
+    setValue("cardTitle", trimmedCardTitle);
+    reset();
 
-  const handleAddCard = () => {
-    if (cardTitle.trim()) {
-      onAddCard(cardTitle.trim(), idColumn);
-      setCardTitle("");
-    }
     onNewCardFormOpen("");
   };
 
   const handleEnterRenameCardTitle = (event: React.KeyboardEvent) => {
     if (event.code === "Enter") {
       event.preventDefault();
-      handleAddCard();
+      handleSubmit(handleAddCard)();
       onNewCardFormOpen("");
     }
   };
@@ -58,26 +57,32 @@ export const NewCardForm: FC<NewCardFormProps> = ({
   return (
     <Root>
       {columnIdWithNewCardForm === idColumn ? (
-        <>
+        <Form onSubmit={handleSubmit(handleAddCard)}>
           <StyledTextarea
-            onBlur={handleTextAreaBlur}
             placeholder="Add card"
-            value={cardTitle}
-            onChange={handleTextAreaChange}
             onKeyDown={handleEnterRenameCardTitle}
+            autoFocus
+            {...register("cardTitle", {
+              required: true,
+              validate: isEmpty,
+            })}
           />
+
+          {errors?.cardTitle && <Error text="This field is required" />}
+
           <StyledButtonAddCard
-            disabled={Boolean(cardTitle)}
-            text="Add card"
-            onClick={handleAddCard}
             variant="primary"
+            type="submit"
+            text="Add card"
+            disabled={Boolean(errors.cardTitle)}
           />
-        </>
+        </Form>
       ) : (
         <StyledTextAreaButton
           text="+ Add a card"
           onClick={handleTextAreaVisible}
           variant="primary"
+          type="submit"
         />
       )}
     </Root>
@@ -92,6 +97,16 @@ const Root = styled.div`
   align-items: center;
   gap: 10px;
   font-size: 16px;
+`;
+
+const Form = styled.form`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  gap: 10px;
 `;
 
 const StyledTextarea = styled(Textarea)`

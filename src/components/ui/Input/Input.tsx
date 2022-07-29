@@ -1,4 +1,5 @@
-import { FC, InputHTMLAttributes } from "react";
+import React from "react";
+import { InputHTMLAttributes } from "react";
 
 import styled from "styled-components";
 
@@ -8,21 +9,19 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   value?: string;
 }
 
-export const Input: FC<InputProps> = ({
-  className,
-  value,
-  placeholder,
-  ...props
-}) => {
-  return (
-    <Root
-      value={value}
-      className={className}
-      placeholder={placeholder}
-      {...props}
-    />
-  );
-};
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, value, placeholder, ...props }, ref) => {
+    return (
+      <Root
+        value={value}
+        className={className}
+        placeholder={placeholder}
+        ref={ref}
+        {...props}
+      />
+    );
+  }
+);
 
 const Root = styled.input`
   width: 100%;

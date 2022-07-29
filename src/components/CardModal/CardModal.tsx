@@ -1,10 +1,12 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 
 import { CloseIcon } from "components/icons";
-import { ButtonIcon } from "components/ui/ButtonIcon";
-import { Input } from "components/ui/Input";
+import { ButtonIcon } from "components/ui";
+import { Input } from "components/ui";
+import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import { ICard, IComment } from "types";
+import { isEmpty } from "utils/validators";
 
 import { Activity, Description } from "./components";
 
@@ -20,6 +22,10 @@ interface CardModalProps {
   onRenameCard: (cardId: string, newTitle: string) => void;
 }
 
+type CardTitleFormValues = {
+  cardTitle: string;
+};
+
 export const CardModal: FC<CardModalProps> = ({
   card,
   columnTitle,
@@ -31,7 +37,9 @@ export const CardModal: FC<CardModalProps> = ({
   onEditDescription,
   onRenameCard,
 }) => {
-  const [title, setTitle] = useState(card.title);
+  const { register, handleSubmit, setValue } = useForm<CardTitleFormValues>({
+    mode: "onChange",
+  });
 
   useEffect(() => {
     const closeCardModal = (event: KeyboardEvent) => {
@@ -44,29 +52,23 @@ export const CardModal: FC<CardModalProps> = ({
     return () => window.removeEventListener("keydown", closeCardModal);
   }, []);
 
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const inputTitle = event.target.value;
-    setTitle(inputTitle);
-  };
+  const handleTitleBlur: SubmitHandler<CardTitleFormValues> = ({
+    cardTitle,
+  }) => {
+    const trimmedTitle = cardTitle.trim();
 
-  const handleTitleBlur = () => {
-    const trimmedTitle = title.trim();
-    if (trimmedTitle) {
-      onRenameCard(card.id, trimmedTitle);
-      setTitle(trimmedTitle);
-    } else {
-      setTitle(card.title);
-    }
+    onRenameCard(card.id, trimmedTitle);
+
+    setValue("cardTitle", trimmedTitle);
   };
 
   const handleEnterRenameTitle = (
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {
     if (event.code === "Enter") {
-      if (title) {
-        setTitle(title);
-        event.target.blur();
-      } else setTitle(card.title);
+      event.preventDefault();
+      handleSubmit(handleTitleBlur)();
+      event.target.blur();
     }
   };
 
@@ -77,12 +79,16 @@ export const CardModal: FC<CardModalProps> = ({
         <ModalWindow>
           <StyledButtonIcon icon={<CloseIcon />} onClick={onCloseCardModal} />
           <Header>
-            <StyledInput
-              value={title}
-              onChange={handleTitleChange}
-              onBlur={handleTitleBlur}
-              onKeyDown={handleEnterRenameTitle}
-            />
+            <Form onBlur={handleSubmit(handleTitleBlur)}>
+              <StyledInput
+                defaultValue={card.title}
+                onKeyDown={handleEnterRenameTitle}
+                {...register("cardTitle", {
+                  required: true,
+                  validate: isEmpty,
+                })}
+              />
+            </Form>
             <HeaderSubtitle>
               in list
               <SubtitleColumnTitle>{columnTitle}</SubtitleColumnTitle>
@@ -175,14 +181,17 @@ const Header = styled.header`
   min-height: 40px;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 7px;
+`;
+
+const Form = styled.form`
+  width: 100%;
 `;
 
 const StyledInput = styled(Input)`
   width: 93%;
   height: 40px;
   min-height: 40px;
-  font-size: 20px;
   margin: 10px 10px 0;
 
   &:focus {
@@ -198,7 +207,7 @@ const HeaderSubtitle = styled.span`
   display: flex;
   align-items: center;
   width: 100%;
-  font-size: 12px;
+  font-size: 14px;
   padding: 0 20px;
   gap: 5px;
 `;
