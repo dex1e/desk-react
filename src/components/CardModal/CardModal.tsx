@@ -1,8 +1,8 @@
 import { FC, useEffect } from "react";
 
 import { CloseIcon } from "components/icons";
-import { ButtonIcon } from "components/ui/ButtonIcon";
-import { Input } from "components/ui/Input";
+import { ButtonIcon } from "components/ui";
+import { Input } from "components/ui";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import { ICard, IComment } from "types";

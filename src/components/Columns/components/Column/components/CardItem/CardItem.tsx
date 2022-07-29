@@ -1,10 +1,7 @@
 import React, { FC, useState } from "react";
 
 import { CommentIcon, PencilIcon, TrashCanIcon } from "components/icons";
-import { Button } from "components/ui/Button";
-import { ButtonIcon } from "components/ui/ButtonIcon";
-import { Error } from "components/ui/Error";
-import { Textarea } from "components/ui/Textarea";
+import { Error, Textarea, Button, ButtonIcon } from "components/ui";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import { ICard, IComment } from "types";

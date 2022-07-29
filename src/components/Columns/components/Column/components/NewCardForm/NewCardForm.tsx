@@ -1,8 +1,6 @@
 import { FC } from "react";
 
-import { Button } from "components/ui/Button";
-import { Error } from "components/ui/Error";
-import { Textarea } from "components/ui/Textarea";
+import { Button, Error, Textarea } from "components/ui";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import { isEmpty } from "utils/validators";

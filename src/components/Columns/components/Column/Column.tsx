@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 
-import { Input } from "components/ui/Input";
+import { Input } from "components/ui";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import { ICard, IComment } from "types";

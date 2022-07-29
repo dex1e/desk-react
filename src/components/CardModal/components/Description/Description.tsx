@@ -1,7 +1,6 @@
 import { FC, useState } from "react";
 
-import { Button } from "components/ui/Button";
-import { Textarea } from "components/ui/Textarea";
+import { Button, Textarea } from "components/ui";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import { moveCaretAtEnd } from "utils/helpers";

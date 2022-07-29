@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 
-import { Button } from "components/ui/Button";
+import { Button } from "components/ui";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import { IComment } from "types";
