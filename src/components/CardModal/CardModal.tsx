@@ -1,7 +1,6 @@
 import { FC } from "react";
 
-import { CloseIcon } from "components/icons";
-import { ButtonIcon, Modal } from "components/ui";
+import { Modal } from "components/ui";
 import { Input } from "components/ui";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
@@ -14,7 +13,7 @@ interface CardModalProps {
   card: ICard;
   columnTitle: string;
   comments: Record<string, IComment>;
-  onCloseCardModal: () => void;
+  onCloseModal: () => void;
   onAddComment: (commentText: string, cardId: string) => void;
   onRenameComment: (commentId: string, newCommentText: string) => void;
   onDeleteComment: (commentId: string) => void;
@@ -30,7 +29,7 @@ export const CardModal: FC<CardModalProps> = ({
   card,
   columnTitle,
   comments,
-  onCloseCardModal,
+  onCloseModal,
   onAddComment,
   onRenameComment,
   onDeleteComment,
@@ -62,75 +61,38 @@ export const CardModal: FC<CardModalProps> = ({
   };
 
   return (
-    <Modal onCloseCardModal={onCloseCardModal}>
-      <ModalWindow>
-        <StyledButtonIcon icon={<CloseIcon />} onClick={onCloseCardModal} />
-        <Header>
-          <Form onBlur={handleSubmit(handleTitleBlur)}>
-            <StyledInput
-              defaultValue={card.title}
-              onKeyDown={handleEnterRenameTitle}
-              {...register("cardTitle", {
-                required: true,
-                validate: isEmpty,
-              })}
-            />
-          </Form>
-          <HeaderSubtitle>
-            in list
-            <SubtitleColumnTitle>{columnTitle}</SubtitleColumnTitle>
-          </HeaderSubtitle>
-        </Header>
-        <Description
-          cardDescription={card.description}
-          onEditDescription={onEditDescription}
-          cardId={card.id}
-        />
-        <Activity
-          onAddComment={onAddComment}
-          onRenameComment={onRenameComment}
-          onDeleteComment={onDeleteComment}
-          comments={comments}
-          cardId={card.id}
-        />
-      </ModalWindow>
+    <Modal onCloseModal={onCloseModal} closeModalButton>
+      <Header>
+        <Form onBlur={handleSubmit(handleTitleBlur)}>
+          <StyledInput
+            defaultValue={card.title}
+            onKeyDown={handleEnterRenameTitle}
+            {...register("cardTitle", {
+              required: true,
+              validate: isEmpty,
+            })}
+          />
+        </Form>
+        <HeaderSubtitle>
+          in list
+          <SubtitleColumnTitle>{columnTitle}</SubtitleColumnTitle>
+        </HeaderSubtitle>
+      </Header>
+      <Description
+        cardDescription={card.description}
+        onEditDescription={onEditDescription}
+        cardId={card.id}
+      />
+      <Activity
+        onAddComment={onAddComment}
+        onRenameComment={onRenameComment}
+        onDeleteComment={onDeleteComment}
+        comments={comments}
+        cardId={card.id}
+      />
     </Modal>
   );
 };
-
-const ModalWindow = styled.div`
-  margin: 6px;
-  display: flex;
-  flex-direction: column;
-  max-width: 750px;
-  width: 100%;
-  height: 90%;
-  min-height: 800px;
-  background-color: var(--white);
-  border-radius: 7px;
-  border: 1px solid var(--gray);
-  filter: drop-shadow(0px 0px 10px var(--shadow));
-  gap: 20px;
-  overflow-y: auto;
-`;
-
-const StyledButtonIcon = styled(ButtonIcon)`
-  width: 26px;
-  height: 26px;
-  cursor: pointer;
-  margin: 7px;
-  position: absolute;
-  top: 0;
-  right: 0;
-
-  &:hover {
-    background-color: var(--lightgray);
-  }
-
-  &:focus {
-    box-shadow: 0 0 0 2px var(--focusColcor);
-  }
-`;
 
 const Header = styled.header`
   width: 100%;

@@ -25,51 +25,31 @@ export const ModalLogin: FC<ModalLoginProps> = ({ onSubmit }) => {
   };
 
   return (
-    <Modal>
-      <ModalWindow>
-        Welcome!
-        <Form onSubmit={handleSubmit(handleOnSubmit)}>
-          <StyledInput
-            maxLength={20}
-            placeholder="Username"
-            $isError={Boolean(errors.username)}
-            {...register("username", {
-              required: true,
-              validate: isEmpty,
-            })}
-          />
+    <Modal variant="small">
+      Welcome!
+      <Form onSubmit={handleSubmit(handleOnSubmit)}>
+        <StyledInput
+          maxLength={20}
+          placeholder="Username"
+          $isError={Boolean(errors.username)}
+          {...register("username", {
+            required: true,
+            validate: isEmpty,
+          })}
+        />
 
-          {errors?.username && <Error text="This field is required" />}
+        {errors?.username && <Error text="This field is required" />}
 
-          <Button
-            variant="primary"
-            type="submit"
-            text="OK"
-            disabled={Boolean(errors.username)}
-          />
-        </Form>
-      </ModalWindow>
+        <Button
+          variant="primary"
+          type="submit"
+          text="OK"
+          disabled={Boolean(errors.username)}
+        />
+      </Form>
     </Modal>
   );
 };
-
-const ModalWindow = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 400px;
-  height: 220px;
-  background-color: var(--white);
-  border-radius: 7px;
-  border: 1px solid var(--gray);
-  filter: drop-shadow(0px 0px 10px var(--shadow));
-  gap: 15px;
-
-  @media (max-width: 425px) {
-    margin: 5%;
-  }
-`;
 
 const Form = styled.form`
   display: flex;

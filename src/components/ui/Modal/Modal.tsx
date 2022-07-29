@@ -1,32 +1,86 @@
 import { FC, useEffect } from "react";
 
-import styled from "styled-components";
+import { CloseIcon } from "components/icons";
+import styled, { css } from "styled-components";
+
+import { ButtonIcon } from "../ButtonIcon";
 
 interface ModalProps {
   children: React.ReactNode;
-  onCloseCardModal?: () => void;
+  onCloseModal?: () => void;
+  variant?: "primary" | "small";
+  closeModalButton?: boolean;
 }
 
-export const Modal: FC<ModalProps> = ({ children, onCloseCardModal }) => {
+export const Modal: FC<ModalProps> = ({
+  children,
+  onCloseModal,
+  variant = "primary",
+  closeModalButton,
+}) => {
   useEffect(() => {
-    const closeCardModal = (event: KeyboardEvent) => {
+    const closeModal = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        onCloseCardModal?.();
+        onCloseModal?.();
       }
     };
-    window.addEventListener("keydown", closeCardModal);
+    window.addEventListener("keydown", closeModal);
 
-    return () => window.removeEventListener("keydown", closeCardModal);
+    return () => window.removeEventListener("keydown", closeModal);
   }, []);
+
+  const modalWindowStyles = modalWindowTheme[variant];
 
   return (
     <Root>
       <ModalWrapper>
-        <CloseCardModal onClick={onCloseCardModal} />
-        {children}
+        <CloseModal onClick={onCloseModal} />
+        <ModalWindow $modalWindowStyles={modalWindowStyles}>
+          <StyledButtonIcon
+            icon={<CloseIcon />}
+            onClick={onCloseModal}
+            $closeModalButton={closeModalButton}
+          />
+          {children}
+        </ModalWindow>
       </ModalWrapper>
     </Root>
   );
+};
+
+const modalWindowTheme = {
+  primary: `
+    margin: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 750px;
+    height: 90%;
+    min-height: 800px;
+    background-color: var(--white);
+    border-radius: 7px;
+    border: 1px solid var(--gray);
+    filter: drop-shadow(0px 0px 10px var(--shadow));
+    gap: 20px;
+    overflow-y: auto;
+  `,
+
+  small: `
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    max-width: 400px;
+    height: 220px;
+    min-height: 200px;
+    background-color: var(--white);
+    border-radius: 7px;
+    border: 1px solid var(--gray);
+    filter: drop-shadow(0px 0px 10px var(--shadow));
+    gap: 15px;
+  `,
 };
 
 const Root = styled.div`
@@ -53,8 +107,37 @@ const ModalWrapper = styled.div`
   top: 0;
 `;
 
-const CloseCardModal = styled.div`
+const CloseModal = styled.div`
   width: 100%;
   height: 100vh;
   position: absolute;
+`;
+
+const ModalWindow = styled.div<{ $modalWindowStyles: string }>`
+  ${({ $modalWindowStyles }) => $modalWindowStyles}
+`;
+
+const StyledButtonIcon = styled(ButtonIcon)<{ $closeModalButton?: boolean }>`
+  display: none;
+
+  ${({ $closeModalButton }) =>
+    $closeModalButton &&
+    css`
+      display: block;
+      width: 26px;
+      height: 26px;
+      cursor: pointer;
+      margin: 7px;
+      position: absolute;
+      top: 0;
+      right: 0;
+
+      &:hover {
+        background-color: var(--lightgray);
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 2px var(--focusColcor);
+      }
+    `}
 `;
