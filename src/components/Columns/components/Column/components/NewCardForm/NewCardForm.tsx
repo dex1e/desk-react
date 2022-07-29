@@ -1,6 +1,7 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 
 import { Button } from "components/ui/Button";
+import { Error } from "components/ui/Error";
 import { Textarea } from "components/ui/Textarea";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
@@ -27,20 +28,19 @@ export const NewCardForm: FC<NewCardFormProps> = ({
     register,
     handleSubmit,
     reset,
-    formState,
+    setValue,
     formState: { errors },
   } = useForm<NewCardFormValues>({
     mode: "onChange",
   });
 
-  useEffect(() => {
-    if (formState.isSubmitSuccessful) {
-      reset({ cardTitle: "" });
-    }
-  }, [formState, reset]);
-
   const handleAddCard: SubmitHandler<NewCardFormValues> = ({ cardTitle }) => {
-    onAddCard(cardTitle, idColumn);
+    const trimmedCardTitle = cardTitle.trim();
+
+    onAddCard(trimmedCardTitle, idColumn);
+    setValue("cardTitle", trimmedCardTitle);
+    reset();
+
     onNewCardFormOpen("");
   };
 
@@ -70,7 +70,7 @@ export const NewCardForm: FC<NewCardFormProps> = ({
             })}
           />
 
-          {errors.cardTitle && <Error>This field is required</Error>}
+          {errors?.cardTitle && <Error text="This field is required" />}
 
           <StyledButtonAddCard
             variant="primary"
@@ -109,10 +109,6 @@ const Form = styled.form`
   align-items: center;
   font-size: 14px;
   gap: 10px;
-`;
-
-const Error = styled.span`
-  color: var(--red);
 `;
 
 const StyledTextarea = styled(Textarea)`

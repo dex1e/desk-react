@@ -1,6 +1,7 @@
 import { FC } from "react";
 
 import { Button } from "components/ui/Button";
+import { Error } from "components/ui/Error";
 import { Input } from "components/ui/Input";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "styled-components";
@@ -40,7 +41,7 @@ export const ModalLogin: FC<ModalLoginProps> = ({ onSubmit }) => {
             })}
           />
 
-          {errors.username && <Error>This field is required</Error>}
+          {errors?.username && <Error text="This field is required" />}
 
           <Button
             variant="primary"
@@ -91,10 +92,6 @@ const Form = styled.form`
   align-items: center;
   font-size: 14px;
   gap: 10px;
-`;
-
-const Error = styled.span`
-  color: var(--red);
 `;
 
 const StyledInput = styled(Input)<{ $isError?: boolean }>`

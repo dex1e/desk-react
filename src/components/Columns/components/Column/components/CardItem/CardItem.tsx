@@ -3,6 +3,7 @@ import React, { FC, useState } from "react";
 import { CommentIcon, PencilIcon, TrashCanIcon } from "components/icons";
 import { Button } from "components/ui/Button";
 import { ButtonIcon } from "components/ui/ButtonIcon";
+import { Error } from "components/ui/Error";
 import { Textarea } from "components/ui/Textarea";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
@@ -34,6 +35,7 @@ export const CardItem: FC<CardProps> = ({
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<CardItemValues>({
     mode: "onChange",
@@ -50,7 +52,11 @@ export const CardItem: FC<CardProps> = ({
   };
 
   const handleRenameCard: SubmitHandler<CardItemValues> = ({ cardTitle }) => {
-    onRenameCard(card.id, cardTitle);
+    const trimmedCardTitle = cardTitle.trim();
+
+    onRenameCard(card.id, trimmedCardTitle);
+    setValue("cardTitle", trimmedCardTitle);
+
     setIsRenameActive(false);
   };
 
@@ -88,7 +94,7 @@ export const CardItem: FC<CardProps> = ({
             })}
           />
 
-          {errors.cardTitle && <Error>This field is required</Error>}
+          {errors?.cardTitle && <Error text="This field is required" />}
         </Form>
       ) : (
         <Button
@@ -157,11 +163,6 @@ const StyledTextarea = styled(Textarea)`
   &:focus {
     box-shadow: 0 0 0 3px var(--lightskyblue);
   }
-`;
-
-const Error = styled.span`
-  font-size: 14px;
-  color: var(--red);
 `;
 
 const IconsWrapper = styled.div`

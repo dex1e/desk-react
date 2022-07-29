@@ -28,14 +28,17 @@ export const Comments: FC<CommentsProps> = ({
 }) => {
   const [isRenameActive, setIsRenameActive] = useState(false);
 
-  const { register, handleSubmit } = useForm<CommentFormValues>({
+  const { register, handleSubmit, setValue } = useForm<CommentFormValues>({
     mode: "onChange",
   });
 
   const handleEditCommentBlur: SubmitHandler<CommentFormValues> = ({
     commentText,
   }) => {
-    onRenameComment(comment.id, commentText);
+    const trimmedCommentText = commentText.trim();
+    onRenameComment(comment.id, trimmedCommentText);
+
+    setValue("commentText", trimmedCommentText);
     setIsRenameActive(false);
   };
 

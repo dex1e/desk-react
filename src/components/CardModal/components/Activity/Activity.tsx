@@ -1,6 +1,7 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 
 import { Button } from "components/ui/Button";
+import { Error } from "components/ui/Error";
 import { Textarea } from "components/ui/Textarea";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
@@ -38,17 +39,10 @@ export const Activity: FC<ActivityProps> = ({
     register,
     handleSubmit,
     reset,
-    formState,
     formState: { errors },
   } = useForm<ActivityFormValues>({
     mode: "onChange",
   });
-
-  useEffect(() => {
-    if (formState.isSubmitSuccessful) {
-      reset({ commentText: "" });
-    }
-  }, [formState, reset]);
 
   const commentsArray = Object.values(comments);
 
@@ -60,6 +54,7 @@ export const Activity: FC<ActivityProps> = ({
     commentText,
   }) => {
     onAddComment(commentText, cardId);
+    reset();
     setIsVisibleButtonAddComment(false);
   };
 
@@ -103,10 +98,8 @@ export const Activity: FC<ActivityProps> = ({
           })}
         />
 
-        {errors.commentText && (
-          <Error $isVisibleButtonComment={isVisibleButtonAddComment}>
-            This field is required
-          </Error>
+        {errors?.commentText && isVisibleButtonAddComment && (
+          <Error text="This field is required" />
         )}
 
         <ButtonsWrapperComment>
@@ -120,7 +113,7 @@ export const Activity: FC<ActivityProps> = ({
           <StyledButtonClearComment
             $isVisibleButtonComment={isVisibleButtonAddComment}
             text="Clear"
-            onClick={() => handleClearComment}
+            onClick={handleClearComment}
             variant="primaryClear"
             type="reset"
           />
@@ -167,13 +160,6 @@ const Form = styled.form`
 
 const StyledTextArea = styled(Textarea)`
   max-height: 150px;
-`;
-
-const Error = styled.span<{ $isVisibleButtonComment: boolean }>`
-  display: ${({ $isVisibleButtonComment }) =>
-    $isVisibleButtonComment ? "block" : "none"};
-  font-size: 14px;
-  color: var(--red);
 `;
 
 const ButtonsWrapperComment = styled.div`

@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { FC, TextareaHTMLAttributes } from "react";
+import { TextareaHTMLAttributes } from "react";
 
 import styled from "styled-components";
 
