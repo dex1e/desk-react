@@ -77,7 +77,7 @@ function App() {
     return columnTitle;
   };
 
-  const onCloseCardModal = () => {
+  const onCloseModal = () => {
     setSelectedCardId("");
   };
 
@@ -104,7 +104,7 @@ function App() {
         <CardModal
           columnTitle={getModalColumnTitle(selectedCardId)}
           card={cards[selectedCardId]}
-          onCloseCardModal={onCloseCardModal}
+          onCloseModal={onCloseModal}
           comments={comments}
           onAddComment={handleAddComment}
           onRenameComment={handleRenameComment}
