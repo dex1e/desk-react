@@ -25,7 +25,7 @@ export const ModalLogin: FC<ModalLoginProps> = ({ onSubmit }) => {
   };
 
   return (
-    <Modal variant="small">
+    <StyledModal>
       Welcome!
       <Form onSubmit={handleSubmit(handleOnSubmit)}>
         <StyledInput
@@ -47,9 +47,25 @@ export const ModalLogin: FC<ModalLoginProps> = ({ onSubmit }) => {
           disabled={Boolean(errors.username)}
         />
       </Form>
-    </Modal>
+    </StyledModal>
   );
 };
+
+const StyledModal = styled(Modal)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 400px;
+  max-width: 400px;
+  height: 220px;
+  min-height: 200px;
+  background-color: var(--white);
+  border-radius: 7px;
+  border: 1px solid var(--gray);
+  filter: drop-shadow(0px 0px 10px var(--shadow));
+  gap: 15px;
+`;
 
 const Form = styled.form`
   display: flex;

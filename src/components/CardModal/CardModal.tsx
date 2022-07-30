@@ -61,7 +61,7 @@ export const CardModal: FC<CardModalProps> = ({
   };
 
   return (
-    <Modal onCloseModal={onCloseModal} closeModalButton>
+    <Modal onCloseModal={onCloseModal} hasCloseModal>
       <Header>
         <Form onBlur={handleSubmit(handleTitleBlur)}>
           <StyledInput
