@@ -1,8 +1,9 @@
 import { FC, useState } from "react";
 
-import { Button } from "components/ui/Button";
-import { Textarea } from "components/ui/Textarea";
+import { Button, Textarea } from "components/ui";
+import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
+import { moveCaretAtEnd } from "utils/helpers";
 
 interface DescriptionProps {
   cardDescription: string;
@@ -10,36 +11,31 @@ interface DescriptionProps {
   onEditDescription: (cardId: string, newDescription: string) => void;
 }
 
+type DescriptionFormValues = {
+  description: string;
+};
+
 export const Description: FC<DescriptionProps> = ({
   cardDescription,
   onEditDescription,
   cardId,
 }) => {
-  const [description, setDescription] = useState(cardDescription);
   const [isDescriptionTextAreaVisible, setIsDescriptionTextAreaVisible] =
     useState(false);
 
-  const handleDescriptionChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const newDescription = event.target.value;
-    setDescription(newDescription);
-  };
-
-  const handleAddDescription = () => {
-    const trimmedDescription = description.trim();
-
-    if (trimmedDescription) {
-      onEditDescription(cardId, trimmedDescription);
-      setDescription(trimmedDescription);
-    } else {
-      setDescription("");
-    }
-    setIsDescriptionTextAreaVisible(false);
-  };
+  const { register, handleSubmit, reset } = useForm<DescriptionFormValues>({
+    mode: "onChange",
+  });
 
   const handleEditDescription = () => {
     setIsDescriptionTextAreaVisible(true);
+  };
+
+  const handleAddDescription: SubmitHandler<DescriptionFormValues> = ({
+    description,
+  }) => {
+    onEditDescription(cardId, description);
+    setIsDescriptionTextAreaVisible(false);
   };
 
   const handleDescriptionEnter = (
@@ -47,19 +43,15 @@ export const Description: FC<DescriptionProps> = ({
   ) => {
     if (event.code === "Enter") {
       event.preventDefault();
-      handleAddDescription();
+      onEditDescription(cardId, "");
+      handleSubmit(handleAddDescription)();
       setIsDescriptionTextAreaVisible(false);
-      event.target.blur();
     }
   };
 
-  const handleDescriptionTextAreaVisible = () => {
-    setIsDescriptionTextAreaVisible(true);
-  };
-
-  const handleCancelDescription = () => {
+  const handleClearDescription = () => {
     onEditDescription(cardId, "");
-    setDescription("");
+    reset({ description: "" });
     setIsDescriptionTextAreaVisible(false);
   };
 
@@ -75,32 +67,37 @@ export const Description: FC<DescriptionProps> = ({
       </TitleWrapper>
 
       {isDescriptionTextAreaVisible ? (
-        <Form>
+        <Form
+          onSubmit={handleSubmit(handleAddDescription)}
+          onReset={handleClearDescription}
+        >
           <Textarea
+            defaultValue={cardDescription}
             placeholder="Add description..."
-            value={description}
-            onChange={handleDescriptionChange}
             onKeyDown={handleDescriptionEnter}
-            onFocus={handleDescriptionTextAreaVisible}
+            onFocus={moveCaretAtEnd}
             autoFocus
+            {...register("description")}
           />
+
           <ButtonsWrapperDescription>
             <StyledButtonAddDescription
               text="Save"
               $isDescriptionTextAreaVisible={isDescriptionTextAreaVisible}
-              onClick={handleAddDescription}
               variant="primaryAdd"
+              type="submit"
             />
             <StyledButtonClearDescription
               $isDescriptionTextAreaVisible={isDescriptionTextAreaVisible}
               text="Clear"
-              onClick={handleCancelDescription}
+              onClick={handleClearDescription}
               variant="primaryClear"
+              type="reset"
             />
           </ButtonsWrapperDescription>
         </Form>
       ) : (
-        <DescriptionText>{description}</DescriptionText>
+        <DescriptionText>{cardDescription}</DescriptionText>
       )}
     </Root>
   );
@@ -128,7 +125,7 @@ const Title = styled.h2`
   font-weight: 600px;
 `;
 
-const Form = styled.div`
+const Form = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;

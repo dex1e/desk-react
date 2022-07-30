@@ -1,11 +1,12 @@
 import React, { FC, useState } from "react";
 
 import { CommentIcon, PencilIcon, TrashCanIcon } from "components/icons";
-import { Button } from "components/ui/Button";
-import { ButtonIcon } from "components/ui/ButtonIcon";
-import { Textarea } from "components/ui/Textarea";
+import { Error, Textarea, Button, ButtonIcon } from "components/ui";
+import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import { ICard, IComment } from "types";
+import { moveCaretAtEnd } from "utils/helpers";
+import { isEmpty } from "utils/validators";
 
 interface CardProps {
   card: ICard;
@@ -15,6 +16,10 @@ interface CardProps {
   commentsArray: IComment[];
 }
 
+type CardItemValues = {
+  cardTitle: string;
+};
+
 export const CardItem: FC<CardProps> = ({
   card,
   onRenameCard,
@@ -23,7 +28,15 @@ export const CardItem: FC<CardProps> = ({
   commentsArray,
 }) => {
   const [isRenameActive, setIsRenameActive] = useState(false);
-  const [title, setTitle] = useState(card.title);
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<CardItemValues>({
+    mode: "onChange",
+  });
 
   const filteredComments = commentsArray.filter(
     (commentCardId) => commentCardId.cardId === card.id
@@ -35,22 +48,18 @@ export const CardItem: FC<CardProps> = ({
     setIsRenameActive(true);
   };
 
-  const handleCardTitleChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const cardTitle = event.target.value;
-    setTitle(cardTitle);
+  const handleRenameCard: SubmitHandler<CardItemValues> = ({ cardTitle }) => {
+    const trimmedCardTitle = cardTitle.trim();
+
+    onRenameCard(card.id, trimmedCardTitle);
+    setValue("cardTitle", trimmedCardTitle);
+
+    setIsRenameActive(false);
   };
 
-  const changeCardTitle = () => {
-    const trimmedTitle = title.trim();
-
-    if (trimmedTitle) {
-      onRenameCard(card.id, trimmedTitle);
-      setTitle(trimmedTitle);
-    } else {
-      setTitle(card.title);
-    }
+  const handleOnBlur = (event: React.FocusEvent<HTMLFormElement>) => {
+    handleSubmit(handleRenameCard)();
+    event.target.blur();
     setIsRenameActive(false);
   };
 
@@ -59,7 +68,7 @@ export const CardItem: FC<CardProps> = ({
   ) => {
     if (event.code === "Enter") {
       event.preventDefault();
-      changeCardTitle();
+      handleSubmit(handleRenameCard)();
       event.target.blur();
       setIsRenameActive(false);
     }
@@ -70,13 +79,20 @@ export const CardItem: FC<CardProps> = ({
   return (
     <Root key={card.id}>
       {isRenameActive ? (
-        <StyledTextarea
-          value={title}
-          onChange={handleCardTitleChange}
-          onBlur={changeCardTitle}
-          onKeyDown={handleEnterCardTitle}
-          autoFocus
-        />
+        <Form onBlur={handleOnBlur}>
+          <StyledTextarea
+            defaultValue={card.title}
+            onKeyDown={handleEnterCardTitle}
+            autoFocus
+            onFocus={moveCaretAtEnd}
+            {...register("cardTitle", {
+              required: true,
+              validate: isEmpty,
+            })}
+          />
+
+          {errors?.cardTitle && <Error text="This field is required" />}
+        </Form>
       ) : (
         <Button
           text={card.title}
@@ -121,9 +137,15 @@ const Root = styled.div`
   }
 `;
 
+const Form = styled.form`
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+`;
+
 const StyledTextarea = styled(Textarea)`
   width: 150px;
-  max-width: 80%;
+  max-width: 100%;
   height: 60px;
   min-height: 60px;
   padding: 7px;

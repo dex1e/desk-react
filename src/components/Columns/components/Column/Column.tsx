@@ -1,8 +1,10 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 
-import { Input } from "components/ui/Input";
+import { Input } from "components/ui";
+import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import { ICard, IComment } from "types";
+import { isEmpty } from "utils/validators";
 
 import { CardItem, NewCardForm } from "./components";
 
@@ -11,14 +13,18 @@ interface ColumnProps {
   cards: Record<string, ICard>;
   idColumn: string;
   columnIdWithNewCardForm: string;
+  commentsArray: IComment[];
   onNewCardFormOpen: (id: string) => void;
   onAddCard: (cardName: string, columnId: string) => void;
   onDeleteCard: (cardId: string) => void;
   onRenameCard: (cardId: string, newTitle: string) => void;
   onCardClick: (cardId: string) => void;
-  commentsArray: IComment[];
   changeColumnTitle: (columnId: string, columnTitle: string) => void;
 }
+
+type ColumnTitleFormValues = {
+  columnTitle: string;
+};
 
 export const Column: FC<ColumnProps> = ({
   cards,
@@ -33,47 +39,48 @@ export const Column: FC<ColumnProps> = ({
   commentsArray,
   changeColumnTitle,
 }) => {
-  const [title, setTitle] = useState(columnTitle);
+  const { register, handleSubmit, setValue } = useForm<ColumnTitleFormValues>({
+    defaultValues: {
+      columnTitle,
+    },
+  });
 
   const cardsArray = Object.values(cards);
 
   const filteredCards = cardsArray.filter((card) => card.columnId === idColumn);
 
+  const handleTitleBlur: SubmitHandler<ColumnTitleFormValues> = ({
+    columnTitle,
+  }) => {
+    const trimmedTitle = columnTitle.trim();
+
+    changeColumnTitle(idColumn, trimmedTitle);
+
+    setValue("columnTitle", trimmedTitle);
+  };
+
   const handleEnterRenameTitle = (
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {
     if (event.code === "Enter") {
-      if (title) {
-        event.target.blur();
-      } else setTitle(columnTitle);
-    }
-  };
-
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const inputTitle = event.target.value;
-    setTitle(inputTitle);
-    changeColumnTitle(idColumn, inputTitle);
-  };
-
-  const handleTitleBlur = () => {
-    const trimmedTitle = title.trim();
-    if (trimmedTitle) {
-      setTitle(trimmedTitle);
-    } else {
-      setTitle(columnTitle);
+      event.preventDefault();
+      handleSubmit(handleTitleBlur)();
+      event.target.blur();
     }
   };
 
   return (
     <Root>
-      <Input
-        value={title}
-        maxLength={20}
-        onBlur={handleTitleBlur}
-        onChange={handleTitleChange}
-        onKeyDown={handleEnterRenameTitle}
-      />
-
+      <Form onBlur={handleSubmit(handleTitleBlur)}>
+        <Input
+          maxLength={20}
+          onKeyDown={handleEnterRenameTitle}
+          {...register("columnTitle", {
+            required: true,
+            validate: isEmpty,
+          })}
+        />
+      </Form>
       {filteredCards.map((card) => {
         return (
           <CardItem
@@ -109,4 +116,13 @@ const Root = styled.div`
   padding: 10px;
   gap: 10px;
   filter: drop-shadow(0px 0px 10px var(--shadow));
+`;
+
+const Form = styled.form`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 `;
